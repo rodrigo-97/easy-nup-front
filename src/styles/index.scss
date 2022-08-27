@@ -1,0 +1,59 @@
+$primary-700: #996dff;
+$primary-500: #a985fc;
+
+$secondary-700: #fba94c;
+
+$green-700: #00875f;
+$green-500: #00b37e;
+$green-300: #04d361;
+
+$gray-700: #121214;
+$gray-600: #202024;
+$gray-500: #29292e;
+$gray-400: #323238;
+$gray-300: #7c7c8a;
+$gray-200: #c4c4cc;
+$gray-100: #e1e1e6;
+
+$white: #ffffff;
+
+$theme-colors: (
+  "primary-700": $primary-700,
+  "primary-500": $primary-500,
+  "secondary-700": $secondary-700,
+  "green-700": $green-700,
+  "green-500": $green-500,
+  "green-300": $green-300,
+  "gray-700": $gray-700,
+  "gray-600": $gray-600,
+  "gray-500": $gray-500,
+  "gray-400": $gray-400,
+  "gray-300": $gray-300,
+  "gray-200": $gray-200,
+  "gray-100": $gray-100,
+  "white": $white,
+);
+
+$input-border-color: $primary-500;
+$input-focus-box-shadow: 0 0 0.5em $primary-500 !important;
+
+.login-container {
+  width: 350px;
+}
+
+.login-bg {
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 0.0844712885154062) 0%,
+    rgba(253, 29, 29, 0) 50%,
+    rgba(72, 58, 180, 0.35057773109243695) 100%
+  );
+}
+
+.link {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+@import "node_modules/bootstrap/scss/bootstrap";
