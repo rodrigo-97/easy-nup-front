@@ -1,7 +1,7 @@
 $primary-700: #996dff;
 $primary-500: #a985fc;
 
-$secondary-700: #fba94c;
+$secondary: #fba94c;
 
 $green-700: #00875f;
 $green-500: #00b37e;
@@ -20,7 +20,7 @@ $white: #ffffff;
 $theme-colors: (
   "primary-700": $primary-700,
   "primary-500": $primary-500,
-  "secondary-700": $secondary-700,
+  "secondary": $secondary,
   "green-700": $green-700,
   "green-500": $green-500,
   "green-300": $green-300,
@@ -51,9 +51,27 @@ $input-focus-box-shadow: 0 0 0.5em $primary-500 !important;
   );
 }
 
+.row {
+  margin: 0!important;
+  padding: 0!important;
+}
+
 .link {
   font-size: 0.8rem;
   cursor: pointer;
 }
 
+.img-profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+p {
+  margin: 0!important;
+}
+
+@import "./tile";
+@import "./theme";
 @import "node_modules/bootstrap/scss/bootstrap";
