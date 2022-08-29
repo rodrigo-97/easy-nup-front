@@ -45,7 +45,7 @@ export function LoginPage() {
 
 
         <div className='d-grid'>
-          <Button color='primary-700' className='text-white' size='sm' onClick={() => navigate("/home")}>
+          <Button color='primary-700' className='text-white' size='sm' onClick={() => navigate("/hp")}>
             Entrar
           </Button>
         </div>
