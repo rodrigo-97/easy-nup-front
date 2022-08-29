@@ -2,54 +2,40 @@ import { useEffect, useState } from "react";
 import { BsMoonFill, BsSun } from 'react-icons/bs';
 import { FaCentercode } from "react-icons/fa";
 import { MdMenu } from 'react-icons/md';
-import { Button, Navbar, Offcanvas, OffcanvasBody } from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Navbar, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { Tile } from "../../components/Tile";
+import { useTheme } from "../../contexts/ThemeContext";
 import { AuthenticatedRoutes } from "../../routes/AuthenticatedRoutes";
 
 export function HomePage() {
   const [isOpen, setIsOpen] = useState(true)
   const [size, setSize] = useState(0)
 
-
+  const { theme, toggleTheme } = useTheme()
   const toggleOffcanvas = () => setIsOpen(!isOpen)
-
-  const [isDark, setIsDark] = useState(false);
-
-  const toggleMode = () => {
-    setIsDark(p => !p)
-    if (isDark) {
-      document.body.classList.remove('dark')
-      return document.body.classList.add('light')
-    }
-
-    document.body.classList.remove('light')
-    return document.body.classList.add('dark')
-  }
-
-  // useEffect(() => {
-  //   document.body.classList.remove('light')
-  //   return document.body.classList.add('dark')
-  // }, [])
 
   useEffect(() => {
     window.addEventListener(
       "resize",
-      () => setSize(window.innerWidth)
+      () => {
+        const width = window.innerWidth
+        setSize(width)
+
+        if (width <= 769) {
+          setIsOpen(false)
+        }
+      }
     );
   }, []);
 
-
   useEffect(() => {
-    if (size <= 769) {
-      return setIsOpen(false)
-    }
+    setSize(window.innerWidth)
+  }, [])
 
-    return setIsOpen(true)
-  }, [size])
+  const [modal, setModal] = useState(false);
 
-
-  console.log(size)
+  const toggle = () => setModal(!modal);
 
   return (
     <div>
@@ -58,6 +44,7 @@ export function HomePage() {
         backdrop={size <= 769 ? true : false}
         className='py-4 border-0'
         toggle={toggleOffcanvas}
+        id="off-canvas"
       >
         <ProfileHeader />
         <OffcanvasBody className="_offcanvas p-0">
@@ -72,13 +59,13 @@ export function HomePage() {
       </Offcanvas>
 
       <div className={`${isOpen && size > 769 ? 'content' : ''}`}>
-        <Navbar className="d-flex border-left-0">
-          <Button color="primary-700" onClick={toggleOffcanvas}>
+        <Navbar className={`d-flex border-left-0 ${theme === "light" ? 'shadow-sm' : ''}`}>
+          <Button size="sm" color="primary-700" onClick={toggleOffcanvas}>
             <MdMenu />
           </Button>
-          <Button color="primary-700" className="d-flex align-items-center gap-2" onClick={toggleMode}>
+          <Button size="sm" color="primary-700" className="d-flex align-items-center gap-2" onClick={toggleTheme}>
             {
-              isDark ? (
+              theme === "dark" ? (
                 <>
                   Tema escuro
                   <BsMoonFill />
@@ -93,6 +80,7 @@ export function HomePage() {
           </Button>
         </Navbar>
         <div className="p-2 p-sm-2 p-md-5">
+          <p className="display-6">Dashboard</p>
           <AuthenticatedRoutes />
         </div>
       </div>

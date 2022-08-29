@@ -1,3 +1,15 @@
 .pointer {
     cursor: pointer;
 }
+
+.link {
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.img-profile {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}

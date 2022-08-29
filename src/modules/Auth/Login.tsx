@@ -2,21 +2,23 @@ import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
-import bottom from '../../assets/bg-2.svg'
+import bottom from '../../assets/bg.svg'
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export function LoginPage() {
 
   const navigate = useNavigate()
+  const { theme } = useTheme()
 
   return (
     <div className='d-flex justify-content-center align-items-center login-bg' style={{ height: "100vh" }}>
-      <img src={bottom} className="position-absolute bottom-0" style={{ zIndex: -1, width: '100%' }} />
+      {theme === "light" && <img src={bottom} className="position-absolute bottom-0" style={{ zIndex: 10, width: '100%' }} />}
       <div className='d-sm-block d-md-flex justify-content-between position-absolute top-0 w-100 px-3 px-sm-2 px-md-5 py-3'>
         EasyNup
         <div className='d-flex justify-content-between gap-3 align-items-center'>
           Não possui uma conta?
-          <Button color='white' size="sm" className='shadow'>Criar conta</Button>
+          <Button color='secondary' size="sm" className='shadow'>Criar conta</Button>
         </div>
       </div>
       <div className='login-container border-gray-400 shadow bg-white rounded p-4 mx-3'>

@@ -37,44 +37,19 @@ $theme-colors: (
 $input-border-color: $primary-500;
 $input-focus-box-shadow: 0 0 0.5em $primary-500 !important;
 
-.login-container {
-  width: 350px;
-}
-
-.login-bg {
-  background: rgb(131, 58, 180);
-  background: linear-gradient(
-    90deg,
-    rgba(131, 58, 180, 0.0844712885154062) 0%,
-    rgba(253, 29, 29, 0) 50%,
-    rgba(72, 58, 180, 0.35057773109243695) 100%
-  );
-}
-
 .row {
   margin: 0!important;
   padding: 0!important;
-}
-
-.link {
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.img-profile {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 p {
   margin: 0!important;
 }
 
+@import "./helpers";
 @import "./tile";
 @import "./theme";
 @import "./content";
 @import "./offcanvas";
-@import "./helpers";
+@import "./login";
 @import "node_modules/bootstrap/scss/bootstrap";

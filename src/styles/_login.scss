@@ -1,0 +1,14 @@
+.login-container {
+
+    z-index: 11;
+    color: $gray-700;
+    width: 350px;
+}
+
+.login-bg {
+    background: rgb(131, 58, 180);
+    background: linear-gradient(90deg,
+            rgba(131, 58, 180, 0.0844712885154062) 0%,
+            rgba(253, 29, 29, 0) 50%,
+            rgba(72, 58, 180, 0.35057773109243695) 100%);
+}

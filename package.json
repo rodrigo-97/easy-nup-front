@@ -6,7 +6,7 @@
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "sass": "node-sass src/styles/index.scss -o src/styles --output-style compressed"
+    "sass": "node-sass src/styles/index.scss -o src --output-style compressed"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",

@@ -2,6 +2,10 @@
     height: 10vh;
 }
 
+.btn {
+    color: $white!important;
+}
+
 #root {
     min-height: 100vh;
 }
@@ -16,6 +20,11 @@
 
     .tile:hover {
         background-color: rgba(255, 255, 255, 0.102)
+    }
+
+    .modal-content{
+        background-color: $gray-500;
+        color: $white;
     }
 
     #root {
@@ -34,13 +43,18 @@
     .offcanvas,
     .navbar {
         color: $gray-700;
-        background-color: #FFF;
+        background-color: #f6f6f6;
         transition: all 500ms ease-in-out;
+    }
+
+    .modal-content{
+        background-color: $white;
+        color: $gray-700;
     }
 
     #root {
         color: $gray-700;
-        background-color: #F2F4F3;
+        background-color: #eeeeee;
         transition: all 500ms ease-in-out;
     }
 }
