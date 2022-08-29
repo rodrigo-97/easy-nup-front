@@ -1,0 +1,46 @@
+.navbar {
+    height: 10vh;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.dark {
+    .offcanvas,
+    .navbar {
+        color: $white;
+        background-color: $gray-500;
+        transition: all 500ms ease-in-out;
+    }
+
+    .tile:hover {
+        background-color: rgba(255, 255, 255, 0.102)
+    }
+
+    #root {
+        background-color: $gray-600  !important;
+        color: $white  !important;
+        transition: all 500ms ease-in-out;
+    }
+}
+
+.light {
+    .navbar {
+        color: $gray-700;
+        background-color: $white;
+    }
+
+    .offcanvas,
+    .navbar {
+        color: $gray-700;
+        background-color: #FFF;
+        transition: all 500ms ease-in-out;
+    }
+
+    #root {
+        color: $gray-700;
+        background-color: #F2F4F3;
+        transition: all 500ms ease-in-out;
+    }
+}
