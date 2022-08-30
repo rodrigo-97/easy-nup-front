@@ -1,5 +1,4 @@
 import { IconBaseProps } from 'react-icons'
-import { IconType } from 'react-icons/lib'
 
 type Props = {
   title: string
