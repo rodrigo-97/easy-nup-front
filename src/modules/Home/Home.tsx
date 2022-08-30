@@ -2,96 +2,32 @@ import { useEffect, useState } from "react";
 import { BsMoonFill, BsSun } from 'react-icons/bs';
 import { FaCentercode } from "react-icons/fa";
 import { MdMenu } from 'react-icons/md';
-import { Button, Col, Navbar, Offcanvas, OffcanvasBody, Row } from "reactstrap";
+import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Navbar, Offcanvas, OffcanvasBody, OffcanvasHeader, Row } from "reactstrap";
+import { CustomChart } from "../../components/Chart";
 import { ProfileHeader } from "../../components/ProfileHeader";
 import { Tile } from "../../components/Tile";
 import { useTheme } from "../../contexts/ThemeContext";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-  LineElement,
-} from 'chart.js';
-import { Bar, Line } from "react-chartjs-2";
-
-
 export function HomePage() {
   const [isOpen, setIsOpen] = useState(true)
+  const [useBackDrop, setUseBackdrop] = useState(false)
   const [size, setSize] = useState(0)
 
   const { theme, toggleTheme } = useTheme()
-  const toggleOffcanvas = () => setIsOpen(!isOpen)
+  const getIsUseBackdrop = () => {
+    if (size <= 769) {
+      setUseBackdrop(true)
+    } else {
+      setUseBackdrop(false)
+    }
+  }
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+  function toggleOffCanvas() {
+    getIsUseBackdrop()
+    setIsOpen(!isOpen)
+  }
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Chart.js Bar Chart',
-      },
-    },
-  };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: [23, 87, 23, 90, 78, 23, 23],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: [23, 87, 23, 90, 78, 23, 23].reverse(),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
-
-  const data2 = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: [23, 87, 23, 90, 78, 23, 23],
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: [23, 87, 23, 90, 78, 23, 23].reverse(),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
 
   useEffect(() => {
     window.addEventListener(
@@ -101,7 +37,7 @@ export function HomePage() {
         setSize(width)
 
         if (width <= 769) {
-          setIsOpen(false)
+          toggleOffCanvas()
         }
       }
     );
@@ -111,17 +47,14 @@ export function HomePage() {
     setSize(window.innerWidth)
   }, [])
 
-  const [modal, setModal] = useState(false);
-
-  const toggle = () => setModal(!modal);
 
   return (
     <div>
       <Offcanvas
         isOpen={isOpen}
-        backdrop={size <= 769 ? true : false}
+        backdrop={useBackDrop}
         className='py-4 border-0'
-        toggle={toggleOffcanvas}
+        toggle={toggleOffCanvas}
         id="off-canvas"
       >
         <ProfileHeader />
@@ -137,8 +70,8 @@ export function HomePage() {
       </Offcanvas>
 
       <div className={`${isOpen && size > 769 ? 'content' : ''}`}>
-        <Navbar className={`d-flex border-left-0 ${theme === "light" ? 'shadow-sm' : ''}`}>
-          <Button size="sm" color="primary-700" onClick={toggleOffcanvas}>
+        <Navbar className={`position-relative d-flex border-left-0 ${theme === "light" ? 'shadow-sm' : ''}`}>
+          <Button size="sm" color="primary-700" onClick={toggleOffCanvas}>
             <MdMenu />
           </Button>
           <Button size="sm" color="primary-700" className="d-flex align-items-center gap-2" onClick={toggleTheme}>
@@ -157,25 +90,34 @@ export function HomePage() {
             }
           </Button>
         </Navbar>
-        <div className="p-2 p-sm-2 p-md-5">
+        <div className="container-fluid p-md-5 p-2">
           <p className="display-6">Dashboard</p>
-          <Row className="gy-5">
-            <Col xl={4} lg={6} sm={12}>
-              <Bar options={{ ...options, maintainAspectRatio: false }} data={data} height={300} />
+          <Row>
+            <Col xl={6} sm={12}>
+              <CustomChart />
             </Col>
-            <Col xl={4} lg={6} sm={12}>
-              <Bar options={{ ...options, maintainAspectRatio: false }} data={data} height={300} />
+            <Col xl={6} sm={12}>
+              <CustomChart />
             </Col>
-            <Col xl={4} lg={6} sm={12}>
-              <Bar options={{ ...options, maintainAspectRatio: false }} data={data} height={300} />
+            <Col xl={6} sm={12}>
+              <CustomChart />
+            </Col>
+            <Col xl={6} sm={12}>
+              <CustomChart />
             </Col>
           </Row>
-          <Row className="mt-5">
-
-          </Row>
-          <Row className="mt-5">
-            <Col sm={12}>
-              <Line options={{ ...options, maintainAspectRatio: false }} data={data} height={300} />
+          <Row>
+            <Col xl={6} sm={12}>
+              <CustomChart />
+            </Col>
+            <Col xl={6} sm={12}>
+              <CustomChart />
+            </Col>
+            <Col xl={6} sm={12}>
+              <CustomChart />
+            </Col>
+            <Col xl={6} sm={12}>
+              <CustomChart />
             </Col>
           </Row>
         </div>
