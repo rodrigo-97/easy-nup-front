@@ -17,7 +17,13 @@ export function ThemeProvider({ children }: Props) {
 
     useEffect(() => {
         const localTheme = localStorage.getItem("APP_THEME" ?? 'dark')!
-        setTheme(localTheme)
+
+        if (localTheme) {
+            setTheme(localTheme)
+        } else {
+            setTheme("dark")
+            localStorage.setItem("APP_THEME", "dark")
+        }
 
         if (localTheme === "dark") {
             document.body.classList.remove('light')

@@ -27,8 +27,6 @@ export function HomePage() {
     setIsOpen(!isOpen)
   }
 
-
-
   useEffect(() => {
     window.addEventListener(
       "resize",

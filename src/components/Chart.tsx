@@ -8,6 +8,7 @@ import {
     Legend,
     PointElement,
     LineElement,
+    ChartData,
 } from 'chart.js';
 import { Bar, Line } from "react-chartjs-2";
 
@@ -52,33 +53,16 @@ export function CustomChart() {
             {
                 label: 'Dataset 1',
                 data: [23, 87, 23, 90, 78, 23, 23],
-                backgroundColor: '#FFFF11',
+                backgroundColor: '#996dff',
             },
             {
                 label: 'Dataset 2',
                 data: [23, 87, 23, 90, 78, 23, 23].reverse(),
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                backgroundColor: '#04d361',
             },
         ],
     };
 
-    const data2 = {
-        labels,
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: [23, 87, 23, 90, 78, 23, 23],
-                borderColor: 'rgb(255, 99, 100)',
-                // backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            },
-            {
-                label: 'Dataset 2',
-                data: [23, 87, 23, 90, 78, 23, 23].reverse(),
-                borderColor: 'rgb(53, 162, 235)',
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-        ],
-    };
     return (
         <Bar
             data={data}
