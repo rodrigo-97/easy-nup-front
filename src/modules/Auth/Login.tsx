@@ -1,15 +1,56 @@
-import { Button, FormGroup, Input, Label } from 'reactstrap';
+import { Button, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 
 import bottom from '../../assets/bg.svg'
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Controller, useForm } from 'react-hook-form';
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { login } from '../../services/Auth';
+import { AppPages } from '../../config/AppPages';
+
+export type LoginProps = {
+  email: string
+  password: string
+}
 
 export function LoginPage() {
-
   const navigate = useNavigate()
   const { theme } = useTheme()
+
+
+  const schema = Yup.object().shape({
+    email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
+    password: Yup.string().required("Campo obrigatório")
+  })
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<LoginProps>({
+    resolver: yupResolver(schema)
+  })
+
+  function handleGoogleLogin() {
+    window.location.href = 'http://localhost:3333/google/redirect'
+  }
+
+  function handleFacebookLogin() {
+    window.location.href = 'http://localhost:3333/facebook/redirect'
+  }
+
+  function handleLogin({ email, password }: LoginProps) {
+    login({ email, password })
+      .then(({ data }) => {
+        localStorage.setItem("APP_TOKEN", data.token)
+        navigate(AppPages.HOME)
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <div className='d-flex justify-content-center align-items-center login-bg' style={{ height: "100vh" }}>
@@ -22,44 +63,80 @@ export function LoginPage() {
         </div>
       </div>
       <div className='login-container border-gray-400 shadow bg-white rounded p-4 mx-3'>
-        <p className='h3 text-center mb-4'>Login</p>
-        <FormGroup>
+        <p className='h2 text-center mb-4'>Login</p>
+        <FormGroup floating>
+          <Controller
+            control={control}
+            name='email'
+            render={({ field }) => {
+              return (
+                <Input
+                  {...field}
+                  placeholder="Senha"
+                  type="email"
+                  invalid={!!errors.email}
+                />
+              )
+            }}
+          />
           <Label>
             Email
           </Label>
-          <Input
-            placeholder="Insira seu e-mail"
-            type="email"
-            bsSize='sm'
-          />
+          <FormFeedback>
+            {errors.email?.message}
+          </FormFeedback>
         </FormGroup>
-        <FormGroup>
+
+        <FormGroup floating>
+          <Controller
+            control={control}
+            name="password"
+            render={({ field }) => {
+              return (
+                <Input
+                  {...field}
+                  placeholder="Senha"
+                  type="password"
+                  invalid={!!errors.password}
+                />
+              )
+            }}
+          />
           <Label>
             Senha
           </Label>
-          <Input
-            placeholder="Insira sua senha"
-            type="password"
-            bsSize='sm'
-          />
-          <p className='link text-end text-primary-700 mt-2'>Esqueci minha senha</p>
+          <FormFeedback>
+            {errors.email?.message}
+          </FormFeedback>
+          <p className="link text-primary-700 text-end mt-2">Esqueci minha senha?</p>
         </FormGroup>
 
-
         <div className='d-grid'>
-          <Button color='primary-700' className='text-white' size='sm' onClick={() => navigate("/hp")}>
+          <Button color='primary-700' className='text-white' onClick={handleSubmit(handleLogin)}>
             Entrar
           </Button>
         </div>
 
         <hr className='mx-4' />
 
-        <div className="d-flex justify-content-center gap-3 mt-3">
-          <Button className='shadow border-white' outline>
-            <FaFacebook color='#4267B2' />
+        <div className="d-block">
+          <Button
+            color='white'
+            className='border-gray-100 text-gray-700 w-100'
+            outline
+            onClick={handleGoogleLogin}
+          >
+            <FcGoogle size={23} className="me-2" />
+            Entrar com Google
           </Button>
-          <Button className='shadow border-white' outline>
-            <FcGoogle />
+          <Button
+            color='white'
+            className='border-gray-100 text-gray-700 font-size-sm w-100 mt-3'
+            outline
+            onClick={handleFacebookLogin}
+          >
+            <FaFacebook color='#4267B2' size={22} className="me-2" />
+            Entrar com Facebook
           </Button>
         </div>
       </div>
