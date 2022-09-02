@@ -1,6 +1,6 @@
 import { Col, Row } from "reactstrap";
 import { CustomChart } from "../../components/Chart";
-import { useScaffold } from "../../contexts/ScaffoldContext";
+import { useScaffold } from "../../../contexts/ScaffoldContext";
 
 export function HomePage() {
   const { size, isOpen } = useScaffold()

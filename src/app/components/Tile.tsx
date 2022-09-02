@@ -1,6 +1,6 @@
 import { IconBaseProps } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
-import { AppPages } from '../config/AppPages'
+import { AppPages } from '../../config/AppPages'
 
 type Props = {
   title: string

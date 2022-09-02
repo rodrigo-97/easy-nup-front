@@ -1,5 +1,5 @@
 import { Api } from "../config/Axios";
-import { LoginProps } from "../modules/Auth/Login";
+import { LoginProps } from "../app/modules/Auth/Login";
 
 export async function login({ email, password }: LoginProps) {
     try {

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useScaffold } from "../contexts/ScaffoldContext";
+import { useScaffold } from "../../contexts/ScaffoldContext";
 import { Contracts } from "../modules/Contracts";
 import { HomePage } from "../modules/Home/Home";
 import { Scaffold } from "./Scaffold";

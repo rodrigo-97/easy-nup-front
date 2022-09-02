@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { ContractTile } from "../../components/ContractTile"
-import { getContracts } from "../../services/Contracts"
+import { getContracts } from "../../../services/Contracts"
 
 export function Contracts() {
     const [contracts, setContracts] = useState<Array<any>>([])
