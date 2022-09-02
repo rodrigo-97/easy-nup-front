@@ -46,11 +46,12 @@ p {
   margin: 0!important;
 }
 
+@import "./theme";
 @import "./helpers";
 @import "./tile";
-@import "./theme";
 @import "./content";
 @import "./offcanvas";
 @import "./login";
 @import "./navbar";
+@import "./contract_tile";
 @import "node_modules/bootstrap/scss/bootstrap";

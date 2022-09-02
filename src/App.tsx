@@ -1,10 +1,11 @@
-import { AppRoutes } from './routes';
+import { useAuth } from './contexts/AuthContext';
+import { AuthenticatedRoutes } from './routes/AuthenticatedRoutes';
+import { UnauthenticatedRoutes } from './routes/UnauthenticatedRoutes';
 
 function App() {
-  return (
-    <AppRoutes />
-  )
+  const { isAuthenticated } = useAuth()
+
+   return isAuthenticated ? <AuthenticatedRoutes/> : <UnauthenticatedRoutes />
 }
 
 export default App
-

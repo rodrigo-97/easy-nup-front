@@ -1,4 +1,5 @@
 export enum AppPages {
     LOGIN = "/",
-    HOME="hp"
+    HOME="hp",
+    CONTRACTS="contracts"
 }

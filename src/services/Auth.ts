@@ -1,9 +1,17 @@
 import { Api } from "../config/Axios";
 import { LoginProps } from "../modules/Auth/Login";
 
-export async function login ({email, password}:LoginProps){
+export async function login({ email, password }: LoginProps) {
     try {
-        return Api.post("/login", { email, password })
+        return Api.post("/login", { email: "empresa@empresa.com", password: "@Teste123" })
+    } catch (error) {
+        return Promise.reject(error)
+    }
+}
+
+export async function logout() {
+    try {
+        return Api.post("/logout")
     } catch (error) {
         return Promise.reject(error)
     }

@@ -1,15 +1,17 @@
+import { FaFacebook } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { Button, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
-import { FaFacebook } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
 
-import bottom from '../../assets/bg.svg'
-import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../../contexts/ThemeContext';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { login } from '../../services/Auth';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import bottom from '../../assets/bg.svg';
 import { AppPages } from '../../config/AppPages';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { showErrorToast } from '../../helpers/Toast';
+import { login } from '../../services/Auth';
 
 export type LoginProps = {
   email: string
@@ -19,11 +21,11 @@ export type LoginProps = {
 export function LoginPage() {
   const navigate = useNavigate()
   const { theme } = useTheme()
-
+  const { setIsAuthenticated } = useAuth()
 
   const schema = Yup.object().shape({
-    email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
-    password: Yup.string().required("Campo obrigatório")
+    // email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
+    // password: Yup.string().required("Campo obrigatório")
   })
 
   const {
@@ -31,7 +33,8 @@ export function LoginPage() {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginProps>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: { email: '', password: '' }
   })
 
   function handleGoogleLogin() {
@@ -42,13 +45,14 @@ export function LoginPage() {
     window.location.href = 'http://localhost:3333/facebook/redirect'
   }
 
-  function handleLogin({ email, password }: LoginProps) {
+  async function handleLogin({ email, password }: LoginProps) {
     login({ email, password })
-      .then(({ data }) => {
-        localStorage.setItem("APP_TOKEN", data.token)
+      .then(({ data: { token } }) => {
+        localStorage.setItem("APP_TOKEN", token)
+        setIsAuthenticated(true)
         navigate(AppPages.HOME)
       }).catch((error) => {
-        console.log(error)
+        showErrorToast({ message: error })
       })
   }
 

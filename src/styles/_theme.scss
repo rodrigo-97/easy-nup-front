@@ -3,7 +3,7 @@
 }
 
 .btn {
-    color: $white!important;
+    color: $white  !important;
 }
 
 #root {
@@ -11,6 +11,7 @@
 }
 
 .dark {
+
     .offcanvas,
     .navbar {
         color: $white;
@@ -22,9 +23,14 @@
         background-color: rgba(255, 255, 255, 0.102)
     }
 
-    .modal-content{
+    .modal-content {
         background-color: $gray-500;
         color: $white;
+    }
+
+    .contract-tile {
+        background-color: $gray-500;
+        transition: all 500ms ease-out;
     }
 
     #root {
@@ -47,13 +53,18 @@
         transition: all 500ms ease-in-out;
     }
 
-    .modal-content{
+    .modal-content {
         background-color: $white;
         color: $gray-700;
     }
 
+    .contract-tile {
+        background-color: $white;
+        transition: all 500ms ease-out;
+    }
+
     #root {
-        color: $gray-700;
+        color: $gray-500;
         background-color: #eeeeee;
         transition: all 500ms ease-in-out;
     }

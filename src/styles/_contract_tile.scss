@@ -1,0 +1,12 @@
+.contract-tile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color;
+
+    &:hover {
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+        transform: translate(.5rem);
+    }
+}
