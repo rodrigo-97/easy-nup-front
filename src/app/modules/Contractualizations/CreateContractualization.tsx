@@ -248,7 +248,7 @@ export function CreateContractualization() {
                             </FormFeedback>
                         </FormGroup>
                     </Col>
-                    <Col md={7}>
+                    <Col md={6} lg={7}>
                         <FormGroup floating>
                             <Controller
                                 control={control}
@@ -275,7 +275,7 @@ export function CreateContractualization() {
                             </FormFeedback>
                         </FormGroup>
                     </Col>
-                    <Col md={5}>
+                    <Col md={6} lg={5}>
                         <FormGroup floating>
                             <NumberFormat
                                 className={`form-control ${!!errors.prices?.ust?.message ? 'is-invalid' : ''}`}

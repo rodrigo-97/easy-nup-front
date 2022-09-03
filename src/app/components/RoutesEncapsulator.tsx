@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { useScaffold } from "../../contexts/ScaffoldContext";
-import { Contracts } from "../modules/Contracts/Index";
-import { CreateContractualization } from "../modules/Contracts/CreateContract";
-import { ViewContract } from "../modules/Contracts/ViewContract";
+import { Contracts } from "../modules/Contractualizations/Index";
+import { CreateContractualization } from "../modules/Contractualizations/CreateContractualization";
+import { ViewContract } from "../modules/Contractualizations/ViewContract";
 import { HomePage } from "../modules/Home/Home";
 import { Scaffold } from "./Scaffold";
 

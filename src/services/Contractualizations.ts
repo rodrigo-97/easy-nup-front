@@ -1,7 +1,7 @@
-import { FormProps as Contractualization} from "../app/modules/Contracts/CreateContract"
+import { FormProps as Contractualization} from "../app/modules/Contractualizations/CreateContractualization"
 import { Api } from "../config/Axios"
 
-export function getContractualizations (page:number){
+export async function getContractualizations (page:number){
     try {
         return Api.get('/contractualizations', {params:{page}})
     } catch (error) {
@@ -9,7 +9,7 @@ export function getContractualizations (page:number){
     }
 }
 
-export function getContractualizationById (id:number){
+export async function getContractualizationById (id:number){
     try {
         return Api.get(`/contractualizations/${id}`)
     } catch (error) {
@@ -17,7 +17,7 @@ export function getContractualizationById (id:number){
     }
 }
 
-export function createContractualization (data: Contractualization){
+export async function createContractualization (data: Contractualization){
     try {
         return Api.post('/contractualizations', data)
     } catch (error) {

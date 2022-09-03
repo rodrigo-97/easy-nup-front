@@ -17,6 +17,16 @@
     transition: all 500ms ease-out;
 }
 
+.form-check-input {
+    background-color: $primary-700!important;
+    border-color: $primary-700!important;
+
+    &:checked {
+        background-color: $secondary!important;
+        border-color: $secondary!important;
+    }
+}
+
 .dark {
 
     .offcanvas,
