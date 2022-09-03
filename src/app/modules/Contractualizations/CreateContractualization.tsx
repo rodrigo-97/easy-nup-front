@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
 import {
@@ -6,6 +6,7 @@ import {
   Col,
   FormFeedback,
   FormGroup,
+  FormText,
   Input,
   Label,
   Row,
@@ -60,11 +61,8 @@ export function CreateContractualization() {
     },
   ]);
 
-
-  console.log(addDays(new Date(), 1))
-
   const schema = Yup.object().shape({
-    name: Yup.string().required("Campo obrigatório"),
+    name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
     effectiveDate: Yup.date().required("Campo obrigatório"),
     finishDate: Yup.date()
       .required("Campo obrigatório")
@@ -86,10 +84,10 @@ export function CreateContractualization() {
       .required("Campo obrigatório"),
     maintenanceTypes: Yup.array(
       Yup.object().shape({
-        name: Yup.string().required("Campo obrigatório"),
+        name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
         params: Yup.array(
           Yup.object().shape({
-            name: Yup.string().required("Campo obrigatório"),
+            name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
             fi: Yup.number()
               .required("Campo obrigatório")
               .moreThan(0, "Campo obrigatório"),
@@ -122,6 +120,8 @@ export function CreateContractualization() {
           ],
         },
       ],
+      clientId: undefined,
+      name: '',
       predictedVolumeFunctionPoint: undefined,
       prices: {
         pf: undefined,
@@ -189,6 +189,7 @@ export function CreateContractualization() {
     if (size > 1) {
       maintenanceTypes.splice(index, 1);
       setMaintenanceTypes([...maintenanceTypes]);
+      setValue('maintenanceTypes', maintenanceTypes)
     } else {
       showErrorToast({
         message:
@@ -207,7 +208,6 @@ export function CreateContractualization() {
     paramIndex: number
   ) {
     const size = maintenanceTypes[maintenanceTypeIndex].params.length;
-
     if (size > 1) {
       maintenanceTypes[maintenanceTypeIndex].params.splice(paramIndex, 1);
       setMaintenanceTypes([...maintenanceTypes]);
@@ -217,6 +217,18 @@ export function CreateContractualization() {
       });
     }
   }
+
+  useEffect(() => {
+    const sideEffect = maintenanceTypes.forEach((e, index) => {
+      setValue(`maintenanceTypes.${index}.name`, e.name)
+      e.params.forEach((j, pIndex) => {
+        setValue(`maintenanceTypes.${index}.params.${pIndex}.name`, j.name)
+        setValue(`maintenanceTypes.${index}.params.${pIndex}.fi`, j.fi)
+      })
+    })
+
+    return sideEffect
+  }, [maintenanceTypes])
 
   return (
     <Row className="gx-2 custom-form">
@@ -459,6 +471,10 @@ export function CreateContractualization() {
                             errors.maintenanceTypes &&
                             !!errors.maintenanceTypes[index]?.name
                           }
+                          onChange={(e) => {
+                            maintenanceTypes[index].name = e.target.value
+                            setMaintenanceTypes([...maintenanceTypes])
+                          }}
                           placeholder="Nome"
                           type="text"
                         />
@@ -509,6 +525,10 @@ export function CreateContractualization() {
                                     ? "is-invalid"
                                     : ""
                                 }
+                                onChange={(e) => {
+                                  maintenanceTypes[index].params[paramIndex].name = e.target.value
+                                  setMaintenanceTypes([...maintenanceTypes])
+                                }}
                                 placeholder="Nome do parâmetro"
                                 type="text"
                               />
@@ -544,6 +564,9 @@ export function CreateContractualization() {
                               `maintenanceTypes.${index}.params.${paramIndex}.fi`,
                               +value
                             );
+
+                            maintenanceTypes[index].params[paramIndex].fi = +value
+                            setMaintenanceTypes([...maintenanceTypes])
                           }}
                         />
                         <Label>Valor de ajuste %</Label>
