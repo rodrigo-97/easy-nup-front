@@ -101,7 +101,7 @@ export function Scaffold({ children }: Props) {
             role="switch"
             className="pointer"
             checked={theme !== "dark"}
-            onClick={toggleTheme}
+            onChange={toggleTheme}
           />
           <Label check>
             {theme === "dark" ? <BsMoonFill /> : <BsSun color="#fba94c" />}

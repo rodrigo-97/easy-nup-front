@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createContractualization } from "../../../services/Contractualizations";
 import { useNavigate } from "react-router-dom";
+import { format, addDays } from 'date-fns'
 
 type ParamProps = {
   name: string;
@@ -59,18 +60,15 @@ export function CreateContractualization() {
     },
   ]);
 
+
+  console.log(addDays(new Date(), 1))
+
   const schema = Yup.object().shape({
     name: Yup.string().required("Campo obrigatório"),
     effectiveDate: Yup.date().required("Campo obrigatório"),
     finishDate: Yup.date()
       .required("Campo obrigatório")
-      .min(new Date(), "A data precisa ser maior do que a atual (hoje)")
-      .when("effectiveDate", (effectiveDate, yup) =>
-        yup.min(
-          effectiveDate,
-          "A data final não pode ser menor do que a data de efetivação"
-        )
-      ),
+      .min(format(addDays(new Date(), 1), 'yyyy-MM-dd'), "A data de precisa ser maior do que a atual (hoje)"),
     predictedVolumeFunctionPoint: Yup.number().required("Campo obrigatório"),
     clientId: Yup.number().required("Campo obrigatório"),
     prices: Yup.object()
@@ -106,10 +104,13 @@ export function CreateContractualization() {
     formState: { errors },
     handleSubmit,
     setValue,
+    getValues
   } = useForm<FormProps>({
     resolver: yupResolver(schema),
     reValidateMode: "onSubmit",
     defaultValues: {
+      effectiveDate: format(new Date(), 'yyyy-MM-dd'),
+      finishDate: format(new Date(), 'yyyy-MM-dd'),
       maintenanceTypes: [
         {
           name: "",
@@ -310,9 +311,8 @@ export function CreateContractualization() {
           <Col md={6} lg={5}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${
-                  !!errors.prices?.ust?.message ? "is-invalid" : ""
-                }`}
+                className={`form-control ${!!errors.prices?.ust?.message ? "is-invalid" : ""
+                  }`}
                 decimalSeparator=","
                 decimalScale={0}
                 allowNegative={false}
@@ -337,9 +337,7 @@ export function CreateContractualization() {
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${
-                  !!errors.prices?.pf?.message ? "is-invalid" : ""
-                }`}
+                className={`form-control ${!!errors.prices?.pf?.message ? "is-invalid" : ""}`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -368,9 +366,8 @@ export function CreateContractualization() {
                 render={() => {
                   return (
                     <NumberFormat
-                      className={`form-control ${
-                        !!errors.prices?.ust ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!!errors.prices?.ust ? "is-invalid" : ""
+                        }`}
                       decimalSeparator=","
                       decimalScale={2}
                       allowNegative={false}
@@ -397,9 +394,8 @@ export function CreateContractualization() {
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${
-                  !!errors.prices?.hh?.message ? "is-invalid" : ""
-                }`}
+                className={`form-control ${!!errors.prices?.hh?.message ? "is-invalid" : ""
+                  }`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -425,7 +421,7 @@ export function CreateContractualization() {
 
       {maintenanceTypes.map((e, index) => {
         return (
-          <div className="app-bg p-4 mt-4">
+          <div className="app-bg p-4 mt-4" key={index}>
             <Row key={index}>
               <div className="d-flex gap-3 col-12">
                 <small className="mb-3 text-truncate">
@@ -433,9 +429,8 @@ export function CreateContractualization() {
                 </small>
                 <small
                   className="pointer text-primary-700 text-truncate"
-                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${
-                    index + 1
-                  }`}
+                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${index + 1
+                    }`}
                   onClick={() => addParamToMaintenanceType(index)}
                 >
                   adicionar parâmetro
@@ -443,9 +438,8 @@ export function CreateContractualization() {
                 <div className="d-flex align-items-start">
                   <small
                     className="pointer text-red text-truncate"
-                    title={`Clique para remover o tipo de parâmetro ${
-                      index + 1
-                    }`}
+                    title={`Clique para remover o tipo de parâmetro ${index + 1
+                      }`}
                     onClick={() => removeMaintenanceType(index)}
                   >
                     remover
@@ -488,9 +482,8 @@ export function CreateContractualization() {
                     <div className="d-flex justify-content-end">
                       <small
                         className="text-red text-end pointer mb-1"
-                        title={`Clique para remover o parâmetro ${
-                          paramIndex + 1
-                        } do tipo de serviço ${index + 1}`}
+                        title={`Clique para remover o parâmetro ${paramIndex + 1
+                          } do tipo de serviço ${index + 1}`}
                         onClick={() =>
                           removeParamFromMaintenanceType(index, paramIndex)
                         }
@@ -531,11 +524,10 @@ export function CreateContractualization() {
                     <Col md={6}>
                       <FormGroup floating>
                         <NumberFormat
-                          className={`form-control ${
-                            !!getParamMessageError(index, paramIndex, "fi")
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`form-control ${!!getParamMessageError(index, paramIndex, "fi")
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           decimalSeparator=","
                           decimalScale={2}
                           allowNegative={false}
@@ -570,9 +562,13 @@ export function CreateContractualization() {
 
       <Col sm={12} className="d-flex align-items-center mt-4 gap-3 ">
         <div>
-          <Button color="primary-700" onClick={handleSubmit(onSubmit)}>
-            {isLoading && <Spinner />}
-            Salvar contratualização
+          <Button
+            color="primary-700"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          >
+            {isLoading && <Spinner size='sm' className="me-2" />}
+            {isLoading ? "Salvando contratualização..." : "Salvar contratualização"}
           </Button>
         </div>
         <small
