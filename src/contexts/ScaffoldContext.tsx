@@ -1,82 +1,85 @@
-import { createContext, ReactElement, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type ContextProps = {
-    size: number
-    toggleSideNav: () => void
-    isOpen: boolean
-    useBackDrop: boolean
-}
+  size: number;
+  toggleSideNav: () => void;
+  isOpen: boolean;
+  useBackDrop: boolean;
+};
 
 type Props = {
-    children: ReactElement
-}
+  children: ReactElement;
+};
 
-const ScaffoldContext = createContext({} as ContextProps)
+const ScaffoldContext = createContext({} as ContextProps);
 
 export function ScaffoldProvider({ children }: Props) {
-    const [isOpen, setIsOpen] = useState(true)
-    const [useBackDrop, setUseBackdrop] = useState(false)
-    const [size, setSize] = useState(0)
+  const [isOpen, setIsOpen] = useState(true);
+  const [useBackDrop, setUseBackdrop] = useState(false);
+  const [size, setSize] = useState(0);
 
-    const getIsUseBackdrop = () => {
-        if (size <= 769) {
-            setUseBackdrop(true)
-        } else {
-            setUseBackdrop(false)
-        }
+  const getIsUseBackdrop = () => {
+    if (size <= 769) {
+      setUseBackdrop(true);
+    } else {
+      setUseBackdrop(false);
+    }
+  };
+
+  function toggleSideNav() {
+    getIsUseBackdrop();
+    setIsOpen(!isOpen);
+
+    if (isOpen) {
+      return localStorage.setItem("APP_IS_OPEN", "true");
     }
 
-    function toggleSideNav() {
-        getIsUseBackdrop()
-        setIsOpen(!isOpen)
+    return localStorage.setItem("APP_IS_OPEN", "false");
+  }
 
-        if (isOpen){
-            return localStorage.setItem("APP_IS_OPEN", "true")
-        }
+  useEffect(() => {
+    const localStorageIsOpen = localStorage.getItem("APP_IS_OPEN") === "true";
 
-        return localStorage.setItem("APP_IS_OPEN", "false")
+    if (localStorageIsOpen === true) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
     }
 
-    useEffect(() => {
-        const localStorageIsOpen = localStorage.getItem("APP_IS_OPEN") === "true"
+    window.addEventListener("resize", () => {
+      const width = window.innerWidth;
+      setSize(width);
 
-        if (localStorageIsOpen === true){
-            setIsOpen(false)
-        }else{
-            setIsOpen(true)
-        }
+      if (width <= 769) {
+        toggleSideNav();
+      }
+    });
+  }, []);
 
-        window.addEventListener(
-            "resize",
-            () => {
-                const width = window.innerWidth
-                setSize(width)
+  useEffect(() => {
+    setSize(window.innerWidth);
+  }, []);
 
-                if (width <= 769) {
-                    toggleSideNav()
-                }
-            }
-        );
-    }, []);
-
-    useEffect(() => {
-        setSize(window.innerWidth)
-    }, [])
-
-    return (
-        <ScaffoldContext.Provider
-            value={{
-                size,
-                toggleSideNav,
-                isOpen,
-                useBackDrop
-            }}
-        >
-            {children}
-        </ScaffoldContext.Provider>
-    )
+  return (
+    <ScaffoldContext.Provider
+      value={{
+        size,
+        toggleSideNav,
+        isOpen,
+        useBackDrop,
+      }}
+    >
+      {children}
+    </ScaffoldContext.Provider>
+  );
 }
 
 export function useScaffold() {
-    return useContext(ScaffoldContext)
+  return useContext(ScaffoldContext);
 }

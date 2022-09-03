@@ -7,21 +7,25 @@ import { HomePage } from "../modules/Home/Home";
 import { Scaffold } from "./Scaffold";
 
 export function RouteEncapsulator() {
-    const { isOpen, size } = useScaffold()
+  const { isOpen, size } = useScaffold();
 
-    return (
-        <Scaffold>
-            <div className={`${isOpen && size > 769 ? 'content' : 'content-whitout-margin '} px-2 py-4 p-md-5`}>
-                <Routes>
-                    <Route index element={<HomePage />}  />
-                    <Route path="contracts">
-                        <Route index element={<Contracts />} />
-                        <Route path="view/:id" element={<ViewContract />} />
-                        <Route path="new" element={<CreateContractualization />} />
-                    </Route>
-                    <Route path="*" element={<p>Ops</p>} />
-                </Routes>
-            </div>
-        </Scaffold>
-    )
+  return (
+    <Scaffold>
+      <div
+        className={`${
+          isOpen && size > 769 ? "content" : "content-whitout-margin "
+        } px-2 py-4 p-md-5`}
+      >
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="contracts">
+            <Route index element={<Contracts />} />
+            <Route path="view/:id" element={<ViewContract />} />
+            <Route path="new" element={<CreateContractualization />} />
+          </Route>
+          <Route path="*" element={<p>Ops</p>} />
+        </Routes>
+      </div>
+    </Scaffold>
+  );
 }

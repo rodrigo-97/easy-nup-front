@@ -1,43 +1,50 @@
-import { createContext, ReactElement, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 type ContextProps = {
-    isAuthenticated: boolean,
-    setToken: Function
-    setIsAuthenticated: Function
-}
+  isAuthenticated: boolean;
+  setToken: Function;
+  setIsAuthenticated: Function;
+};
 
 type Props = {
-    children: ReactElement
-}
+  children: ReactElement;
+};
 
-const AuthContext = createContext({} as ContextProps)
+const AuthContext = createContext({} as ContextProps);
 
 export function AuthProvider({ children }: Props) {
+  const [token, setToken] = useState(localStorage.getItem("APP_TOKEN") ?? "");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const [token, setToken] = useState(localStorage.getItem("APP_TOKEN") ?? '')
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("APP_TOKEN");
+    setToken(localStorageToken ?? "");
 
-    useEffect(() => {
-        const localStorageToken = localStorage.getItem("APP_TOKEN")
-        setToken(localStorageToken ?? '')
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      navigate("/");
+    }
+  }, []);
 
-        if (token) {
-            setIsAuthenticated(true)
-        } else {
-            navigate('/')
-        }
-    }, [])
-
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, setToken, setIsAuthenticated }}>
-            {children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider
+      value={{ isAuthenticated, setToken, setIsAuthenticated }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext)
+  return useContext(AuthContext);
 }

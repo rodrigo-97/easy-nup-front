@@ -3,7 +3,7 @@ import { CustomChart } from "../../components/Chart";
 import { useScaffold } from "../../../contexts/ScaffoldContext";
 
 export function HomePage() {
-  const { size, isOpen } = useScaffold()
+  const { size, isOpen } = useScaffold();
 
   return (
     <div>
@@ -37,5 +37,5 @@ export function HomePage() {
         </Col>
       </Row>
     </div>
-  )
+  );
 }
