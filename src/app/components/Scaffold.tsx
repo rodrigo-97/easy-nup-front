@@ -5,21 +5,19 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaFileContract,
-  FaHandsHelping,
+  FaHandsHelping
 } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import { IoMdAnalytics } from "react-icons/io";
-import { MdMenu } from "react-icons/md";
 import { TiGroup } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import {
-  Button,
   FormGroup,
   Input,
   Label,
   Navbar,
   Offcanvas,
-  OffcanvasBody,
+  OffcanvasBody
 } from "reactstrap";
 import { AppPages } from "../../config/AppPages";
 import { useAuth } from "../../contexts/AuthContext";

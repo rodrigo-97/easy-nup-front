@@ -1,15 +1,19 @@
+import { useUser } from "../../contexts/UserContext";
+
 export function ProfileHeader() {
+  const { avatarUrl, email, emailVerified, name } = useUser()
+
   return (
     <div className="px-5">
       <img
         className="img-profile"
         height={100}
         width={100}
-        src="https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg"
+        src={avatarUrl}
       />
-      <p className="h4 mt-3">Larissinha</p>
-      <p>larissinha@gmail.com</p>
-
+      <p className="h4 mt-3">{name}</p>
+      <p>{email}</p>
+      <p>{emailVerified ? 'E-mail verificado' : 'E-mail não verificado'}</p>
       <hr />
     </div>
   );
