@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import bottom from '../../assets/bg.svg';
+import bottom from '../../../assets/bg.svg';
 import { AppPages } from '../../../config/AppPages';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useTheme } from '../../../contexts/ThemeContext';
@@ -24,8 +24,8 @@ export function LoginPage() {
   const { setIsAuthenticated } = useAuth()
 
   const schema = Yup.object().shape({
-    // email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
-    // password: Yup.string().required("Campo obrigatório")
+    email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
+    password: Yup.string().required("Campo obrigatório")
   })
 
   const {

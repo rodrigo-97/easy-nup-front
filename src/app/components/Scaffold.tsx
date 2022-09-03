@@ -63,10 +63,10 @@ export function Scaffold({ children }: Props) {
                     ${isOpen ? 'is-open' : ''}
                 `}
             >
-                <Button size="sm" color="primary-700" onClick={toggleSideNav}>
+                <Button color="primary-700" onClick={toggleSideNav}>
                     <MdMenu />
                 </Button>
-                <Button size="sm" color="primary-700" className="d-flex align-items-center gap-2" onClick={toggleTheme}>
+                <Button color="primary-700" className="d-flex align-items-center gap-2" onClick={toggleTheme}>
                     {
                         theme === "dark" ? (
                             <>

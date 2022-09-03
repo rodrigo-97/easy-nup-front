@@ -29,9 +29,23 @@ export function ScaffoldProvider({ children }: Props) {
     function toggleSideNav() {
         getIsUseBackdrop()
         setIsOpen(!isOpen)
+
+        if (isOpen){
+            return localStorage.setItem("APP_IS_OPEN", "true")
+        }
+
+        return localStorage.setItem("APP_IS_OPEN", "false")
     }
 
     useEffect(() => {
+        const localStorageIsOpen = localStorage.getItem("APP_IS_OPEN") === "true"
+
+        if (localStorageIsOpen === true){
+            setIsOpen(false)
+        }else{
+            setIsOpen(true)
+        }
+
         window.addEventListener(
             "resize",
             () => {

@@ -4,10 +4,17 @@
 
 .btn {
     color: $white  !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 #root {
     min-height: 100vh;
+}
+
+.app-bg {
+    border-radius: .5rem;
+    transition: all 500ms ease-out;
 }
 
 .dark {
@@ -17,6 +24,12 @@
         color: $white;
         background-color: $gray-500;
         transition: all 500ms ease-in-out;
+    }
+
+    .app-bg {
+        color: $white;
+        background-color: $gray-500;
+        transition: all 500ms ease-out;
     }
 
     .tile:hover {
@@ -33,6 +46,27 @@
         transition: all 500ms ease-out;
     }
 
+    .form-control,
+    .form-select {
+        background-color: $gray-500;
+        color: $white;
+        transition: all 500ms ease-out;
+
+        &:focus {
+            background-color: $gray-500;
+            color: $white;
+        }
+
+        &:webkit-autofill {
+            background-color: $gray-500;
+        }
+
+        &:visited {
+            background-color: $gray-500;
+            color: $white;
+        }
+    }
+
     #root {
         background-color: $gray-600  !important;
         color: $white  !important;
@@ -44,6 +78,12 @@
     .navbar {
         color: $gray-700;
         background-color: $white;
+    }
+
+    .app-bg {
+        color: $gray-700;
+        background-color: $white;
+        transition: all 500ms ease-out;
     }
 
     .offcanvas,

@@ -1,18 +1,24 @@
 import { Route, Routes } from "react-router-dom";
 import { useScaffold } from "../../contexts/ScaffoldContext";
-import { Contracts } from "../modules/Contracts";
+import { Contracts } from "../modules/Contracts/Index";
+import { CreateContractualization } from "../modules/Contracts/CreateContract";
+import { ViewContract } from "../modules/Contracts/ViewContract";
 import { HomePage } from "../modules/Home/Home";
 import { Scaffold } from "./Scaffold";
 
 export function RouteEncapsulator() {
     const { isOpen, size } = useScaffold()
-    
+
     return (
         <Scaffold>
-            <div className={`${isOpen && size > 769 ? 'content' : 'content-whitout-margin '} p-2 p-md-5`}>
+            <div className={`${isOpen && size > 769 ? 'content' : 'content-whitout-margin '} px-2 py-4 p-md-5`}>
                 <Routes>
-                    <Route path="/hp" element={<HomePage />} />
-                    <Route path="/contracts" element={<Contracts />} />
+                    <Route index element={<HomePage />}  />
+                    <Route path="contracts">
+                        <Route index element={<Contracts />} />
+                        <Route path="view/:id" element={<ViewContract />} />
+                        <Route path="new" element={<CreateContractualization />} />
+                    </Route>
                     <Route path="*" element={<p>Ops</p>} />
                 </Routes>
             </div>
