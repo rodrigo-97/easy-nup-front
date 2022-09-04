@@ -8,6 +8,7 @@ config.interceptors.request.use(
   function (config) {
     const token = `Bearer ${localStorage.getItem("APP_TOKEN")}` ?? "";
     config.headers!.Authorization = token;
+    config.withCredentials = true
 
     return config;
   },
