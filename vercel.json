@@ -1,5 +1,0 @@
-{
-  "src/app/modules/**/*": {
-    "maxDuration": 11
-  }
-}
