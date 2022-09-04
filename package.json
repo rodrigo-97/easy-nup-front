@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --port 3000",
-    "build": "tsc && vite build",
+    "build": "NODE_ENV=production tsc && vite build",
     "preview": "vite preview",
     "sass": "node-sass src/styles/index.scss -o src --output-style compressed",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
