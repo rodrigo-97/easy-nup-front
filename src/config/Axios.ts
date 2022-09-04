@@ -16,6 +16,8 @@ config.interceptors.request.use(
   }
 );
 
+console.log(url)
+
 config.interceptors.response.use(
   function (response) {
     return response;
