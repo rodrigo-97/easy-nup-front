@@ -7,3 +7,11 @@ export async function getClients() {
     return Promise.reject(error);
   }
 }
+
+export async function getContractualizationsCount() {
+  try {
+    return Api.get("/contractualizations/count");
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

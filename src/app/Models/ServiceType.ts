@@ -1,7 +1,7 @@
 import { Contractualization } from "./Contractualization";
 import { Param } from "./Params";
 
-export type MaintenanceType = {
+export type ServiceType = {
   id: number;
   name: string;
   companyContractId: number;

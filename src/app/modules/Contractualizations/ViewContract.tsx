@@ -8,7 +8,7 @@ import { getContractualizationById } from "../../../services/Contractualizations
 import { GoBack } from "../../components/GoBackIcon";
 import { Loading } from "../../components/Loading";
 import { Contractualization } from "../../Models/Contractualization";
-import { ptBR } from 'date-fns/locale'
+import { ptBR } from "date-fns/locale";
 import { setDefaultOptions } from "date-fns/esm";
 import { format } from "date-fns";
 
@@ -39,17 +39,17 @@ export function ViewContract() {
 
   const client = contractualization?.client.user;
   const prices = contractualization?.contract.prices;
-  const maintenanceTypes = contractualization?.contract.maintenanceTypes;
+  const serviceTypes = contractualization?.contract.serviceTypes;
 
   setDefaultOptions({
-    locale: ptBR
-  })
+    locale: ptBR,
+  });
 
   const formatedDate = (date?: Date) => {
-    if (!date) return ''
+    if (!date) return "";
 
-    return format(new Date(date), "dd 'de' LLLL 'de' yyyy")
-  }
+    return format(new Date(date), "dd 'de' LLLL 'de' yyyy");
+  };
 
   useEffect(() => {
     if (id) {
@@ -88,7 +88,9 @@ export function ViewContract() {
 
               <div className="mt-3">
                 <small>Volume estimado de pontos de função</small>
-                <p>{contractualization?.contract.predictedVolumeFunctionPoint}</p>
+                <p>
+                  {contractualization?.contract.predictedVolumeFunctionPoint}
+                </p>
               </div>
 
               <div className="d-flex gap-5">
@@ -106,7 +108,9 @@ export function ViewContract() {
               <div className="d-flex gap-5">
                 <div className="mt-3 w-25">
                   <small>Data de vigência</small>
-                  <p>{formatedDate(contractualization?.contract.effectiveDate)}</p>
+                  <p>
+                    {formatedDate(contractualization?.contract.effectiveDate)}
+                  </p>
                 </div>
 
                 <div className="mt-3">
@@ -118,36 +122,34 @@ export function ViewContract() {
 
             <div className="app-bg p-4 mt-4">
               <b>Dados do cliente</b>
-              {
-                client && (
-                  <div className="d-flex gap-5 mt-3">
-                    <div className="w-25">
-                      <small>Nome do cliente</small>
-                      <p>{client.name}</p>
-                    </div>
-
-                    <div>
-                      <small>E-mail</small>
-                      <p>
-                        <a
-                          href={`mailto:${client.email!}`}
-                          className="text-primary-700"
-                        >
-                          {client.email!}
-                        </a>
-                      </p>
-                    </div>
+              {client && (
+                <div className="d-flex gap-5 mt-3">
+                  <div className="w-25">
+                    <small>Nome do cliente</small>
+                    <p>{client.name}</p>
                   </div>
-                )
-              }
+
+                  <div>
+                    <small>E-mail</small>
+                    <p>
+                      <a
+                        href={`mailto:${client.email!}`}
+                        className="text-primary-700"
+                      >
+                        {client.email!}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="app-bg p-4 mt-4">
               <b>Tipos de serviços</b>
 
               <div className="mt-3">
-                {maintenanceTypes &&
-                  maintenanceTypes.map((m) => {
+                {serviceTypes &&
+                  serviceTypes.map((m) => {
                     return (
                       <div key={m.id}>
                         <div>
@@ -190,18 +192,21 @@ export function ViewContract() {
               {prices &&
                 prices.map((p) => {
                   return (
-                    <div className="d-flex justify-content-between flex-wrap mt-3" key={p.id}>
+                    <div
+                      className="d-flex justify-content-between flex-wrap mt-3"
+                      key={p.id}
+                    >
                       <div>
                         <small>Pf</small>
-                        <p>{formatCurrency(p.pf)}</p>
+                        <p>{formatCurrency(p.pf) ?? "-"}</p>
                       </div>
                       <div>
                         <small>UST</small>
-                        <p>{formatCurrency(p.ust)}</p>
+                        <p>{formatCurrency(p.ust) ?? "-"}</p>
                       </div>
                       <div>
                         <small>Hh</small>
-                        <p>{formatCurrency(p.hh)}</p>
+                        <p>{formatCurrency(p.hh) ?? "-"}</p>
                       </div>
                       <div>
                         <small>% Pf</small>

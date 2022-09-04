@@ -23,6 +23,12 @@ export function Contracts() {
     getContractualizations(page)
       .then(({ data }) => {
         setContracts([...contracts, ...data.data]);
+
+        console.log(data.meta.total)
+
+        if (page <= data.meta.total) {
+          setPage(data.meta.current_page + 1)
+        }
       })
       .catch((_error) => {
         showErrorToast({
@@ -73,10 +79,7 @@ export function Contracts() {
 
         <p
           className="pointer text-primary-700"
-          onClick={() => {
-            setPage((p) => p + 5);
-            findContracts();
-          }}
+          onClick={findContracts}
         >
           Mostrar mais 5
         </p>

@@ -14,15 +14,16 @@ config.interceptors.request.use(
   }
 );
 
-config.interceptors.response.use(function (response) {
-  return response;
-}, function (error: AxiosError) {
-  console.log(error)
-  if (error.response?.status === 401) {
-    localStorage.removeItem("APP_TOKEN")
-    // window.location.href = 'http://localhost:3000'
+config.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error: AxiosError) {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("APP_TOKEN");
+    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
 
 export const Api = config;

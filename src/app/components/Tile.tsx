@@ -5,7 +5,7 @@ import { AppPages } from "../../config/AppPages";
 type Props = {
   title: string;
   icon: React.ElementType<IconBaseProps>;
-  route?: AppPages;
+  route?: AppPages | string;
   onClick?: () => void;
 };
 

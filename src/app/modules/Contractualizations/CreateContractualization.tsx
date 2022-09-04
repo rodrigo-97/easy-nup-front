@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDays, format } from 'date-fns';
+import { addDays, format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
@@ -8,10 +8,11 @@ import {
   Button,
   Col,
   FormFeedback,
-  FormGroup, Input,
+  FormGroup,
+  Input,
   Label,
   Row,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import * as Yup from "yup";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
@@ -25,7 +26,7 @@ type ParamProps = {
   fi: number;
 };
 
-type MaintenanceTypeProps = {
+type ServiceTypes = {
   name: string;
   params: Array<ParamProps>;
 };
@@ -41,15 +42,15 @@ export type FormProps = {
     ust: number | undefined;
     hh: number | undefined;
   };
-  maintenanceTypes: Array<MaintenanceTypeProps>;
+  serviceTypes: Array<ServiceTypes>;
 };
 
 export function CreateContractualization() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [clients, setClients] = useState<Array<Client>>([])
-  const [maintenanceTypes, setMaintenanceTypes] = useState<
-    Array<MaintenanceTypeProps>
+  const [clients, setClients] = useState<Array<Client>>([]);
+  const [serviceTypes, setServiceTypes] = useState<
+    Array<ServiceTypes>
   >([
     {
       name: "",
@@ -65,46 +66,83 @@ export function CreateContractualization() {
   useEffect(() => {
     getClients()
       .then(({ data }) => setClients(data))
-      .catch(() => showErrorToast({ message: "Não foi possível carregar os seus clientes" }))
-  }, [])
+      .catch(() =>
+        showErrorToast({
+          message: "Não foi possível carregar os seus clientes",
+        })
+      );
+  }, []);
 
   function validatePrices(val: any) {
-    const { pf, hh, ust } = val
-    console.log(val)
-    if (
-      pf === undefined &&
-      hh === undefined &&
-      ust === undefined
-    ) {
-      return false
+    const { pf, hh, ust } = val;
+
+    if (!pf && !hh && !ust) {
+      return false;
     }
 
-    return true
+    return true;
+  }
+
+  function validateIfEachNameInServiceTypeIsDifferent(val: any) {
+    const nameIsInserviceTypes =
+      serviceTypes.filter((e) => e.name === val).length >= 2;
+
+    return !nameIsInserviceTypes;
+  }
+
+  function validateIfEachNameInServiceTypeParamsIsDifferent(val: any) {
+    const filteredParams = serviceTypes.map((e) => e.params);
+    const [hasMoreThanOneSameName] = filteredParams.filter(
+      (e) => e.filter((j) => j.name === val).length >= 2
+    );
+
+    return !!!hasMoreThanOneSameName;
   }
 
   const schema = Yup.object().shape({
-    name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
+    name: Yup.string()
+      .required("Campo obrigatório")
+      .min(3, "Precisa ter mais de 3 caracteres"),
     effectiveDate: Yup.date().required("Campo obrigatório"),
     finishDate: Yup.date()
       .required("Campo obrigatório")
-      .min(format(addDays(new Date(), 1), 'yyyy-MM-dd'), "A data de precisa ser maior do que a atual (hoje)"),
+      .min(
+        format(addDays(new Date(), 1), "yyyy-MM-dd"),
+        "A data de precisa ser maior do que a atual (hoje)"
+      ),
     predictedVolumeFunctionPoint: Yup.number().required("Campo obrigatório"),
     clientId: Yup.number().required("Campo obrigatório"),
     prices: Yup.object()
       .shape({
-        pf: Yup.number()
-          .moreThan(0, "Campo obrigatório"),
-        ust: Yup.number()
-          .moreThan(0, "Campo obrigatório"),
-        hh: Yup.number()
-          .moreThan(0, "Campo obrigatório"),
-      }).test("at least one key", "Pelo menos um dos valores deve ser informado (pf, ust, hh)", validatePrices),
-    maintenanceTypes: Yup.array(
+        pf: Yup.number().moreThan(0, "Campo obrigatório"),
+        ust: Yup.number().moreThan(0, "Campo obrigatório"),
+        hh: Yup.number().moreThan(0, "Campo obrigatório"),
+      })
+      .test(
+        "at least one key",
+        "Pelo menos um dos valores deve ser informado (pf, ust, hh)",
+        validatePrices
+      ),
+    serviceTypes: Yup.array(
       Yup.object().shape({
-        name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
+        name: Yup.string()
+          .required("Campo obrigatório")
+          .min(3, "Precisa ter mais de 3 caracteres")
+          .test(
+            "each name differents",
+            "Não pode haver nome de serviços iguais",
+            validateIfEachNameInServiceTypeIsDifferent
+          ),
         params: Yup.array(
           Yup.object().shape({
-            name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
+            name: Yup.string()
+              .required("Campo obrigatório")
+              .min(3, "Precisa ter mais de 3 caracteres")
+              .test(
+                "each name differents",
+                "Não pode haver nome de parâmetros iguais dentro de um mesmo tipo de serviço",
+                validateIfEachNameInServiceTypeParamsIsDifferent
+              ),
             fi: Yup.number()
               .required("Campo obrigatório")
               .moreThan(0, "Campo obrigatório"),
@@ -123,9 +161,9 @@ export function CreateContractualization() {
     resolver: yupResolver(schema),
     reValidateMode: "onSubmit",
     defaultValues: {
-      effectiveDate: format(new Date(), 'yyyy-MM-dd'),
-      finishDate: format(new Date(), 'yyyy-MM-dd'),
-      maintenanceTypes: [
+      effectiveDate: format(new Date(), "yyyy-MM-dd"),
+      finishDate: format(new Date(), "yyyy-MM-dd"),
+      serviceTypes: [
         {
           name: "",
           params: [
@@ -137,7 +175,7 @@ export function CreateContractualization() {
         },
       ],
       clientId: undefined,
-      name: '',
+      name: "",
       predictedVolumeFunctionPoint: undefined,
       prices: {
         pf: undefined,
@@ -147,25 +185,21 @@ export function CreateContractualization() {
     },
   });
 
-  function getParamMessageError(
-    index: number,
-    paramIndex: number,
-    fieldName: string
-  ) {
-    const hasMaintenanceTypes =
-      errors.maintenanceTypes && errors.maintenanceTypes[index];
+  function getParamMessageError(i: number, paramIndex: number, fieldName: string) {
+    const hasserviceTypes =
+      errors.serviceTypes && errors.serviceTypes[i];
 
-    if (hasMaintenanceTypes?.params) {
+    if (hasserviceTypes?.params) {
       if (fieldName === "name")
-        return hasMaintenanceTypes.params[paramIndex]?.name?.message;
+        return hasserviceTypes.params[paramIndex]?.name?.message;
       if (fieldName === "fi")
-        return hasMaintenanceTypes.params[paramIndex]?.fi?.message;
+        return hasserviceTypes.params[paramIndex]?.fi?.message;
     }
 
     return "";
   }
 
-  const emptyMaintenanceType = {
+  const emptyServiceType = {
     name: "",
     params: [
       {
@@ -195,17 +229,17 @@ export function CreateContractualization() {
       });
   }
 
-  function addMaintenanceType() {
-    setMaintenanceTypes([...maintenanceTypes, emptyMaintenanceType]);
+  function addServiceType() {
+    setServiceTypes([...serviceTypes, emptyServiceType]);
   }
 
-  function removeMaintenanceType(index: number) {
-    const size = maintenanceTypes.length;
+  function removeServiceType(i: number) {
+    const size = serviceTypes.length;
 
     if (size > 1) {
-      maintenanceTypes.splice(index, 1);
-      setMaintenanceTypes([...maintenanceTypes]);
-      setValue('maintenanceTypes', maintenanceTypes)
+      serviceTypes.splice(i, 1);
+      setServiceTypes([...serviceTypes]);
+      setValue("serviceTypes", serviceTypes);
     } else {
       showErrorToast({
         message:
@@ -214,19 +248,19 @@ export function CreateContractualization() {
     }
   }
 
-  function addParamToMaintenanceType(index: number) {
-    maintenanceTypes[index].params.push(emptyParam);
-    setMaintenanceTypes([...maintenanceTypes]);
+  function addParamToServiceType(i: number) {
+    serviceTypes[i].params.push(emptyParam);
+    setServiceTypes([...serviceTypes]);
   }
 
-  function removeParamFromMaintenanceType(
-    maintenanceTypeIndex: number,
+  function removeParamFromServiceType(
+    serviceTypeindex: number,
     paramIndex: number
   ) {
-    const size = maintenanceTypes[maintenanceTypeIndex].params.length;
+    const size = serviceTypes[serviceTypeindex].params.length;
     if (size > 1) {
-      maintenanceTypes[maintenanceTypeIndex].params.splice(paramIndex, 1);
-      setMaintenanceTypes([...maintenanceTypes]);
+      serviceTypes[serviceTypeindex].params.splice(paramIndex, 1);
+      setServiceTypes([...serviceTypes]);
     } else {
       showErrorToast({
         message: "Não é possível deixar um tipo de serviço sem parâmetros",
@@ -235,16 +269,16 @@ export function CreateContractualization() {
   }
 
   useEffect(() => {
-    const sideEffect = maintenanceTypes.forEach((e, index) => {
-      setValue(`maintenanceTypes.${index}.name`, e.name)
-      e.params.forEach((j, pIndex) => {
-        setValue(`maintenanceTypes.${index}.params.${pIndex}.name`, j.name)
-        setValue(`maintenanceTypes.${index}.params.${pIndex}.fi`, j.fi)
-      })
-    })
+    const sideEffect = serviceTypes.forEach((e, i) => {
+      setValue(`serviceTypes.${i}.name`, e.name);
+      e.params.forEach((j, pi) => {
+        setValue(`serviceTypes.${i}.params.${pi}.name`, j.name);
+        setValue(`serviceTypes.${i}.params.${pi}.fi`, j.fi);
+      });
+    });
 
-    return sideEffect
-  }, [maintenanceTypes])
+    return sideEffect;
+  }, [serviceTypes]);
 
   return (
     <Row className="gx-2 custom-form">
@@ -328,9 +362,7 @@ export function CreateContractualization() {
                     >
                       <option value="">Selecione um cliente</option>
                       {clients.map((e) => {
-                        return (
-                          <option value={e.id}>{e.user.name}</option>
-                        )
+                        return <option value={e.id}>{e.user.name}</option>;
                       })}
                     </Input>
                   );
@@ -373,7 +405,10 @@ export function CreateContractualization() {
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${(!!errors.prices?.pf?.message || !!errors.prices?.message) ? "is-invalid" : ""}`}
+                className={`form-control ${!!errors.prices?.pf?.message || !!errors.prices?.message
+                  ? "is-invalid"
+                  : ""
+                  }`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -396,7 +431,9 @@ export function CreateContractualization() {
                 }}
               />
               <Label>Valor do ponto de função</Label>
-              <FormFeedback>{errors.prices?.pf?.message || errors.prices?.message}</FormFeedback>
+              <FormFeedback>
+                {errors.prices?.pf?.message || errors.prices?.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
           <Col md={6} lg={4}>
@@ -407,7 +444,9 @@ export function CreateContractualization() {
                 render={() => {
                   return (
                     <NumberFormat
-                      className={`form-control ${(!!errors.prices?.ust || !!errors.prices) ? "is-invalid" : ""
+                      className={`form-control ${!!errors.prices?.ust || !!errors.prices
+                        ? "is-invalid"
+                        : ""
                         }`}
                       decimalSeparator=","
                       decimalScale={2}
@@ -434,13 +473,17 @@ export function CreateContractualization() {
                 }}
               />
               <Label>Valor Ust</Label>
-              <FormFeedback>{errors.prices?.ust?.message || errors.prices?.message}</FormFeedback>
+              <FormFeedback>
+                {errors.prices?.ust?.message || errors.prices?.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${(!!errors.prices?.hh?.message || !!errors.prices) ? "is-invalid" : ""
+                className={`form-control ${!!errors.prices?.hh?.message || !!errors.prices
+                  ? "is-invalid"
+                  : ""
                   }`}
                 decimalSeparator=","
                 decimalScale={2}
@@ -464,34 +507,35 @@ export function CreateContractualization() {
                 }}
               />
               <Label>Valor homem hora</Label>
-              <FormFeedback>{errors.prices?.hh?.message || errors.prices?.message}</FormFeedback>
+              <FormFeedback>
+                {errors.prices?.hh?.message || errors.prices?.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
         </Row>
       </div>
 
-      {maintenanceTypes.map((e, index) => {
+      {serviceTypes.map((e, i) => {
         return (
-          <div className="app-bg p-4 mt-4" key={index}>
-            <Row key={index}>
+          <div className="app-bg p-4 mt-4" key={i}>
+            <Row key={i}>
               <div className="d-flex gap-3 col-12">
                 <small className="mb-3 text-truncate">
-                  Tipo de serviço {index + 1}
+                  Tipo de serviço {i + 1}
                 </small>
                 <small
                   className="pointer text-primary-700 text-truncate"
-                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${index + 1
+                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${i + 1
                     }`}
-                  onClick={() => addParamToMaintenanceType(index)}
+                  onClick={() => addParamToServiceType(i)}
                 >
                   adicionar parâmetro
                 </small>
                 <div className="d-flex align-items-start">
                   <small
                     className="pointer text-red text-truncate"
-                    title={`Clique para remover o tipo de parâmetro ${index + 1
-                      }`}
-                    onClick={() => removeMaintenanceType(index)}
+                    title={`Clique para remover o tipo de parâmetro ${i + 1}`}
+                    onClick={() => removeServiceType(i)}
                   >
                     remover
                   </small>
@@ -501,18 +545,18 @@ export function CreateContractualization() {
                 <FormGroup floating>
                   <Controller
                     control={control}
-                    name={`maintenanceTypes.${index}.name`}
+                    name={`serviceTypes.${i}.name`}
                     render={({ field }) => {
                       return (
                         <Input
                           {...field}
                           invalid={
-                            errors.maintenanceTypes &&
-                            !!errors.maintenanceTypes[index]?.name
+                            errors.serviceTypes &&
+                            !!errors.serviceTypes[i]?.name
                           }
                           onChange={(e) => {
-                            maintenanceTypes[index].name = e.target.value
-                            setMaintenanceTypes([...maintenanceTypes])
+                            serviceTypes[i].name = e.target.value;
+                            setServiceTypes([...serviceTypes]);
                           }}
                           placeholder="Nome"
                           type="text"
@@ -522,13 +566,13 @@ export function CreateContractualization() {
                   />
                   <Label>Nome</Label>
                   <FormFeedback>
-                    {errors.maintenanceTypes &&
-                      errors.maintenanceTypes[index]?.name?.message}
+                    {errors.serviceTypes &&
+                      errors.serviceTypes[i]?.name?.message}
                   </FormFeedback>
                 </FormGroup>
                 <p>
-                  {errors.maintenanceTypes &&
-                    !!errors.maintenanceTypes[index]?.message}
+                  {errors.serviceTypes &&
+                    !!errors.serviceTypes[i]?.message}
                 </p>
               </Col>
               {e.params.map((_p, paramIndex) => {
@@ -538,9 +582,9 @@ export function CreateContractualization() {
                       <small
                         className="text-red text-end pointer mb-1"
                         title={`Clique para remover o parâmetro ${paramIndex + 1
-                          } do tipo de serviço ${index + 1}`}
+                          } do tipo de serviço ${i + 1}`}
                         onClick={() =>
-                          removeParamFromMaintenanceType(index, paramIndex)
+                          removeParamFromServiceType(i, paramIndex)
                         }
                       >
                         remover
@@ -550,23 +594,20 @@ export function CreateContractualization() {
                       <FormGroup floating>
                         <Controller
                           control={control}
-                          name={`maintenanceTypes.${index}.params.${paramIndex}.name`}
+                          name={`serviceTypes.${i}.params.${paramIndex}.name`}
                           render={({ field }) => {
                             return (
                               <Input
                                 {...field}
                                 className={
-                                  !!getParamMessageError(
-                                    index,
-                                    paramIndex,
-                                    "name"
-                                  )
+                                  !!getParamMessageError(i, paramIndex, "name")
                                     ? "is-invalid"
                                     : ""
                                 }
                                 onChange={(e) => {
-                                  maintenanceTypes[index].params[paramIndex].name = e.target.value
-                                  setMaintenanceTypes([...maintenanceTypes])
+                                  serviceTypes[i].params[paramIndex].name =
+                                    e.target.value;
+                                  setServiceTypes([...serviceTypes]);
                                 }}
                                 placeholder="Nome do parâmetro"
                                 type="text"
@@ -576,14 +617,14 @@ export function CreateContractualization() {
                         />
                         <Label>Nome do parâmetro</Label>
                         <FormFeedback>
-                          {getParamMessageError(index, paramIndex, "name")}
+                          {getParamMessageError(i, paramIndex, "name")}
                         </FormFeedback>
                       </FormGroup>
                     </Col>
                     <Col md={6}>
                       <FormGroup floating>
                         <NumberFormat
-                          className={`form-control ${!!getParamMessageError(index, paramIndex, "fi")
+                          className={`form-control ${!!getParamMessageError(i, paramIndex, "fi")
                             ? "is-invalid"
                             : ""
                             }`}
@@ -600,17 +641,17 @@ export function CreateContractualization() {
                           onValueChange={(values) => {
                             const { value } = values;
                             setValue(
-                              `maintenanceTypes.${index}.params.${paramIndex}.fi`,
+                              `serviceTypes.${i}.params.${paramIndex}.fi`,
                               +value
                             );
 
-                            maintenanceTypes[index].params[paramIndex].fi = +value
-                            setMaintenanceTypes([...maintenanceTypes])
+                            serviceTypes[i].params[paramIndex].fi = +value;
+                            setServiceTypes([...serviceTypes]);
                           }}
                         />
                         <Label>Valor de ajuste %</Label>
                         <FormFeedback>
-                          {getParamMessageError(index, paramIndex, "fi")}
+                          {getParamMessageError(i, paramIndex, "fi")}
                         </FormFeedback>
                       </FormGroup>
                     </Col>
@@ -629,14 +670,16 @@ export function CreateContractualization() {
             onClick={handleSubmit(onSubmit)}
             disabled={isLoading}
           >
-            {isLoading && <Spinner size='sm' className="me-2" />}
-            {isLoading ? "Salvando contratualização..." : "Salvar contratualização"}
+            {isLoading && <Spinner size="sm" className="me-2" />}
+            {isLoading
+              ? "Salvando contratualização..."
+              : "Salvar contratualização"}
           </Button>
         </div>
         <small
           className="pointer text-primary-700"
           title="Clique para adicionar um novo tipo de serviço"
-          onClick={addMaintenanceType}
+          onClick={addServiceType}
         >
           Adicionar tipo de serviço
         </small>

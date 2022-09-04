@@ -1,41 +1,26 @@
-import { Col, Row } from "reactstrap";
-import { CustomChart } from "../../components/Chart";
-import { useScaffold } from "../../../contexts/ScaffoldContext";
+import { useEffect, useState } from "react";
+import { getContractualizationsCount } from "../../../services/Company";
 
 export function HomePage() {
-  const { size, isOpen } = useScaffold();
+
+  const [contractualizationsCount, setContractualizationsCount] = useState(0)
+
+  useEffect(() => {
+    getContractualizationsCount().then(({ data }) => {
+      setContractualizationsCount(data.count)
+    })
+  }, [])
 
   return (
     <div>
       <p className="display-6">Dashboard</p>
-      <Row>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-      </Row>
-      <Row>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-        <Col xl={6} sm={12}>
-          <CustomChart />
-        </Col>
-      </Row>
+
+      <div className="mt-4">
+        <div className="home-tile bg-primary-700 rounded p-4">
+          <b>Nº de Contratualizações</b>
+          <p className="display-1">{contractualizationsCount}</p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -38,15 +38,15 @@ $theme-colors: (
 );
 
 $input-border-color: $primary-500;
-$input-focus-box-shadow: 0 0 0.5em $primary-500 !important;
+$input-focus-box-shadow: 0 0 0.5em $primary-500  !important;
 
 .row {
-  margin: 0!important;
-  padding: 0!important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 p {
-  margin: 0!important;
+  margin: 0 !important;
 }
 
 @import "./theme";
@@ -57,4 +57,5 @@ p {
 @import "./login";
 @import "./navbar";
 @import "./contract_tile";
+@import "./home_tile";
 @import "node_modules/bootstrap/scss/bootstrap";

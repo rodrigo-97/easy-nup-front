@@ -1,7 +1,7 @@
 import { Client } from "./Client";
 import { Company } from "./Company";
 import { Contract } from "./Contract";
-import { MaintenanceType } from "./MaintenanceType";
+import { ServiceType } from "./ServiceType";
 
 export type Contractualization = {
   id: number;
@@ -13,5 +13,5 @@ export type Contractualization = {
   client: Client;
   company: Company;
   contract: Contract;
-  maintenanceTypes: Array<MaintenanceType>;
+  serviceType: Array<ServiceType>;
 };

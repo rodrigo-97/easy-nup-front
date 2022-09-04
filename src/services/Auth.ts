@@ -14,7 +14,7 @@ export async function login({ email, password }: LoginProps) {
 
 export async function me() {
   try {
-    return Api.get("/me",);
+    return Api.get("/me");
   } catch (error) {
     return Promise.reject(error);
   }

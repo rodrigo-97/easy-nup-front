@@ -1,4 +1,4 @@
-import { MaintenanceType } from "./MaintenanceType";
+import { ServiceType } from "./ServiceType";
 
 export type Param = {
   id: number;
@@ -6,8 +6,8 @@ export type Param = {
   fi: number;
   companyContractId: number;
   companyId: number;
-  maintenanceTypeId: number;
+  serviceTypeId: number;
   createdAt: Date;
   updatedAt: Date;
-  maintenanceTypes: MaintenanceType;
+  serviceType: ServiceType;
 };

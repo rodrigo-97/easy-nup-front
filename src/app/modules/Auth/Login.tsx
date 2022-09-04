@@ -50,7 +50,7 @@ export function LoginPage() {
       .then(({ data: { token } }) => {
         localStorage.setItem("APP_TOKEN", token);
         setIsAuthenticated(true);
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
         showErrorToast({ message: error });
@@ -137,7 +137,7 @@ export function LoginPage() {
           <Button
             className="border-gray-100 text-gray-700 w-100 social-button"
             outline
-          // onClick={handleGoogleLogin}
+            // onClick={handleGoogleLogin}
           >
             <FcGoogle size={23} className="me-2" />
             Entrar com Google
@@ -145,7 +145,7 @@ export function LoginPage() {
           <Button
             className="border-gray-100 text-gray-700 font-size-sm w-100 mt-3 social-button"
             outline
-          // onClick={handleFacebookLogin}
+            // onClick={handleFacebookLogin}
           >
             <FaFacebook color="#4267B2" size={22} className="me-2" />
             Entrar com Facebook

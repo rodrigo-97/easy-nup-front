@@ -5,7 +5,8 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaFileContract,
-  FaHandsHelping
+  FaHandsHelping,
+  FaHome,
 } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import { IoMdAnalytics } from "react-icons/io";
@@ -17,7 +18,7 @@ import {
   Label,
   Navbar,
   Offcanvas,
-  OffcanvasBody
+  OffcanvasBody,
 } from "reactstrap";
 import { AppPages } from "../../config/AppPages";
 import { useAuth } from "../../contexts/AuthContext";
@@ -57,6 +58,7 @@ export function Scaffold({ children }: Props) {
         <ProfileHeader />
         <OffcanvasBody className="_offcanvas p-0">
           <div>
+            <Tile icon={FaHome} title="Home" route="/" />
             <Tile icon={AiOutlineProject} title="Projetos" />
             <Tile icon={IoMdAnalytics} title="Análises" />
             <Tile icon={TiGroup} title="Analistas" />

@@ -1,4 +1,5 @@
-import { MaintenanceType } from "./MaintenanceType";
+import { ContractStatus } from "../../enums/ContractStatus";
+import { ServiceType } from "./ServiceType";
 import { Price } from "./Price";
 
 export type Contract = {
@@ -10,6 +11,7 @@ export type Contract = {
   predictedVolumeFunctionPoint: number;
   createdAt: Date;
   updatedAt: Date;
-  maintenanceTypes: Array<MaintenanceType>;
+  status: ContractStatus;
+  serviceTypes: Array<ServiceType>;
   prices: Array<Price>;
 };
