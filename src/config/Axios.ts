@@ -9,8 +9,6 @@ config.interceptors.request.use(
     const token = `Bearer ${localStorage.getItem("APP_TOKEN")}` ?? "";
     config.headers!.Authorization = token;
 
-    console.log(`${url}${config.url}`)
-
     return config;
   },
   function (error) {
