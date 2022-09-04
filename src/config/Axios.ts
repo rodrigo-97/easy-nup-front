@@ -2,17 +2,19 @@ import axios, { AxiosError } from "axios";
 
 const url = import.meta.env.VITE_API_URL as string
 
-export const config = axios.create({ baseURL: url });
+export const config = axios.create({ baseURL: "https://easy-nup-api.herokuapp.com/api" });
 
 config.interceptors.request.use(
   function (config) {
     const token = `Bearer ${localStorage.getItem("APP_TOKEN")}` ?? "";
     config.headers!.Authorization = token;
-    config.withCredentials = true
+
+    console.log(`${url}${config.url}`)
 
     return config;
   },
   function (error) {
+    console.log(error)
     return Promise.reject(error);
   }
 );
