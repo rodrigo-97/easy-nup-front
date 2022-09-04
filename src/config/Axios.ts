@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
 
-export const config = axios.create({ baseURL: "http://localhost:3333/api" });
+const url = import.meta.env.API_URL as string
+
+export const config = axios.create({ baseURL: url });
 
 config.interceptors.request.use(
   function (config) {
