@@ -1,24 +1,24 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addDays, format } from 'date-fns';
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Col,
   FormFeedback,
-  FormGroup,
-  FormText,
-  Input,
+  FormGroup, Input,
   Label,
   Row,
-  Spinner,
+  Spinner
 } from "reactstrap";
-import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
-import { GoBack } from "../../components/GoBackIcon";
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
+import { getClients } from "../../../services/Company";
 import { createContractualization } from "../../../services/Contractualizations";
-import { useNavigate } from "react-router-dom";
-import { format, addDays } from 'date-fns'
+import { GoBack } from "../../components/GoBackIcon";
+import { Client } from "../../Models/Client";
 
 type ParamProps = {
   name: string;
@@ -37,9 +37,9 @@ export type FormProps = {
   predictedVolumeFunctionPoint: number;
   clientId: number | string;
   prices: {
-    pf: number;
-    ust: number;
-    hh: number;
+    pf: number | undefined;
+    ust: number | undefined;
+    hh: number | undefined;
   };
   maintenanceTypes: Array<MaintenanceTypeProps>;
 };
@@ -47,6 +47,7 @@ export type FormProps = {
 export function CreateContractualization() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [clients, setClients] = useState<Array<Client>>([])
   const [maintenanceTypes, setMaintenanceTypes] = useState<
     Array<MaintenanceTypeProps>
   >([
@@ -61,6 +62,26 @@ export function CreateContractualization() {
     },
   ]);
 
+  useEffect(() => {
+    getClients()
+      .then(({ data }) => setClients(data))
+      .catch(() => showErrorToast({ message: "Não foi possível carregar os seus clientes" }))
+  }, [])
+
+  function validatePrices(val: any) {
+    const { pf, hh, ust } = val
+    console.log(val)
+    if (
+      pf === undefined &&
+      hh === undefined &&
+      ust === undefined
+    ) {
+      return false
+    }
+
+    return true
+  }
+
   const schema = Yup.object().shape({
     name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
     effectiveDate: Yup.date().required("Campo obrigatório"),
@@ -72,16 +93,12 @@ export function CreateContractualization() {
     prices: Yup.object()
       .shape({
         pf: Yup.number()
-          .required("Campo obrigatório")
           .moreThan(0, "Campo obrigatório"),
         ust: Yup.number()
-          .required("Campo obrigatório")
           .moreThan(0, "Campo obrigatório"),
         hh: Yup.number()
-          .required("Campo obrigatório")
           .moreThan(0, "Campo obrigatório"),
-      })
-      .required("Campo obrigatório"),
+      }).test("at least one key", "Pelo menos um dos valores deve ser informado (pf, ust, hh)", validatePrices),
     maintenanceTypes: Yup.array(
       Yup.object().shape({
         name: Yup.string().required("Campo obrigatório").min(3, "Precisa ter mais de 3 caracteres"),
@@ -102,7 +119,6 @@ export function CreateContractualization() {
     formState: { errors },
     handleSubmit,
     setValue,
-    getValues
   } = useForm<FormProps>({
     resolver: yupResolver(schema),
     reValidateMode: "onSubmit",
@@ -311,7 +327,11 @@ export function CreateContractualization() {
                       type="select"
                     >
                       <option value="">Selecione um cliente</option>
-                      <option value="1">Criente</option>
+                      {clients.map((e) => {
+                        return (
+                          <option value={e.id}>{e.user.name}</option>
+                        )
+                      })}
                     </Input>
                   );
                 }}
@@ -323,7 +343,7 @@ export function CreateContractualization() {
           <Col md={6} lg={5}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.prices?.ust?.message ? "is-invalid" : ""
+                className={`form-control ${!!errors.predictedVolumeFunctionPoint ? "is-invalid" : ""
                   }`}
                 decimalSeparator=","
                 decimalScale={0}
@@ -346,10 +366,14 @@ export function CreateContractualization() {
               </FormFeedback>
             </FormGroup>
           </Col>
+
+          <Col sm={12}>
+            <small>Preços</small>
+          </Col>
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.prices?.pf?.message ? "is-invalid" : ""}`}
+                className={`form-control ${(!!errors.prices?.pf?.message || !!errors.prices?.message) ? "is-invalid" : ""}`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -363,11 +387,16 @@ export function CreateContractualization() {
                 placeholder="Valor do ponto de função"
                 onValueChange={(values) => {
                   const { value } = values;
-                  setValue("prices.pf", +value);
+
+                  if (+value === 0) {
+                    setValue("prices.pf", undefined);
+                  } else {
+                    setValue("prices.pf", +value);
+                  }
                 }}
               />
               <Label>Valor do ponto de função</Label>
-              <FormFeedback>{errors.prices?.pf?.message}</FormFeedback>
+              <FormFeedback>{errors.prices?.pf?.message || errors.prices?.message}</FormFeedback>
             </FormGroup>
           </Col>
           <Col md={6} lg={4}>
@@ -378,7 +407,7 @@ export function CreateContractualization() {
                 render={() => {
                   return (
                     <NumberFormat
-                      className={`form-control ${!!errors.prices?.ust ? "is-invalid" : ""
+                      className={`form-control ${(!!errors.prices?.ust || !!errors.prices) ? "is-invalid" : ""
                         }`}
                       decimalSeparator=","
                       decimalScale={2}
@@ -393,20 +422,25 @@ export function CreateContractualization() {
                       placeholder="Valor Ust"
                       onValueChange={(values) => {
                         const { value } = values;
-                        setValue("prices.ust", +value);
+
+                        if (+value === 0) {
+                          setValue("prices.ust", undefined);
+                        } else {
+                          setValue("prices.ust", +value);
+                        }
                       }}
                     />
                   );
                 }}
               />
               <Label>Valor Ust</Label>
-              <FormFeedback>{errors.prices?.ust?.message}</FormFeedback>
+              <FormFeedback>{errors.prices?.ust?.message || errors.prices?.message}</FormFeedback>
             </FormGroup>
           </Col>
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.prices?.hh?.message ? "is-invalid" : ""
+                className={`form-control ${(!!errors.prices?.hh?.message || !!errors.prices) ? "is-invalid" : ""
                   }`}
                 decimalSeparator=","
                 decimalScale={2}
@@ -421,11 +455,16 @@ export function CreateContractualization() {
                 placeholder="Valor homem hora"
                 onValueChange={(values) => {
                   const { value } = values;
-                  setValue("prices.hh", +value);
+
+                  if (+value === 0) {
+                    setValue("prices.hh", undefined);
+                  } else {
+                    setValue("prices.hh", +value);
+                  }
                 }}
               />
               <Label>Valor homem hora</Label>
-              <FormFeedback>{errors.prices?.hh?.message}</FormFeedback>
+              <FormFeedback>{errors.prices?.hh?.message || errors.prices?.message}</FormFeedback>
             </FormGroup>
           </Col>
         </Row>

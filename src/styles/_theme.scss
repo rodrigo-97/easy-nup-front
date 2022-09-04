@@ -6,6 +6,7 @@
   color: $white  !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center;
 }
 
 #root {
@@ -40,6 +41,18 @@
     background-color: $gray-500;
   }
 
+  .login-container {
+    color: $white  !important;
+    background-color: $gray-500  !important;
+  }
+
+  .social-button {
+    background-color: $gray-600  !important;
+    border: 0 none transparent;
+    color: $white  !important;
+    box-shadow: none !important;
+  }
+
   .tile:hover {
     background-color: rgba(255, 255, 255, 0.102)
   }
@@ -59,11 +72,12 @@
     background-color: $gray-500;
     color: $white;
 
-    &:focus {
+    &:hover,
+    &:focus,
+    &:active {
       background-color: $gray-500;
       color: $white;
     }
-
   }
 
   input:-webkit-autofill {
@@ -87,6 +101,16 @@
   .app-bg {
     color: $gray-700;
     background-color: $white;
+  }
+
+  .social-button {
+    box-shadow: none !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $white;
+    }
   }
 
   .offcanvas,

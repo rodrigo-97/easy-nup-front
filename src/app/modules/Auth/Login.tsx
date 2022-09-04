@@ -50,7 +50,7 @@ export function LoginPage() {
       .then(({ data: { token } }) => {
         localStorage.setItem("APP_TOKEN", token);
         setIsAuthenticated(true);
-        navigate(AppPages.HOME);
+        navigate('/');
       })
       .catch((error) => {
         showErrorToast({ message: error });
@@ -78,7 +78,7 @@ export function LoginPage() {
           </Button>
         </div>
       </div>
-      <div className="login-container border-gray-400 shadow bg-white rounded p-4 mx-3">
+      <div className="login-container app-bg border-gray-400 shadow bg-white rounded p-4 mx-3">
         <p className="h2 text-center mb-4">Login</p>
         <FormGroup floating>
           <Controller
@@ -135,19 +135,17 @@ export function LoginPage() {
 
         <div className="d-block">
           <Button
-            color="white"
-            className="border-gray-100 text-gray-700 w-100"
+            className="border-gray-100 text-gray-700 w-100 social-button"
             outline
-            onClick={handleGoogleLogin}
+          // onClick={handleGoogleLogin}
           >
             <FcGoogle size={23} className="me-2" />
             Entrar com Google
           </Button>
           <Button
-            color="white"
-            className="border-gray-100 text-gray-700 font-size-sm w-100 mt-3"
+            className="border-gray-100 text-gray-700 font-size-sm w-100 mt-3 social-button"
             outline
-            onClick={handleFacebookLogin}
+          // onClick={handleFacebookLogin}
           >
             <FaFacebook color="#4267B2" size={22} className="me-2" />
             Entrar com Facebook

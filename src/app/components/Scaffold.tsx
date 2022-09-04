@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { BsMoonFill, BsSun } from "react-icons/bs";
 import {

@@ -22,11 +22,8 @@ export function UserProvider({ children }: Props) {
   useEffect(() => {
     me().then(({ data }) => {
       setUser(data)
-      console.log(data)
     })
   }, [])
-
-  console.log(user)
 
   return (
     <UserContext.Provider value={{
