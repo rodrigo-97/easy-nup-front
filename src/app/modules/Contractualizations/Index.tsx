@@ -11,6 +11,7 @@ import { Loading } from "../../components/Loading";
 export function Contracts() {
   const [contracts, setContracts] = useState<Array<Contractualization>>([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -27,6 +28,8 @@ export function Contracts() {
         if (page <= data.meta.total) {
           setPage(data.meta.current_page + 1);
         }
+
+        setTotal(data.meta.total)
       })
       .catch((_error) => {
         showErrorToast({
@@ -75,9 +78,14 @@ export function Contracts() {
 
         {isLoading && <Loading />}
 
-        <p className="pointer text-primary-700" onClick={findContracts}>
-          Mostrar mais 5
-        </p>
+        <div className="d-flex justify-content-between">
+          <p className="pointer text-primary-700" onClick={findContracts}>
+            Mostrar mais 5 total
+          </p>
+          <p className="pointer text-primary-700" onClick={findContracts}>
+            Total {total}
+          </p>
+        </div>
       </Col>
     </Row>
   );

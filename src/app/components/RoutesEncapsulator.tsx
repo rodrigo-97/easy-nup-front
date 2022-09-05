@@ -16,9 +16,8 @@ export function RouteEncapsulator() {
   return (
     <Scaffold>
       <div
-        className={`${
-          isOpen && size > 769 ? "content" : "content-whitout-margin "
-        } px-2 py-4 p-md-5`}
+        className={`${isOpen && size > 769 ? "content" : "content-whitout-margin "
+          } px-2 py-4 p-md-5`}
       >
         <Routes>
           <Route index element={<HomePage />} />

@@ -41,11 +41,11 @@ export function ContractTile({ contractualization, onClick }: Props) {
         <div className="d-flex gap-3">
           {name}
         </div>
-        <span style={{ fontSize: ".8rem" }} className="text-gray-200">
+        <span style={{ fontSize: ".8rem" }}>
           {" "}
           Vigente desde <b>{effectiveDate}</b> até <b>{finishDate}</b>
         </span>
-        <span>
+        <span className="mt-2">
           {getStatusFromContrat()}
         </span>
       </div>

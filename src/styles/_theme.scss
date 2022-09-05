@@ -69,19 +69,30 @@
 
   .form-control,
   .form-select {
-    background-color: $gray-500;
+    background-color: $gray-600;
     color: $white;
+    border: none;
+
+    &::placeholder {
+      color: $gray-300  !important;
+    }
+
+
 
     &:hover,
     &:focus,
     &:active {
-      background-color: $gray-500;
+      background-color: $gray-600  !important;
       color: $white;
+      box-shadow: none !important;
+
+      box-shadow: 0 0 0px 0px $gray-600 inset !important;
+      -webkit-text-fill-color: $white  !important;
     }
   }
 
   input:-webkit-autofill {
-    box-shadow: 0 0 0px 1000px $gray-500 inset !important;
+    box-shadow: 0 0 0px 1000px $gray-600 inset !important;
     -webkit-text-fill-color: $white  !important;
   }
 
@@ -93,6 +104,10 @@
 }
 
 .light {
+  * {
+    color: $gray-400;
+  }
+
   .navbar {
     color: $gray-700;
     background-color: $white;
@@ -101,6 +116,27 @@
   .app-bg {
     color: $gray-700;
     background-color: $white;
+  }
+
+  .form-control,
+  .form-select {
+    background-color: #EEE;
+    border: none;
+
+    &::placeholder {
+      color: $gray-300  !important;
+    }
+
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #EEE !important;
+      box-shadow: none !important;
+
+      box-shadow: 0 0 0px 0px #EEE inset !important;
+      -webkit-text-fill-color: $white  !important;
+    }
   }
 
   .social-button {
@@ -138,5 +174,12 @@
     color: $gray-500;
     background-color: #eeeeee;
     transition: all 500ms ease-in-out;
+  }
+}
+
+
+@media only screen and (max-width: 769px) {
+  .service-type {
+    width: 100% !important;
   }
 }
