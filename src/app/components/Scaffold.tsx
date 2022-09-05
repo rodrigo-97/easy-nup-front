@@ -24,6 +24,7 @@ import { AppPages } from "../../config/AppPages";
 import { useAuth } from "../../contexts/AuthContext";
 import { useScaffold } from "../../contexts/ScaffoldContext";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useUser } from "../../contexts/UserContext";
 import { logout } from "../../services/Auth";
 import { ProfileHeader } from "./ProfileHeader";
 import { Tile } from "./Tile";
@@ -36,6 +37,7 @@ export function Scaffold({ children }: Props) {
   const { theme, toggleTheme } = useTheme();
   const { isOpen, toggleSideNav, useBackDrop } = useScaffold();
   const { setIsAuthenticated } = useAuth();
+  const { isCompany, email } = useUser()
 
   const navigate = useNavigate();
 
@@ -58,16 +60,22 @@ export function Scaffold({ children }: Props) {
         <ProfileHeader />
         <OffcanvasBody className="_offcanvas p-0">
           <div>
-            <Tile icon={FaHome} title="Home" route="/" />
-            <Tile icon={AiOutlineProject} title="Projetos" />
-            <Tile icon={IoMdAnalytics} title="Análises" />
-            <Tile icon={TiGroup} title="Analistas" />
-            <Tile icon={FaHandsHelping} title="Clientes" />
-            <Tile
-              icon={FaFileContract}
-              title="Contratos"
-              route={AppPages.CONTRACTS}
-            />
+            {
+              isCompany && (
+                <>
+                  <Tile icon={FaHome} title="Home" route="/" />
+                  <Tile icon={AiOutlineProject} title="Projetos" route="projects" />
+                  <Tile icon={IoMdAnalytics} title="Análises" route="analysis" />
+                  <Tile icon={TiGroup} title="Analistas" route="analysts" />
+                  <Tile icon={FaHandsHelping} title="Clientes" route="clients" />
+                  <Tile
+                    icon={FaFileContract}
+                    title="Contratos"
+                    route={AppPages.CONTRACTS}
+                  />
+                </>
+              )
+            }
           </div>
           <Tile icon={ImExit} title="Sair" onClick={handleLogout} />
         </OffcanvasBody>

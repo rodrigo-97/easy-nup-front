@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { getContractualizationsCount } from "../../../services/Company";
 
 export function HomePage() {
-
-  const [contractualizationsCount, setContractualizationsCount] = useState(0)
+  const [contractualizationsCount, setContractualizationsCount] = useState(0);
 
   useEffect(() => {
     getContractualizationsCount().then(({ data }) => {
-      setContractualizationsCount(data.count)
-    })
-  }, [])
+      setContractualizationsCount(data.count);
+    });
+  }, []);
 
   return (
     <div>

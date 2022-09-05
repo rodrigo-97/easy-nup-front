@@ -31,7 +31,7 @@ export function ViewContract() {
   const hadReajust =
     contractualization &&
     contractualization.contract.prices.filter((e) => e.isFromReajust).length >=
-    1;
+      1;
   const hadRenegotiation =
     contractualization &&
     contractualization.contract.prices.filter((e) => e.isFromRenegotiation)

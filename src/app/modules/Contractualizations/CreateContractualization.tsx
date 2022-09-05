@@ -49,9 +49,7 @@ export function CreateContractualization() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
-  const [serviceTypes, setServiceTypes] = useState<
-    Array<ServiceTypes>
-  >([
+  const [serviceTypes, setServiceTypes] = useState<Array<ServiceTypes>>([
     {
       name: "",
       params: [
@@ -185,9 +183,12 @@ export function CreateContractualization() {
     },
   });
 
-  function getParamMessageError(i: number, paramIndex: number, fieldName: string) {
-    const hasserviceTypes =
-      errors.serviceTypes && errors.serviceTypes[i];
+  function getParamMessageError(
+    i: number,
+    paramIndex: number,
+    fieldName: string
+  ) {
+    const hasserviceTypes = errors.serviceTypes && errors.serviceTypes[i];
 
     if (hasserviceTypes?.params) {
       if (fieldName === "name")
@@ -375,8 +376,9 @@ export function CreateContractualization() {
           <Col md={6} lg={5}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.predictedVolumeFunctionPoint ? "is-invalid" : ""
-                  }`}
+                className={`form-control ${
+                  !!errors.predictedVolumeFunctionPoint ? "is-invalid" : ""
+                }`}
                 decimalSeparator=","
                 decimalScale={0}
                 allowNegative={false}
@@ -405,10 +407,11 @@ export function CreateContractualization() {
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.prices?.pf?.message || !!errors.prices?.message
-                  ? "is-invalid"
-                  : ""
-                  }`}
+                className={`form-control ${
+                  !!errors.prices?.pf?.message || !!errors.prices?.message
+                    ? "is-invalid"
+                    : ""
+                }`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -444,10 +447,11 @@ export function CreateContractualization() {
                 render={() => {
                   return (
                     <NumberFormat
-                      className={`form-control ${!!errors.prices?.ust || !!errors.prices
-                        ? "is-invalid"
-                        : ""
-                        }`}
+                      className={`form-control ${
+                        !!errors.prices?.ust || !!errors.prices
+                          ? "is-invalid"
+                          : ""
+                      }`}
                       decimalSeparator=","
                       decimalScale={2}
                       allowNegative={false}
@@ -481,10 +485,11 @@ export function CreateContractualization() {
           <Col md={6} lg={4}>
             <FormGroup floating>
               <NumberFormat
-                className={`form-control ${!!errors.prices?.hh?.message || !!errors.prices
-                  ? "is-invalid"
-                  : ""
-                  }`}
+                className={`form-control ${
+                  !!errors.prices?.hh?.message || !!errors.prices
+                    ? "is-invalid"
+                    : ""
+                }`}
                 decimalSeparator=","
                 decimalScale={2}
                 allowNegative={false}
@@ -525,8 +530,9 @@ export function CreateContractualization() {
                 </small>
                 <small
                   className="pointer text-primary-700 text-truncate"
-                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${i + 1
-                    }`}
+                  title={`Clique para adicionar novo parâmetro ao tipo de parâmetro ${
+                    i + 1
+                  }`}
                   onClick={() => addParamToServiceType(i)}
                 >
                   adicionar parâmetro
@@ -571,8 +577,7 @@ export function CreateContractualization() {
                   </FormFeedback>
                 </FormGroup>
                 <p>
-                  {errors.serviceTypes &&
-                    !!errors.serviceTypes[i]?.message}
+                  {errors.serviceTypes && !!errors.serviceTypes[i]?.message}
                 </p>
               </Col>
               {e.params.map((_p, paramIndex) => {
@@ -581,8 +586,9 @@ export function CreateContractualization() {
                     <div className="d-flex justify-content-end">
                       <small
                         className="text-red text-end pointer mb-1"
-                        title={`Clique para remover o parâmetro ${paramIndex + 1
-                          } do tipo de serviço ${i + 1}`}
+                        title={`Clique para remover o parâmetro ${
+                          paramIndex + 1
+                        } do tipo de serviço ${i + 1}`}
                         onClick={() =>
                           removeParamFromServiceType(i, paramIndex)
                         }
@@ -624,10 +630,11 @@ export function CreateContractualization() {
                     <Col md={6}>
                       <FormGroup floating>
                         <NumberFormat
-                          className={`form-control ${!!getParamMessageError(i, paramIndex, "fi")
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`form-control ${
+                            !!getParamMessageError(i, paramIndex, "fi")
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           decimalSeparator=","
                           decimalScale={2}
                           allowNegative={false}

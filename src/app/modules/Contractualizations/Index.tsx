@@ -24,10 +24,8 @@ export function Contracts() {
       .then(({ data }) => {
         setContracts([...contracts, ...data.data]);
 
-        console.log(data.meta.total)
-
         if (page <= data.meta.total) {
-          setPage(data.meta.current_page + 1)
+          setPage(data.meta.current_page + 1);
         }
       })
       .catch((_error) => {
@@ -77,10 +75,7 @@ export function Contracts() {
 
         {isLoading && <Loading />}
 
-        <p
-          className="pointer text-primary-700"
-          onClick={findContracts}
-        >
+        <p className="pointer text-primary-700" onClick={findContracts}>
           Mostrar mais 5
         </p>
       </Col>

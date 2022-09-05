@@ -53,6 +53,7 @@ export function LoginPage() {
         navigate("/");
       })
       .catch((error) => {
+        console.log(error);
         showErrorToast({ message: error });
       });
   }
