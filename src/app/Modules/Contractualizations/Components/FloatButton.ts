@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import tw from "tailwind-styled-components";
 
 export const TwFloatButton = tw.button`
   absolute
@@ -18,4 +18,4 @@ export const TwFloatButton = tw.button`
   opacity-80
   btn-sm
   btn-solid
-`
+`;

@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import tw from "tailwind-styled-components";
 
 export const TwParamBlock = tw.div`
   mb-5
@@ -8,7 +8,6 @@ export const TwParamBlock = tw.div`
   dark:bg-gray-700
   dark:border-opacity-25
   border-2
-  border-red-600
   shadow-xl
   relative
   items-center
@@ -21,4 +20,4 @@ export const TwParamBlock = tw.div`
   duration-300
   ease-in-out
   hover:bg-gray-50
-`
+`;

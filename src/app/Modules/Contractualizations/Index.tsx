@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../../helpers/Toast";
 import { getContractualizations } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
+import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contractualization } from "../../Models/Contractualization";
 import { ContractualizationTile } from "./Components/ContractualizationTile";
 import { ContractualizationsContent } from "./Components/Index";
@@ -51,7 +52,7 @@ export function Contracts() {
   }
 
   return (
-    <div className="w-full lg:w-8/12">
+    <TwContainer>
       <div className="flex items-center justify-between mb-10">
         <GoBack text="Contratualizações" />
         <div>
@@ -76,6 +77,6 @@ export function Contracts() {
           Você não possui nenhuma contratualização
         </Alert>
       )}
-    </div>
+    </TwContainer>
   );
 }

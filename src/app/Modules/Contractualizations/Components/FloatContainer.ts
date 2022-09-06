@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import tw from "tailwind-styled-components";
 
 export const TwFloatContainer = tw.div`
   absolute
@@ -9,4 +9,4 @@ export const TwFloatContainer = tw.div`
   transition-all
   duration-300
   ease-in-out
-`
+`;

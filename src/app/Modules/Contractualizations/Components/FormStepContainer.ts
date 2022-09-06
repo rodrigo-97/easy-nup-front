@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import tw from "tailwind-styled-components";
 
 export const TwFormStepContainer = tw.div`
 bg-white
@@ -11,4 +11,4 @@ bg-white
   transition-all
   duration-300
   ease-in-out
-`
+`;

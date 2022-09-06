@@ -23,6 +23,7 @@ import { TwFormStepContainer } from "./Components/FormStepContainer";
 import { TwFloatButton } from "./Components/FloatButton";
 import { TwFloatContainer } from "./Components/FloatContainer";
 import { TwParamBlock } from "./Components/ParamBlock";
+import { TwContainer } from "../../Components/Tailwind/Container";
 
 type ParamProps = {
   name: string;
@@ -152,10 +153,11 @@ export function CreateContractualization() {
     setValue,
     register,
     getValues,
-    control
+    control,
   } = useForm<FormProps>({
     resolver: yupResolver(schema),
     mode: "onSubmit",
+    reValidateMode: "onSubmit",
     defaultValues: {
       effectiveDate: format(new Date(), "yyyy-MM-dd"),
       finishDate: format(new Date(), "yyyy-MM-dd"),
@@ -165,9 +167,9 @@ export function CreateContractualization() {
           params: [
             {
               fi: undefined,
-              name: undefined
-            }
-          ]
+              name: undefined,
+            },
+          ],
         },
       ],
       clientId: undefined,
@@ -182,7 +184,8 @@ export function CreateContractualization() {
   });
 
   function validateIfEachNameInServiceTypeIsDifferent(val: any): boolean {
-    const nameIsInserviceTypes: boolean = getValues().serviceTypes.filter((e) => e.name === val).length >= 2;
+    const nameIsInserviceTypes: boolean =
+      getValues().serviceTypes.filter((e) => e.name === val).length >= 2;
 
     return !nameIsInserviceTypes;
   }
@@ -200,7 +203,6 @@ export function CreateContractualization() {
     control,
     name: "serviceTypes",
   });
-
 
   function getParamMessageError(
     i: number,
@@ -250,15 +252,15 @@ export function CreateContractualization() {
   }
 
   function addServiceType() {
-    append(emptyServiceType)
+    append(emptyServiceType);
   }
 
   function removeServiceType(i: number) {
     const size = fields.length;
 
     if (size > 1) {
-      remove(i)
-      showSuccessToast({ message: "Tipo de serviço removido" })
+      remove(i);
+      showSuccessToast({ message: "Tipo de serviço removido" });
     } else {
       showErrorToast({
         message:
@@ -268,18 +270,24 @@ export function CreateContractualization() {
   }
 
   function addParamToServiceType(i: number) {
-    update(i, { name: fields[i].name, params: [...fields[i].params, emptyParam] })
+    update(i, {
+      name: fields[i].name,
+      params: [...fields[i].params, emptyParam],
+    });
   }
 
   function removeParamFromServiceType(
     serviceTypeindex: number,
     paramIndex: number
   ) {
-    const size = fields[serviceTypeindex].params.length
+    const size = fields[serviceTypeindex].params.length;
     if (size > 1) {
-      fields[serviceTypeindex].params.splice(paramIndex, 1)
-      update(serviceTypeindex, { name: fields[serviceTypeindex].name, params: fields[serviceTypeindex].params })
-      showSuccessToast({ message: "Parâmetro removido" })
+      fields[serviceTypeindex].params.splice(paramIndex, 1);
+      update(serviceTypeindex, {
+        name: fields[serviceTypeindex].name,
+        params: fields[serviceTypeindex].params,
+      });
+      showSuccessToast({ message: "Parâmetro removido" });
     } else {
       showErrorToast({
         message: "Não é possível deixar um tipo de serviço sem parâmetros",
@@ -460,20 +468,19 @@ export function CreateContractualization() {
     );
   }
 
-  console.log(errors)
+  console.log(errors);
 
   function formStepThree() {
     return (
       <>
         {fields.map((e, index) => {
           return (
-            <TwFormStepContainer
-              key={e.id}
-            >
+            <TwFormStepContainer key={e.id}>
               <TwFloatContainer>
                 <Button
                   color="red"
                   variant="light"
+                  className="shadow-lg border-red-200"
                   onClick={() => removeServiceType(fields.indexOf(e))}
                 >
                   Excluir
@@ -481,6 +488,7 @@ export function CreateContractualization() {
                 <Button
                   variant="light"
                   color="blue"
+                  className="shadow-lg border-blue-200"
                   onClick={() => addParamToServiceType(fields.indexOf(e))}
                 >
                   Adicionar parâmetro
@@ -507,11 +515,11 @@ export function CreateContractualization() {
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                   {e.params.map((_, pIndex) => {
                     return (
-                      <TwParamBlock
-                        key={pIndex}
-                      >
+                      <TwParamBlock key={pIndex}>
                         <TwFloatButton
-                          onClick={() => removeParamFromServiceType(index, pIndex)}
+                          onClick={() =>
+                            removeParamFromServiceType(index, pIndex)
+                          }
                           data-color="red"
                         >
                           <Minus weight="bold" size={15} />
@@ -582,14 +590,19 @@ export function CreateContractualization() {
   }
 
   return (
-    <div className="w-full lg:w-8/12 relative">
-      {
-        formStep === MAX_STEPS && (
-          <div className="absolute bottom-0 left-0">
-            <Button onClick={addServiceType} color="blue" variant="light">Adicionar tipo de serviço</Button>
-          </div>
-        )
-      }
+    <TwContainer>
+      {formStep === MAX_STEPS && (
+        <div className="absolute bottom-0 left-0">
+          <Button
+            onClick={addServiceType}
+            className="shadow-lg border-blue-200"
+            color="blue"
+            variant="light"
+          >
+            Adicionar tipo de serviço
+          </Button>
+        </div>
+      )}
       <div className="mb-20">
         <GoBack text="Criar contratualização" />
       </div>
@@ -624,6 +637,6 @@ export function CreateContractualization() {
           </Button>
         )}
       </div>
-    </div>
+    </TwContainer>
   );
 }
