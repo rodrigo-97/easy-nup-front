@@ -56,7 +56,7 @@ export function ScaffoldProvider({ children }: Props) {
       const width = window.innerWidth;
       setSize(width);
 
-      if (width <= 769) {
+      if (width <= 900) {
         toggleSideNav();
       }
     });

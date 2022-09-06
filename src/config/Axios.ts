@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
 
-const url = import.meta.env.VITE_APP_API_URL as string
+const url = import.meta.env.VITE_APP_API_URL as string;
 
-export const config = axios.create({ baseURL: url });
+export const config = axios.create({ baseURL: "http://localhost:3333/api" });
 
 config.interceptors.request.use(
   function (config) {
@@ -12,11 +12,10 @@ config.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log(error)
+    console.log(error);
     return Promise.reject(error);
   }
 );
-
 
 config.interceptors.response.use(
   function (response) {

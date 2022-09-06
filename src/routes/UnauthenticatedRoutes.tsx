@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { LoginPage } from "../app/modules/Auth/Login";
+import { LoginPage } from "../app/Modules/Auth/Login";
 
 export function UnauthenticatedRoutes() {
   return (

@@ -1,4 +1,4 @@
-import { RouteEncapsulator } from "../app/components/RoutesEncapsulator";
+import { RouteEncapsulator } from "../app/Components/RoutesEncapsulator";
 import { ScaffoldProvider } from "../contexts/ScaffoldContext";
 
 export function AuthenticatedRoutes() {

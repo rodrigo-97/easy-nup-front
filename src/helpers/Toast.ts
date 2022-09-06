@@ -32,3 +32,17 @@ export function showSuccessToast({ message, title }: ShowToastProps) {
     showCloseButton: true,
   });
 }
+
+export function showInfoToast({ message, title }: ShowToastProps) {
+  Swal.fire({
+    title: title,
+    text: message,
+    icon: "info",
+    position: "top-end",
+    toast: true,
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    showCloseButton: true,
+  });
+}
