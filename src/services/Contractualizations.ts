@@ -1,4 +1,4 @@
-import { FormProps as Contractualization } from "../app/modules/Contractualizations/CreateContractualization";
+import { FormProps as Contractualization } from "../app/Modules/Contractualizations/CreateContractualization";
 import { Api } from "../config/Axios";
 
 export async function getContractualizations(page: number) {

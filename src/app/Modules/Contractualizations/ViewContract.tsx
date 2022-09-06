@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { FaFileContract } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Badge, Col, Row } from "reactstrap";
+import { format } from "date-fns";
+import { setDefaultOptions } from "date-fns/esm";
+import { ptBR } from "date-fns/locale";
 import { formatCurrency } from "../../../helpers/CurrencyFormater";
 import { showErrorToast } from "../../../helpers/Toast";
 import { getContractualizationById } from "../../../services/Contractualizations";
-import { GoBack } from "../../components/GoBackIcon";
-import { Loading } from "../../components/Loading";
+import { GoBack } from "../../Components/GoBackIcon";
+import { Loading } from "../../Components/Loading";
 import { Contractualization } from "../../Models/Contractualization";
-import { ptBR } from "date-fns/locale";
-import { setDefaultOptions } from "date-fns/esm";
-import { format } from "date-fns";
 
 export function ViewContract() {
   const [contractualization, setContractualization] =
@@ -70,8 +68,8 @@ export function ViewContract() {
   }, []);
 
   return (
-    <Row>
-      <Col sm={12} lg={10}>
+    <div>
+      <div>
         {isLoading ? (
           <Loading />
         ) : (
@@ -227,7 +225,7 @@ export function ViewContract() {
             </div>
           </>
         )}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }

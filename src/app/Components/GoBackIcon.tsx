@@ -9,14 +9,14 @@ export function GoBack({ text }: Props) {
   const navigate = useNavigate();
 
   return (
-    <div className="d-flex align-items-center gap-3 mb-4">
+    <div className="flex items-center gap-3">
       <TiChevronLeft
         size={30}
-        className="pointer"
+        className="cursor-pointer"
         title="Voltar"
         onClick={() => navigate(-1)}
       />
-      <p className="h2">{text}</p>
+      <p className="text-4xl font-bold">{text}</p>
     </div>
   );
 }

@@ -11,7 +11,7 @@ export type User = {
   nickName: string;
   client: Client;
   emailVerified: boolean;
-  company: Company
+  company: Company;
   createdAt: Date;
   updatedAt: Date;
 };

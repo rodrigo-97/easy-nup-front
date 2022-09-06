@@ -1,6 +1,5 @@
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Button, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { showErrorToast } from "../../../helpers/Toast";
 import { login } from "../../../services/Auth";
+import { Button } from "@material-tailwind/react";
 
 export type LoginProps = {
   email: string;
@@ -74,60 +74,38 @@ export function LoginPage() {
         EasyNup
         <div className="d-flex justify-content-between gap-3 align-items-center">
           Não possui uma conta?
-          <Button color="secondary" size="sm" className="shadow">
+          <button color="secondary" className="shadow">
             Criar conta
-          </Button>
+          </button>
         </div>
       </div>
       <div className="login-container app-bg border-gray-400 shadow bg-white rounded p-4 mx-3">
         <p className="h2 text-center mb-4">Login</p>
-        <FormGroup floating>
+        <div>
           <Controller
             control={control}
             name="email"
             render={({ field }) => {
-              return (
-                <Input
-                  {...field}
-                  placeholder="Senha"
-                  type="email"
-                  invalid={!!errors.email}
-                />
-              );
+              return <input {...field} placeholder="Senha" type="email" />;
             }}
           />
-          <Label>Email</Label>
-          <FormFeedback>{errors.email?.message}</FormFeedback>
-        </FormGroup>
+        </div>
 
-        <FormGroup floating>
+        <div>
           <Controller
             control={control}
             name="password"
             render={({ field }) => {
-              return (
-                <Input
-                  {...field}
-                  placeholder="Senha"
-                  type="password"
-                  invalid={!!errors.password}
-                />
-              );
+              return <input {...field} placeholder="Senha" type="password" />;
             }}
           />
-          <Label>Senha</Label>
-          <FormFeedback>{errors.email?.message}</FormFeedback>
           <p className="link text-primary-700 text-end mt-2">
             Esqueci minha senha?
           </p>
-        </FormGroup>
+        </div>
 
         <div className="d-grid">
-          <Button
-            color="primary-700"
-            className="text-white"
-            onClick={handleSubmit(handleLogin)}
-          >
+          <Button className="text-white" onClick={handleSubmit(handleLogin)}>
             Entrar
           </Button>
         </div>
@@ -135,17 +113,16 @@ export function LoginPage() {
         <hr className="mx-4" />
 
         <div className="d-block">
-          <Button
+          <button
             className="border-gray-100 text-gray-700 w-100 social-button"
-            outline
+
             // onClick={handleGoogleLogin}
           >
             <FcGoogle size={23} className="me-2" />
             Entrar com Google
-          </Button>
+          </button>
           <Button
             className="border-gray-100 text-gray-700 font-size-sm w-100 mt-3 social-button"
-            outline
             // onClick={handleFacebookLogin}
           >
             <FaFacebook color="#4267B2" size={22} className="me-2" />

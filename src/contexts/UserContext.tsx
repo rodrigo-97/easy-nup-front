@@ -32,7 +32,7 @@ export function UserProvider({ children }: Props) {
         email: user?.email,
         emailVerified: user?.emailVerified,
         name: user?.name,
-        isCompany: !!user?.company
+        isCompany: !!user?.company,
       }}
     >
       {children}
