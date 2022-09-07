@@ -1,9 +1,23 @@
 import { FormProps as Contractualization } from "../app/Modules/Contractualizations/CreateContractualization";
 import { Api } from "../config/Axios";
 
-export async function getContractualizations(page: number) {
+export type getContractualizationsParams = {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  order?: "asc" | "desc";
+};
+
+export async function getContractualizations({
+  search,
+  order,
+  page,
+  perPage,
+}: getContractualizationsParams) {
   try {
-    return Api.get("/contractualizations", { params: { page } });
+    return Api.get("/contractualizations", {
+      params: { page, perPage, search, order },
+    });
   } catch (error) {
     return Promise.reject(error);
   }

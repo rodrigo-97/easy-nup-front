@@ -14,8 +14,8 @@ export type Contract = {
   createdAt: Date;
   updatedAt: Date;
   status: ContractStatus;
-  clients: Client
-  company: Company
+  clients: Client;
+  company: Company;
   serviceTypes: Array<ServiceType>;
   prices: Array<Price>;
 };

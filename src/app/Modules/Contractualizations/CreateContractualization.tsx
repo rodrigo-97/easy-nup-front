@@ -8,9 +8,8 @@ import {
   Select,
 } from "@vechaiui/react";
 import { addDays, format } from "date-fns";
-import { Minus } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm, FieldArray } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -18,15 +17,15 @@ import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { getClients } from "../../../services/Company";
 import { createContractualization } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
+import { TwContainer } from "../../Components/Tailwind/Container";
 import { Client } from "../../Models/Client";
-import { TwFormStepContainer } from "./Components/FormStepContainer";
 import { TwFloatButton } from "./Components/FloatButton";
 import { TwFloatContainer } from "./Components/FloatContainer";
+import { TwFormStepContainer } from "./Components/FormStepContainer";
 import { TwParamBlock } from "./Components/ParamBlock";
-import { TwContainer } from "../../Components/Tailwind/Container";
 
 type ParamProps = {
-  name: string;
+  name: string | undefined | null;
   fi: number | undefined;
 };
 
@@ -55,8 +54,6 @@ export function CreateContractualization() {
   const [formStep, setFormStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
-  const [serviceTypes, setServiceTypes] = useState<Array<ServiceTypes>>([]);
-  const [selectedParamIndex, setSelectedParamIndex] = useState(0)
 
   useEffect(() => {
     getClients()
@@ -168,7 +165,7 @@ export function CreateContractualization() {
           params: [
             {
               fi: undefined,
-              name: '',
+              name: null,
             },
           ],
         },
@@ -200,11 +197,10 @@ export function CreateContractualization() {
     return !!!hasMoreThanOneSameName as boolean;
   }
 
-  const { fields, append, remove, update, } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: "serviceTypes",
   });
-
 
   function getParamMessageError(
     i: number,
@@ -265,12 +261,19 @@ export function CreateContractualization() {
   }
 
   function addParamToServiceType(i: number) {
-    const params = fields[i].params
-    params.push({ fi: undefined, name: '' })
+    const params = fields[i].params;
+    const serviceName = getValues().serviceTypes[i].name;
+
+    // Para resolver um bug do react hook forms causado no primeiro indice
+    if (params.length === 1) {
+      params[0].fi = getValues().serviceTypes[i].params[0].fi;
+      params[0].name = getValues().serviceTypes[i].params[0].name;
+    }
+
     update(i, {
-      name: '',
-      params
-    })
+      name: serviceName,
+      params: [...params, { fi: undefined, name: undefined }],
+    });
   }
 
   function removeParamFromServiceType(
@@ -291,18 +294,6 @@ export function CreateContractualization() {
       });
     }
   }
-
-  useEffect(() => {
-    const sideEffect = serviceTypes.forEach((e, i) => {
-      setValue(`serviceTypes.${i}.name`, e.name);
-      e.params.forEach((j, pi) => {
-        setValue(`serviceTypes.${i}.params.${pi}.name`, j.name);
-        setValue(`serviceTypes.${i}.params.${pi}.fi`, j.fi);
-      });
-    });
-
-    return sideEffect;
-  }, [serviceTypes]);
 
   function formStepOne() {
     return (
@@ -487,8 +478,7 @@ export function CreateContractualization() {
                     color="blue"
                     className="shadow-lg border-blue-200"
                     onClick={() => {
-                      setSelectedParamIndex(fields.indexOf(e))
-                      addParamToServiceType(fields.indexOf(e))
+                      addParamToServiceType(fields.indexOf(e));
                     }}
                   >
                     Adicionar parâmetro
@@ -504,7 +494,7 @@ export function CreateContractualization() {
                 >
                   <FormLabel>Nome do tipo de serviço</FormLabel>
                   <Input
-                    {...register(`serviceTypes.${fields.indexOf(e)}.name`)}
+                    {...register(`serviceTypes.${index}.name`)}
                     placeholder="Nome do tipo de serviço"
                   />
                   <FormErrorMessage>
@@ -514,8 +504,8 @@ export function CreateContractualization() {
                 </FormControl>
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                  {getValues().serviceTypes[index].params.map((_, pIndex) => {
-                    console.log(_)
+                  {fields[index].params.map((_, pIndex) => {
+                    console.log(_);
                     return (
                       <TwParamBlock key={pIndex}>
                         <TwFloatButton
@@ -635,7 +625,7 @@ export function CreateContractualization() {
             onClick={increaseStep}
             className="mt-10"
           >
-            Enviar
+            Próximo
           </Button>
         )}
       </div>

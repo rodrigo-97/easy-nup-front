@@ -33,8 +33,8 @@ export function ContractualizationTile({
             {contract.name}
           </p>
           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-            De {format(new Date(contract.effectiveDate), "dd/MM/yyyy")} até{" "}
-            {format(new Date(contract.finishDate), "dd/MM/yyyy")}
+            De {format(new Date(contract.effectiveDate), "dd/MM/yyyy hh:mm")} até{" "}
+            {format(new Date(contract.finishDate), "dd/MM/yyyy hh:mm")}
           </p>
           <TwStatus $status={contract.status}>{getStatus()}</TwStatus>
         </div>

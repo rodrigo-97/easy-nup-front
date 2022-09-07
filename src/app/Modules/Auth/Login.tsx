@@ -1,7 +1,22 @@
-
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, FormControl, FormErrorMessage, FormLabel, IconButton, Input } from "@vechaiui/react";
-import { Envelope, Eye, EyeClosed, Eyedropper, EyedropperSample, Eyeglasses, EyeSlash, Key } from "phosphor-react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  IconButton,
+  Input,
+} from "@vechaiui/react";
+import {
+  Envelope,
+  Eye,
+  EyeClosed,
+  Eyedropper,
+  EyedropperSample,
+  Eyeglasses,
+  EyeSlash,
+  Key,
+} from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +36,7 @@ export type LoginProps = {
 export function LoginPage() {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   const schema = Yup.object().shape({
     email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
@@ -46,7 +61,7 @@ export function LoginPage() {
   }
 
   function toggleShowPassword() {
-    setShowPassword(!showPassword)
+    setShowPassword(!showPassword);
   }
 
   async function onSubmit({ email, password }: LoginProps) {
@@ -79,19 +94,21 @@ export function LoginPage() {
         <FormControl invalid={!!errors.email} className="mt-3">
           <FormLabel>Senha</FormLabel>
           <Input.Group>
-            <Input {...register("password")} placeholder="Endereço de e-mail" type={showPassword ? 'text' : 'password'} />
+            <Input
+              {...register("password")}
+              placeholder="Endereço de e-mail"
+              type={showPassword ? "text" : "password"}
+            />
             <Input.LeftElement children={<Key size={20} />} />
             <Input.RightElement
               onClick={toggleShowPassword}
               children={
                 <>
-                  {
-                    showPassword ? (
-                      <Eye size={20} className="cursor-pointer" />
-                    ) : (
-                      <EyeClosed size={20} className="cursor-pointer" />
-                    )
-                  }
+                  {showPassword ? (
+                    <Eye size={20} className="cursor-pointer" />
+                  ) : (
+                    <EyeClosed size={20} className="cursor-pointer" />
+                  )}
                 </>
               }
             />
@@ -99,7 +116,14 @@ export function LoginPage() {
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
-        <Button variant="solid" color="blue" className="w-full mt-5" onClick={handleSubmit(onSubmit)}>Entrar</Button>
+        <Button
+          variant="solid"
+          color="blue"
+          className="w-full mt-5"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Entrar
+        </Button>
       </LoginMain>
     </LoginContainer>
   );
