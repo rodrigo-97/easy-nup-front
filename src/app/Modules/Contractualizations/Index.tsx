@@ -1,17 +1,16 @@
 import { Alert, Button } from "@vechaiui/react";
-import { Info } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../../helpers/Toast";
 import { getContractualizations } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
-import { Contractualization } from "../../Models/Contractualization";
+import { Contract } from "../../Models/Contract";
 import { ContractualizationTile } from "./Components/ContractualizationTile";
 import { ContractualizationsContent } from "./Components/Index";
 
 export function Contracts() {
-  const [contracts, setContracts] = useState<Array<Contractualization>>([]);
+  const [contracts, setContracts] = useState<Array<Contract>>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +25,8 @@ export function Contracts() {
     getContractualizations(page)
       .then(({ data }) => {
         setContracts([...contracts, ...data.data]);
+
+        console.log()
 
         if (page <= data.meta.total) {
           setPage(data.meta.current_page + 1);

@@ -5,17 +5,19 @@ export const TwFloatButton = tw.button`
   top-0
   right-0
   -mt-3
-  mr-3
+  -mr-2
   z-10
   hidden
   group-hover:block
+  bg-red-400
+  dark:bg-red-500
+  px-1
+  w-6
+  h-6
+  text-xs
+  text-white
+  rounded-full
   transition-all
   duration-500
   ease-in-out
-  border-1
-  px-3
-  rounded-md
-  opacity-80
-  btn-sm
-  btn-solid
 `;

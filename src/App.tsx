@@ -19,7 +19,7 @@ function App() {
       <AuthenticatedRoutes />
     </VechaiProvider>
   ) : (
-    <VechaiProvider>
+    <VechaiProvider colorScheme={theme}>
       <UnauthenticatedRoutes />
     </VechaiProvider>
   );

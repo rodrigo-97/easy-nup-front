@@ -16,8 +16,8 @@ export const TwParamBlock = tw.div`
   rounded-lg
   dark:hover:bg-gray-800
   dark:hover:bg-opacity-10
+  hover:bg-gray-50
   transition-all
   duration-300
   ease-in-out
-  hover:bg-gray-50
 `;

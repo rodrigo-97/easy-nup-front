@@ -1,15 +1,15 @@
 import { format } from "date-fns";
 import { ContractStatus } from "../../../../enums/ContractStatus";
-import { Contractualization } from "../../../Models/Contractualization";
+import { Contract } from "../../../Models/Contract";
 import { TwStatus } from "./Status";
 import { TwTile } from "./Tile";
 
 type Props = {
-  contractualization: Contractualization;
+  contractualization: Contract;
 };
 
 export function ContractualizationTile({
-  contractualization: { contract },
+  contractualization: contract,
 }: Props) {
   function getStatus() {
     if (contract.status === ContractStatus.FINISHED) {

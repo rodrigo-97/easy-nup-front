@@ -56,6 +56,7 @@ export function CreateContractualization() {
   const [isLoading, setIsLoading] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
   const [serviceTypes, setServiceTypes] = useState<Array<ServiceTypes>>([]);
+  const [selectedParamIndex, setSelectedParamIndex] = useState(0)
 
   useEffect(() => {
     getClients()
@@ -166,8 +167,8 @@ export function CreateContractualization() {
           name: "",
           params: [
             {
-              fi: undefined,
-              name: undefined,
+              fi: 0,
+              name: '',
             },
           ],
         },
@@ -204,6 +205,11 @@ export function CreateContractualization() {
     name: "serviceTypes",
   });
 
+  const { fields: params, append: appendParam, } = useFieldArray({
+    control,
+    name: `serviceTypes.${selectedParamIndex}.params`,
+  });
+
   function getParamMessageError(
     i: number,
     paramIndex: number,
@@ -221,21 +227,6 @@ export function CreateContractualization() {
     return "";
   }
 
-  const emptyServiceType = {
-    name: "",
-    params: [
-      {
-        fi: undefined,
-        name: "",
-      },
-    ],
-  };
-
-  const emptyParam = {
-    fi: undefined,
-    name: "",
-  };
-
   function onSubmit(data: FormProps) {
     setIsLoading(true);
     createContractualization(data)
@@ -252,7 +243,15 @@ export function CreateContractualization() {
   }
 
   function addServiceType() {
-    append(emptyServiceType);
+    append({
+      name: "",
+      params: [
+        {
+          fi: undefined,
+          name: "",
+        },
+      ],
+    });
   }
 
   function removeServiceType(i: number) {
@@ -270,10 +269,7 @@ export function CreateContractualization() {
   }
 
   function addParamToServiceType(i: number) {
-    update(i, {
-      name: fields[i].name,
-      params: [...fields[i].params, emptyParam],
-    });
+    appendParam({ fi: 0, name: '' })
   }
 
   function removeParamFromServiceType(
@@ -468,8 +464,6 @@ export function CreateContractualization() {
     );
   }
 
-  console.log(errors);
-
   function formStepThree() {
     return (
       <>
@@ -489,7 +483,10 @@ export function CreateContractualization() {
                   variant="light"
                   color="blue"
                   className="shadow-lg border-blue-200"
-                  onClick={() => addParamToServiceType(fields.indexOf(e))}
+                  onClick={() => {
+                    setSelectedParamIndex(fields.indexOf(e))
+                    addParamToServiceType(fields.indexOf(e))
+                  }}
                 >
                   Adicionar parâmetro
                 </Button>
@@ -513,7 +510,7 @@ export function CreateContractualization() {
                 </FormControl>
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                  {e.params.map((_, pIndex) => {
+                  {getValues().serviceTypes[index].params.map((_, pIndex) => {
                     return (
                       <TwParamBlock key={pIndex}>
                         <TwFloatButton
@@ -522,7 +519,7 @@ export function CreateContractualization() {
                           }
                           data-color="red"
                         >
-                          <Minus weight="bold" size={15} />
+                          x
                         </TwFloatButton>
                         <FormControl
                           invalid={
