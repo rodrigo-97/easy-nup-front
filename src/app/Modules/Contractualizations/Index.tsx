@@ -25,6 +25,7 @@ export function Contracts() {
   const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const [showPagination, setShowPagination] = useState(false)
 
   useEffect(() => {
     findContracts();
@@ -34,9 +35,13 @@ export function Contracts() {
     setIsLoading(true);
     getContractualizations({ search, order, perPage, page })
       .then(({ data }) => {
-        setContracts(data.data);
+        const { data: res } = data
+        const { meta } = data
+        setContracts(res);
 
-        setTotal(data.meta.total);
+        setTotal(meta.total);
+
+        setShowPagination(meta.total / meta.per_page > 1)
       })
       .catch((_error) => {
         showErrorToast({
@@ -127,35 +132,39 @@ export function Contracts() {
             return <ContractualizationTile contractualization={e} key={e.id} />;
           })}
 
-          <Pagination
-            className="flex space-x-1 justify-center mt-10 flex-wrap"
-            itemRender={(p, type) => {
-              return (
-                <>
-                  {type === "next" && (
-                    <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Próximo">
-                      Próximo
-                    </Button>
-                  )}
-                  {type === "prev" && (
-                    <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Anterior">
-                      Anterior
-                    </Button>
-                  )}
-                  {type === "page" && (
-                    <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)}>
-                      {p}
-                    </Button>
-                  )}
-                </>
-              );
-            }}
-            pageSizeOptions={['10', '15', '30', '50', '100']}
-            nextIcon={<NumberSix />}
-            defaultPageSize={10}
-            total={total}
-            pageSize={perPage}
-          />
+          {
+            showPagination && (
+              <Pagination
+                className="flex space-x-1 justify-center mt-10 flex-wrap"
+                itemRender={(p, type) => {
+                  return (
+                    <>
+                      {type === "next" && (
+                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Próximo">
+                          Próximo
+                        </Button>
+                      )}
+                      {type === "prev" && (
+                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Anterior">
+                          Anterior
+                        </Button>
+                      )}
+                      {type === "page" && (
+                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)}>
+                          {p}
+                        </Button>
+                      )}
+                    </>
+                  );
+                }}
+                pageSizeOptions={['10', '15', '30', '50', '100']}
+                nextIcon={<NumberSix />}
+                defaultPageSize={10}
+                total={total}
+                pageSize={perPage}
+              />
+            )
+          }
         </ContractualizationsContent>
       ) : (
         <Alert variant="solid" color="blue">
