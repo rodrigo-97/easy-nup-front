@@ -5,8 +5,11 @@ export const TwFloatContainer = tw.div`
   top-0
   right-0
   -mt-10
-  space-x-3
   transition-all
   duration-300
   ease-in-out
+  flex
+  justify-between
+  w-full
+  items-end
 `;

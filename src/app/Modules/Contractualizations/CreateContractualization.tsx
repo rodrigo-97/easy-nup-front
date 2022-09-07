@@ -10,7 +10,7 @@ import {
 import { addDays, format } from "date-fns";
 import { Minus } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, FieldArray } from "react-hook-form";
 import NumberFormat from "react-number-format";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -167,7 +167,7 @@ export function CreateContractualization() {
           name: "",
           params: [
             {
-              fi: 0,
+              fi: undefined,
               name: '',
             },
           ],
@@ -200,15 +200,11 @@ export function CreateContractualization() {
     return !!!hasMoreThanOneSameName as boolean;
   }
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, } = useFieldArray({
     control,
     name: "serviceTypes",
   });
 
-  const { fields: params, append: appendParam, } = useFieldArray({
-    control,
-    name: `serviceTypes.${selectedParamIndex}.params`,
-  });
 
   function getParamMessageError(
     i: number,
@@ -269,7 +265,12 @@ export function CreateContractualization() {
   }
 
   function addParamToServiceType(i: number) {
-    appendParam({ fi: 0, name: '' })
+    const params = fields[i].params
+    params.push({ fi: undefined, name: '' })
+    update(i, {
+      name: '',
+      params
+    })
   }
 
   function removeParamFromServiceType(
@@ -471,25 +472,28 @@ export function CreateContractualization() {
           return (
             <TwFormStepContainer key={e.id}>
               <TwFloatContainer>
-                <Button
-                  color="red"
-                  variant="light"
-                  className="shadow-lg border-red-200"
-                  onClick={() => removeServiceType(fields.indexOf(e))}
-                >
-                  Excluir
-                </Button>
-                <Button
-                  variant="light"
-                  color="blue"
-                  className="shadow-lg border-blue-200"
-                  onClick={() => {
-                    setSelectedParamIndex(fields.indexOf(e))
-                    addParamToServiceType(fields.indexOf(e))
-                  }}
-                >
-                  Adicionar parâmetro
-                </Button>
+                <p className="text-sm">Tipo de serviço {index + 1}</p>
+                <div className="space-x-3">
+                  <Button
+                    color="red"
+                    variant="light"
+                    className="shadow-lg border-red-200"
+                    onClick={() => removeServiceType(fields.indexOf(e))}
+                  >
+                    Excluir
+                  </Button>
+                  <Button
+                    variant="light"
+                    color="blue"
+                    className="shadow-lg border-blue-200"
+                    onClick={() => {
+                      setSelectedParamIndex(fields.indexOf(e))
+                      addParamToServiceType(fields.indexOf(e))
+                    }}
+                  >
+                    Adicionar parâmetro
+                  </Button>
+                </div>
               </TwFloatContainer>
               <div className="mb-3">
                 <FormControl
@@ -511,6 +515,7 @@ export function CreateContractualization() {
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                   {getValues().serviceTypes[index].params.map((_, pIndex) => {
+                    console.log(_)
                     return (
                       <TwParamBlock key={pIndex}>
                         <TwFloatButton
