@@ -1,5 +1,6 @@
 import { Client } from "./Client";
 import { Contract } from "./Contract";
+import { User } from "./User";
 
 export type Company = {
   id: number;
@@ -8,7 +9,7 @@ export type Company = {
   userId: number;
   createdAt: Date;
   updatedAt: Date;
-  user: any;
+  user: User;
   contracts: Array<Contract>;
   clients: Array<Client>;
 };

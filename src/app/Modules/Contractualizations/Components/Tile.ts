@@ -25,9 +25,7 @@ export const TwTile = tw.div<Props>`
     }
 
     if ($status === ContractStatus.CANCELED) {
-      return baseStyle.concat(
-        "border-red-700 bg-red-100 dark:bg-opacity-15"
-      );
+      return baseStyle.concat("border-red-700 bg-red-100 dark:bg-opacity-15");
     }
 
     if ($status === ContractStatus.NOT_SUBSCRIBED) {

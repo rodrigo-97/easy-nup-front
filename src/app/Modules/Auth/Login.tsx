@@ -3,29 +3,20 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
-  IconButton,
-  Input,
+  FormLabel, Input
 } from "@vechaiui/react";
 import {
   Envelope,
   Eye,
-  EyeClosed,
-  Eyedropper,
-  EyedropperSample,
-  Eyeglasses,
-  EyeSlash,
-  Key,
+  EyeClosed, Key
 } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useTheme } from "../../../contexts/ThemeContext";
 import { showErrorToast } from "../../../helpers/Toast";
 import { login } from "../../../services/Auth";
-import { LoginContainer } from "./components/LoginContainer";
 import { LoginMain } from "./components/LoginMain";
 
 export type LoginProps = {
@@ -64,6 +55,10 @@ export function LoginPage() {
     setShowPassword(!showPassword);
   }
 
+  function handleRedirectToForgotPassword() {
+    navigate("forgot-password");
+  }
+
   async function onSubmit({ email, password }: LoginProps) {
     login({ email, password })
       .then(({ data: { token } }) => {
@@ -78,53 +73,60 @@ export function LoginPage() {
   }
 
   return (
-    <LoginContainer>
-      <LoginMain>
-        <p className="text-2xl font-bold text-center mb-5">Login</p>
+    <LoginMain>
+      <p className="text-2xl font-bold text-center mb-5">Login</p>
 
-        <FormControl invalid={!!errors.email}>
-          <FormLabel>Nome</FormLabel>
-          <Input.Group>
-            <Input {...register("email")} placeholder="Endereço de e-mail" />
-            <Input.LeftElement children={<Envelope size={20} />} />
-          </Input.Group>
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
+      <FormControl invalid={!!errors.email}>
+        <FormLabel>Nome</FormLabel>
+        <Input.Group>
+          <Input {...register("email")} placeholder="Endereço de e-mail" />
+          <Input.LeftElement children={<Envelope size={20} />} />
+        </Input.Group>
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+      </FormControl>
 
-        <FormControl invalid={!!errors.email} className="mt-3">
-          <FormLabel>Senha</FormLabel>
-          <Input.Group>
-            <Input
-              {...register("password")}
-              placeholder="Endereço de e-mail"
-              type={showPassword ? "text" : "password"}
-            />
-            <Input.LeftElement children={<Key size={20} />} />
-            <Input.RightElement
-              onClick={toggleShowPassword}
-              children={
-                <>
-                  {showPassword ? (
-                    <Eye size={20} className="cursor-pointer" />
-                  ) : (
-                    <EyeClosed size={20} className="cursor-pointer" />
-                  )}
-                </>
-              }
-            />
-          </Input.Group>
-          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-        </FormControl>
+      <FormControl invalid={!!errors.email} className="mt-3">
+        <FormLabel>Senha</FormLabel>
+        <Input.Group>
+          <Input
+            {...register("password")}
+            placeholder="Endereço de e-mail"
+            type={showPassword ? "text" : "password"}
+          />
+          <Input.LeftElement children={<Key size={20} />} />
+          <Input.RightElement
+            onClick={toggleShowPassword}
+            children={
+              <>
+                {showPassword ? (
+                  <Eye size={20} className="cursor-pointer" />
+                ) : (
+                  <EyeClosed size={20} className="cursor-pointer" />
+                )}
+              </>
+            }
+          />
+        </Input.Group>
+        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+      </FormControl>
 
-        <Button
-          variant="solid"
-          color="blue"
-          className="w-full mt-5"
-          onClick={handleSubmit(onSubmit)}
-        >
-          Entrar
-        </Button>
-      </LoginMain>
-    </LoginContainer>
+      <Button
+        variant="solid"
+        color="blue"
+        className="w-full mt-3"
+        onClick={handleSubmit(onSubmit)}
+      >
+        Entrar
+      </Button>
+
+      <Button
+        variant="link"
+        color="blue"
+        className="mt-10 w-full text-center"
+        onClick={handleRedirectToForgotPassword}
+      >
+        Esqueci minha senha?
+      </Button>
+    </LoginMain>
   );
 }

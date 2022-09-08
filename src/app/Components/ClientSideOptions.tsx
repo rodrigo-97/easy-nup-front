@@ -4,11 +4,16 @@ import { useAuth } from "../../contexts/AuthContext";
 import { logout } from "../../services/Auth";
 import { SideNavTile } from "./Tailwind/SideNavTile";
 
-export function ClientSideOptions() {
-  const navigate = useNavigate()
-  const { setIsAuthenticated } = useAuth()
+type Props = {
+  toggleDrawer?: Function
+}
+
+export function ClientSideOptions({ toggleDrawer }: Props) {
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   function handleRedirectToAnotherRoute({ route }: { route: string }) {
+    toggleDrawer && toggleDrawer()
     navigate(route);
   }
 
@@ -19,7 +24,6 @@ export function ClientSideOptions() {
     navigate("/");
   }
 
-
   return (
     <>
       <SideNavTile
@@ -28,13 +32,10 @@ export function ClientSideOptions() {
         <Folders weight="fill" size={20} className="mr-5" />
         Contratualizações
       </SideNavTile>
-      <SideNavTile
-        className="absolute bottom-6 w-56"
-        onClick={handleLogout}
-      >
+      <SideNavTile className="absolute bottom-6 w-56" onClick={handleLogout}>
         <SignOut weight="bold" size={20} className="mr-5" />
         Sair
       </SideNavTile>
     </>
-  )
+  );
 }

@@ -11,8 +11,8 @@ type Props = {
 };
 
 export function ContractualizationTile({ contract }: Props) {
-  const navigate = useNavigate()
-  const { isCompany } = useUser()
+  const navigate = useNavigate();
+  const { isCompany } = useUser();
 
   function getStatus() {
     if (contract.status === ContractStatus.FINISHED) {
@@ -37,19 +37,22 @@ export function ContractualizationTile({ contract }: Props) {
   }
 
   function handleNavigationToViewContractualization() {
-    navigate(`/contracts/view/${contract.id}`)
+    navigate(`/contracts/view/${contract.id}`);
   }
 
   return (
-    <TwTile $status={contract.status} onClick={handleNavigationToViewContractualization}>
+    <TwTile
+      $status={contract.status}
+      onClick={handleNavigationToViewContractualization}
+    >
       <div className="flex items-center justify-between w-full">
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-gray-900 truncate dark:text-white capitalize">
             {contract.name}
           </p>
           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-            De {format(new Date(contract.effectiveDate), "dd/MM/yyyy hh:mm")} até{" "}
-            {format(new Date(contract.finishDate), "dd/MM/yyyy hh:mm")}
+            De {format(new Date(contract.effectiveDate), "dd/MM/yyyy hh:mm")}{" "}
+            até {format(new Date(contract.finishDate), "dd/MM/yyyy hh:mm")}
           </p>
           <TwStatus $status={contract.status}>{getStatus()}</TwStatus>
         </div>

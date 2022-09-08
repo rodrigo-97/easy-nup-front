@@ -7,8 +7,5 @@ export type Client = {
   companyId?: number;
   createdAt: Date;
   updatedAt: Date;
-  company: any; // TODO: fazer model
-  contracts: Array<Contract>;
-  companyContract: any; // TODO: Fazer model
   user: User;
 };

@@ -545,6 +545,7 @@ export function CreateContractualization() {
                             placeholder="fi"
                             decimalSeparator=","
                             decimalScale={2}
+                            thousandSeparator={''}
                             allowNegative={false}
                             customInput={Input}
                             value={
@@ -601,11 +602,7 @@ export function CreateContractualization() {
 
       {formStep === 1 && formStepOne()}
       {formStep === 2 && formStepTwo()}
-      {formStep === 3 && (
-        <div className="mt-20">
-          {formStepThree()}
-        </div>
-      )}
+      {formStep === 3 && <div className="mt-20">{formStepThree()}</div>}
 
       <div className="flex justify-end space-x-3">
         <Button color="blue" onClick={decreaseStep} className="mt-10">

@@ -6,7 +6,7 @@ export type GetContractualizationsParams = {
   perPage?: number;
   search?: string;
   order?: "asc" | "desc";
-  status?: string
+  status?: string;
 };
 
 export async function getContractualizations({
@@ -14,7 +14,7 @@ export async function getContractualizations({
   order,
   page,
   perPage,
-  status
+  status,
 }: GetContractualizationsParams) {
   try {
     return Api.get("/contractualizations", {

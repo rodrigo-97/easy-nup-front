@@ -1,8 +1,9 @@
 import { VechaiProvider } from "@vechaiui/react";
 import { setDefaultOptions } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { useAuth } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { useTheme } from "./contexts/ThemeContext";
+import { UserProvider } from "./contexts/UserContext";
 import { AuthenticatedRoutes } from "./routes/AuthenticatedRoutes";
 import { UnauthenticatedRoutes } from "./routes/UnauthenticatedRoutes";
 
@@ -16,7 +17,9 @@ function App() {
 
   return isAuthenticated ? (
     <VechaiProvider colorScheme={theme}>
-      <AuthenticatedRoutes />
+      <UserProvider>
+        <AuthenticatedRoutes />
+      </UserProvider>
     </VechaiProvider>
   ) : (
     <VechaiProvider colorScheme={theme}>

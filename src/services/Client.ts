@@ -2,16 +2,23 @@ import { Api } from "../config/Axios";
 import { GetContractualizationsParams } from "./Contractualizations";
 
 type SubscribeContractParams = {
-  type: "NOT_SUBSCRIBE" | "SUBSCRIBE",
-  clientId: number,
-  companyId: number,
-  contractId: number
-}
+  type: "NOT_SUBSCRIBE" | "SUBSCRIBE";
+  clientId: number;
+  companyId: number;
+  contractId: number;
+};
 
-export async function getClientContracts({ order, page, perPage, search, status }: GetContractualizationsParams) {
-
+export async function getClientContracts({
+  order,
+  page,
+  perPage,
+  search,
+  status,
+}: GetContractualizationsParams) {
   try {
-    return Api.get("/clients/contractualizations-to-subscribe", { params: { order, page, perPage, search, status } });
+    return Api.get("/clients/contractualizations-to-subscribe", {
+      params: { order, page, perPage, search, status },
+    });
   } catch (error) {
     return Promise.reject(error);
   }

@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import tw from "tailwind-styled-components";
 
 export const HistoryBlock = tw.div`
   grid
@@ -10,4 +10,4 @@ export const HistoryBlock = tw.div`
   pb-2
   dark:border-b-gray-500
   border-b-gray-200
-`
+`;

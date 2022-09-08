@@ -31,8 +31,6 @@ export function AuthProvider({ children }: Props) {
 
     if (token) {
       setIsAuthenticated(true);
-    } else {
-      navigate("/");
     }
   }, []);
 

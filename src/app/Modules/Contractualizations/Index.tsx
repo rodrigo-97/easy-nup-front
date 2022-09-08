@@ -27,8 +27,8 @@ export function Contracts() {
   const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const [showPagination, setShowPagination] = useState(false)
-  const [status, setStatus] = useState('')
+  const [showPagination, setShowPagination] = useState(false);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     findContracts();
@@ -38,13 +38,13 @@ export function Contracts() {
     setIsLoading(true);
     getContractualizations({ search, order, perPage, page, status })
       .then(({ data }) => {
-        const { data: res } = data
-        const { meta } = data
+        const { data: res } = data;
+        const { meta } = data;
         setContracts(res);
 
         setTotal(meta.total);
 
-        setShowPagination(meta.total / meta.per_page > 1)
+        setShowPagination(meta.total / meta.per_page > 1);
       })
       .catch((_error) => {
         showErrorToast({
@@ -78,7 +78,6 @@ export function Contracts() {
           </Button>
         </div>
       </div>
-
 
       <div className="flex justify-end mb-3 space-x-3">
         <Input.Group className="flex-grow">
@@ -117,13 +116,9 @@ export function Contracts() {
             }}
           >
             <option value="">status</option>
-            {
-              Object.values(ContractStatus).map((e) => {
-                return (
-                  <option value={e}>{parseContractStatus(e)}</option>
-                )
-              })
-            }
+            {Object.values(ContractStatus).map((e) => {
+              return <option value={e}>{parseContractStatus(e)}</option>;
+            })}
           </Select>
         </div>
         <Button
@@ -151,38 +146,50 @@ export function Contracts() {
             return <ContractualizationTile contract={e} key={e.id} />;
           })}
 
-          {
-            showPagination && (
-              <Pagination
-                className="flex space-x-1 justify-center mt-10 flex-wrap"
-                itemRender={(p, type) => {
-                  return (
-                    <>
-                      {type === "next" && (
-                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Próximo">
-                          Próximo
-                        </Button>
-                      )}
-                      {type === "prev" && (
-                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)} title="Anterior">
-                          Anterior
-                        </Button>
-                      )}
-                      {type === "page" && (
-                        <Button className="shadow-lg border-blue-200" color="blue" onClick={() => setPage(p)}>
-                          {p}
-                        </Button>
-                      )}
-                    </>
-                  );
-                }}
-                nextIcon={<NumberSix />}
-                defaultPageSize={10}
-                total={total}
-                pageSize={perPage}
-              />
-            )
-          }
+          {showPagination && (
+            <Pagination
+              className="flex space-x-1 justify-center mt-10 flex-wrap"
+              itemRender={(p, type) => {
+                return (
+                  <>
+                    {type === "next" && (
+                      <Button
+                        className="shadow-lg border-blue-200"
+                        color="blue"
+                        onClick={() => setPage(p)}
+                        title="Próximo"
+                      >
+                        Próximo
+                      </Button>
+                    )}
+                    {type === "prev" && (
+                      <Button
+                        className="shadow-lg border-blue-200"
+                        color="blue"
+                        onClick={() => setPage(p)}
+                        title="Anterior"
+                      >
+                        Anterior
+                      </Button>
+                    )}
+                    {type === "page" && (
+                      <Button
+                        className="shadow-lg border-blue-200"
+                        color="blue"
+                        onClick={() => setPage(p)}
+                      >
+                        {p}
+                      </Button>
+                    )}
+                  </>
+                );
+              }}
+              nextIcon={<NumberSix />}
+              defaultPageSize={10}
+              total={total}
+              pageSize={perPage}
+            />
+          )}
         </ContractualizationsContent>
       ) : (
         <Alert variant="solid" color="blue">

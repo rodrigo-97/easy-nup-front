@@ -12,7 +12,7 @@ import { Projects } from "../Modules/Projects/Index";
 import { Scaffold } from "./Scaffold";
 
 export function RouteEncapsulator() {
-  const { isCompany } = useUser()
+  const { isCompany } = useUser();
 
   function companyRoutes() {
     return (
@@ -37,27 +37,24 @@ export function RouteEncapsulator() {
         </Route>
         <Route path="*" element={<p>Ops</p>} />
       </>
-    )
+    );
   }
 
   function clientRoutes() {
     return (
       <>
+        <Route index element={<>Dashboard </>} />
         <Route path="contracts">
           <Route index element={<ClientContractualizations />} />
           <Route path="view/:id" element={<ViewContract />} />
         </Route>
       </>
-    )
+    );
   }
 
   return (
     <Scaffold>
-      <Routes>
-        {
-          isCompany ? companyRoutes() : clientRoutes()
-        }
-      </Routes>
+      <Routes>{isCompany ? companyRoutes() : clientRoutes()}</Routes>
     </Scaffold>
   );
 }

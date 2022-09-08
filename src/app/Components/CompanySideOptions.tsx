@@ -1,14 +1,27 @@
-import { ChartLine, Folders, Handshake, Kanban, Pen, SignOut, UsersThree } from "phosphor-react";
+import {
+  ChartLine,
+  Folders,
+  Handshake,
+  Kanban,
+  Pen,
+  SignOut,
+  UsersThree,
+} from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { logout } from "../../services/Auth";
 import { SideNavTile } from "./Tailwind/SideNavTile";
 
-export function CompanySideOptions() {
-  const navigate = useNavigate()
-  const { setIsAuthenticated } = useAuth()
+type Props = {
+  toggleDrawer?: Function
+}
+
+export function CompanySideOptions({ toggleDrawer }: Props) {
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   function handleRedirectToAnotherRoute({ route }: { route: string }) {
+    toggleDrawer && toggleDrawer()
     navigate(route);
   }
 
@@ -21,9 +34,7 @@ export function CompanySideOptions() {
 
   return (
     <>
-      <SideNavTile
-        onClick={() => handleRedirectToAnotherRoute({ route: "" })}
-      >
+      <SideNavTile onClick={() => handleRedirectToAnotherRoute({ route: "" })}>
         <ChartLine size={20} weight="bold" className="mr-5" />
         Dashboard
       </SideNavTile>
@@ -49,13 +60,10 @@ export function CompanySideOptions() {
         <Handshake weight="bold" size={20} className="mr-5" />
         Clientes
       </SideNavTile>
-      <SideNavTile
-        className="absolute bottom-6 w-56"
-        onClick={handleLogout}
-      >
+      <SideNavTile className="absolute bottom-6 w-56" onClick={handleLogout}>
         <SignOut weight="bold" size={20} className="mr-5" />
         Sair
       </SideNavTile>
     </>
-  )
+  );
 }
