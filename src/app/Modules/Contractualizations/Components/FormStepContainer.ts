@@ -5,7 +5,7 @@ bg-white
   dark:bg-gray-700
   p-10
   rounded-lg
-  mb-16
+  mt-10
   shadow-lg
   relative
   transition-all

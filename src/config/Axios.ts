@@ -2,8 +2,6 @@ import axios, { AxiosError } from "axios";
 
 const baseURL = import.meta.env.VITE_APP_API_URL as string;
 
-console.log(baseURL)
-
 export const config = axios.create({ baseURL });
 
 config.interceptors.request.use(

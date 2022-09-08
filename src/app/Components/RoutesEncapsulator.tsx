@@ -1,7 +1,9 @@
 import { Route, Routes } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 import { Analisys } from "../Modules/Analysis/Index";
 import { Analysts } from "../Modules/Analysts/Index";
 import { Clients } from "../Modules/Clients/Index";
+import { ClientContractualizations } from "../Modules/Contractualizations/ClientContractualizations";
 import { CreateContractualization } from "../Modules/Contractualizations/CreateContractualization";
 import { Contracts } from "../Modules/Contractualizations/Index";
 import { ViewContract } from "../Modules/Contractualizations/ViewContract";
@@ -10,9 +12,11 @@ import { Projects } from "../Modules/Projects/Index";
 import { Scaffold } from "./Scaffold";
 
 export function RouteEncapsulator() {
-  return (
-    <Scaffold>
-      <Routes>
+  const { isCompany } = useUser()
+
+  function companyRoutes() {
+    return (
+      <>
         <Route index element={<HomePage />} />
         <Route path="contracts">
           <Route index element={<Contracts />} />
@@ -32,6 +36,27 @@ export function RouteEncapsulator() {
           <Route index element={<Analysts />} />
         </Route>
         <Route path="*" element={<p>Ops</p>} />
+      </>
+    )
+  }
+
+  function clientRoutes() {
+    return (
+      <>
+        <Route path="contracts">
+          <Route index element={<ClientContractualizations />} />
+          <Route path="view/:id" element={<ViewContract />} />
+        </Route>
+      </>
+    )
+  }
+
+  return (
+    <Scaffold>
+      <Routes>
+        {
+          isCompany ? companyRoutes() : clientRoutes()
+        }
       </Routes>
     </Scaffold>
   );

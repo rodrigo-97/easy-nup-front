@@ -23,6 +23,18 @@ export const TwTile = tw.div<Props>`
         "border-orange-400 bg-orange-100 dark:bg-opacity-15"
       );
     }
+
+    if ($status === ContractStatus.CANCELED) {
+      return baseStyle.concat(
+        "border-red-700 bg-red-100 dark:bg-opacity-15"
+      );
+    }
+
+    if ($status === ContractStatus.NOT_SUBSCRIBED) {
+      return baseStyle.concat(
+        "border-purple-400 bg-purple-100 dark:bg-opacity-15"
+      );
+    }
   }}
   flex
   justify-between

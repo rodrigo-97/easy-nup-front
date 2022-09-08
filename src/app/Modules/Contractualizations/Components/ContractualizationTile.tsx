@@ -1,16 +1,19 @@
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../../../contexts/UserContext";
 import { ContractStatus } from "../../../../enums/ContractStatus";
 import { Contract } from "../../../Models/Contract";
 import { TwStatus } from "./Status";
 import { TwTile } from "./Tile";
 
 type Props = {
-  contractualization: Contract;
+  contract: Contract;
 };
 
-export function ContractualizationTile({
-  contractualization: contract,
-}: Props) {
+export function ContractualizationTile({ contract }: Props) {
+  const navigate = useNavigate()
+  const { isCompany } = useUser()
+
   function getStatus() {
     if (contract.status === ContractStatus.FINISHED) {
       return "Finalizado";
@@ -23,10 +26,22 @@ export function ContractualizationTile({
     if (contract.status === ContractStatus.PENDING) {
       return "Aguardando confirmação";
     }
+
+    if (contract.status === ContractStatus.CANCELED) {
+      return "Cancelado";
+    }
+
+    if (contract.status === ContractStatus.NOT_SUBSCRIBED) {
+      return isCompany ? "Não aceito pelo cliente" : "Não aceito por mim";
+    }
+  }
+
+  function handleNavigationToViewContractualization() {
+    navigate(`/contracts/view/${contract.id}`)
   }
 
   return (
-    <TwTile $status={contract.status}>
+    <TwTile $status={contract.status} onClick={handleNavigationToViewContractualization}>
       <div className="flex items-center justify-between w-full">
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-gray-900 truncate dark:text-white capitalize">

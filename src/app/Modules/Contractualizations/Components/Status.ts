@@ -18,6 +18,14 @@ export const TwStatus = tw.p<Props>`
     if ($status === ContractStatus.PENDING) {
       return "text-orange-400";
     }
+
+    if ($status === ContractStatus.NOT_SUBSCRIBED) {
+      return "text-purple-400";
+    }
+
+    if ($status === ContractStatus.CANCELED) {
+      return "text-red-500";
+    }
   }}
   inline-flex
   items-center

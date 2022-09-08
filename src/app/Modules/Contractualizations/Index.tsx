@@ -8,6 +8,8 @@ import {
 import Pagination from "rc-pagination";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ContractStatus } from "../../../enums/ContractStatus";
+import { parseContractStatus } from "../../../helpers/ContractStatus";
 import { showErrorToast } from "../../../helpers/Toast";
 import { getContractualizations } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
@@ -26,14 +28,15 @@ export function Contracts() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [showPagination, setShowPagination] = useState(false)
+  const [status, setStatus] = useState('')
 
   useEffect(() => {
     findContracts();
-  }, [perPage, page, search, page, order]);
+  }, [perPage, page, search, page, order, status]);
 
   async function findContracts() {
     setIsLoading(true);
-    getContractualizations({ search, order, perPage, page })
+    getContractualizations({ search, order, perPage, page, status })
       .then(({ data }) => {
         const { data: res } = data
         const { meta } = data
@@ -76,6 +79,7 @@ export function Contracts() {
         </div>
       </div>
 
+
       <div className="flex justify-end mb-3 space-x-3">
         <Input.Group className="flex-grow">
           <Input
@@ -99,12 +103,27 @@ export function Contracts() {
               setPerPage(+e.target.value);
             }}
           >
-            <option value="">Qtd. por página</option>
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="30">30</option>
             <option value="50">50</option>
             <option value="100">100</option>
+          </Select>
+        </div>
+        <div>
+          <Select
+            onChange={(e) => {
+              setStatus(e.target.value);
+            }}
+          >
+            <option value="">status</option>
+            {
+              Object.values(ContractStatus).map((e) => {
+                return (
+                  <option value={e}>{parseContractStatus(e)}</option>
+                )
+              })
+            }
           </Select>
         </div>
         <Button
@@ -129,7 +148,7 @@ export function Contracts() {
       {contracts.length > 0 ? (
         <ContractualizationsContent>
           {contracts.map((e) => {
-            return <ContractualizationTile contractualization={e} key={e.id} />;
+            return <ContractualizationTile contract={e} key={e.id} />;
           })}
 
           {
@@ -157,7 +176,6 @@ export function Contracts() {
                     </>
                   );
                 }}
-                pageSizeOptions={['10', '15', '30', '50', '100']}
                 nextIcon={<NumberSix />}
                 defaultPageSize={10}
                 total={total}
@@ -168,7 +186,7 @@ export function Contracts() {
         </ContractualizationsContent>
       ) : (
         <Alert variant="solid" color="blue">
-          Você não possui nenhuma contratualização
+          Não foi encontrado nenhuma contratualização
         </Alert>
       )}
     </TwContainer>

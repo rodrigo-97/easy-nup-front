@@ -458,10 +458,10 @@ export function CreateContractualization() {
 
   function formStepThree() {
     return (
-      <>
+      <div className="space-y-20">
         {fields.map((e, index) => {
           return (
-            <TwFormStepContainer key={e.id}>
+            <TwFormStepContainer key={e.id} class>
               <TwFloatContainer>
                 <p className="text-sm">Tipo de serviço {index + 1}</p>
                 <div className="space-x-3">
@@ -577,7 +577,7 @@ export function CreateContractualization() {
             </TwFormStepContainer>
           );
         })}
-      </>
+      </div>
     );
   }
 
@@ -595,13 +595,17 @@ export function CreateContractualization() {
           </Button>
         </div>
       )}
-      <div className="mb-20">
+      <div className="mb-10">
         <GoBack text="Criar contratualização" />
       </div>
 
       {formStep === 1 && formStepOne()}
       {formStep === 2 && formStepTwo()}
-      {formStep === 3 && formStepThree()}
+      {formStep === 3 && (
+        <div className="mt-20">
+          {formStepThree()}
+        </div>
+      )}
 
       <div className="flex justify-end space-x-3">
         <Button color="blue" onClick={decreaseStep} className="mt-10">
