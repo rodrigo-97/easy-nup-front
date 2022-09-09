@@ -1,27 +1,37 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, FormControl, FormErrorMessage, FormLabel, Input } from "@vechaiui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@vechaiui/react";
 import { Envelope } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import * as Yup from 'yup'
+import * as Yup from "yup";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { resetPasword } from "../../../services/Auth";
 import { LoginMain } from "./components/LoginMain";
 
 export type ResetPasswordFormProps = {
-  email: string
-  password: string
-  confirmPassword: string
-  token: string
-}
+  email: string;
+  password: string;
+  confirmPassword: string;
+  token: string;
+};
 
 export function ResetPassword() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
-  const { token } = useParams()
+  const [loading, setLoading] = useState(false);
+  const { token } = useParams();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordFormProps>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ResetPasswordFormProps>({
     resolver: yupResolver(
       Yup.object().shape({
         email: Yup.string()
@@ -31,16 +41,20 @@ export function ResetPassword() {
     ),
   });
 
-
   async function onSubmit(data: ResetPasswordFormProps) {
-    setLoading(true)
-    token && resetPasword({ ...data, token })
-      .then(() => {
-        showSuccessToast({ message: "E-mail de recuperação enviado" })
-        navigate(-1)
-      })
-      .catch(() => showErrorToast({ message: "Não foi possível enviar e-mail de recuperação" }))
-      .finally(() => setLoading(false))
+    setLoading(true);
+    token &&
+      resetPasword({ ...data, token })
+        .then(() => {
+          showSuccessToast({ message: "E-mail de recuperação enviado" });
+          navigate(-1);
+        })
+        .catch(() =>
+          showErrorToast({
+            message: "Não foi possível enviar e-mail de recuperação",
+          })
+        )
+        .finally(() => setLoading(false));
   }
 
   return (
@@ -69,7 +83,10 @@ export function ResetPassword() {
         <FormControl invalid={!!errors.email}>
           <FormLabel>Confirmar senha</FormLabel>
           <Input.Group>
-            <Input {...register("confirmPassword")} placeholder="Confirmar senha" />
+            <Input
+              {...register("confirmPassword")}
+              placeholder="Confirmar senha"
+            />
             <Input.LeftElement children={<Envelope size={20} />} />
           </Input.Group>
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>

@@ -3,13 +3,13 @@ import { ClientSideOptions } from "./ClientSideOptions";
 import { CompanySideOptions } from "./CompanySideOptions";
 
 type Props = {
-  setIsOpen: Function,
-  isOpen: boolean,
-  toggleDrawer: Function
-}
+  setIsOpen: Function;
+  isOpen: boolean;
+  toggleDrawer: Function;
+};
 
 export function Drawer({ setIsOpen, isOpen, toggleDrawer }: Props) {
-  const { isCompany } = useUser()
+  const { isCompany } = useUser();
 
   return (
     <main
@@ -28,7 +28,11 @@ export function Drawer({ setIsOpen, isOpen, toggleDrawer }: Props) {
       >
         <article className="relative w-screen max-w-lg pb-10 flex flex-col space-y-6 overflow-y-scroll h-full">
           <header className="p-4 font-bold text-lg">EasyNup</header>
-          {isCompany ? <CompanySideOptions toggleDrawer={toggleDrawer} /> : <ClientSideOptions toggleDrawer={toggleDrawer} />}
+          {isCompany ? (
+            <CompanySideOptions toggleDrawer={toggleDrawer} />
+          ) : (
+            <ClientSideOptions toggleDrawer={toggleDrawer} />
+          )}
         </article>
       </section>
       <section
@@ -38,5 +42,5 @@ export function Drawer({ setIsOpen, isOpen, toggleDrawer }: Props) {
         }}
       ></section>
     </main>
-  )
+  );
 }

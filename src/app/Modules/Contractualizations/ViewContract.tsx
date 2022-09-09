@@ -11,7 +11,7 @@ import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
 import { ClientContractOptions } from "./Components/ClientContractOptions";
 import { HistoryBlock } from "./Components/HistoryBlock";
-import msk from 'msk'
+import msk from "msk";
 
 export function ViewContract() {
   const [contract, setContract] = useState<Contract>();
@@ -150,14 +150,12 @@ export function ViewContract() {
 
                 <div>
                   <small>CNPJ</small>
-                  <p>{msk(company.socialCode, '99.999.999/9999-99')}</p>
+                  <p>{msk(company.socialCode, "99.999.999/9999-99")}</p>
                 </div>
 
                 <div>
                   <small>Razão social</small>
-                  <p>
-                    {company.socialName}
-                  </p>
+                  <p>{company.socialName}</p>
                 </div>
               </div>
             )}

@@ -16,14 +16,18 @@ import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { useState } from "react";
 
 type FormProps = {
-  email: string
-}
+  email: string;
+};
 
 export function ForgotPassword() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormProps>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormProps>({
     resolver: yupResolver(
       Yup.object().shape({
         email: Yup.string()
@@ -34,14 +38,18 @@ export function ForgotPassword() {
   });
 
   async function onSubmit({ email }: FormProps) {
-    setLoading(true)
+    setLoading(true);
     forgotPassword(email)
       .then(() => {
-        showSuccessToast({ message: "E-mail de recuperação enviado" })
-        navigate(-1)
+        showSuccessToast({ message: "E-mail de recuperação enviado" });
+        navigate(-1);
       })
-      .catch(() => showErrorToast({ message: "Não foi possível enviar e-mail de recuperação" }))
-      .finally(() => setLoading(false))
+      .catch(() =>
+        showErrorToast({
+          message: "Não foi possível enviar e-mail de recuperação",
+        })
+      )
+      .finally(() => setLoading(false));
   }
 
   return (

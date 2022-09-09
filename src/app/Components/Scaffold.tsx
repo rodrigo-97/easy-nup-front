@@ -19,7 +19,7 @@ type Props = {
 export function Scaffold({ children }: Props) {
   const { theme, toggleTheme } = useTheme();
   const [isCompany, setIsCompany] = useState(true);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     me().then(({ data }) => {
@@ -31,11 +31,15 @@ export function Scaffold({ children }: Props) {
     });
   }, []);
 
-  const toggleDrawer = () => setIsOpen(p => !p)
+  const toggleDrawer = () => setIsOpen((p) => !p);
 
   return (
     <Box className="min-h-screen text-[#344767] flex flex-col">
-      <Drawer setIsOpen={setIsOpen} isOpen={isOpen} toggleDrawer={toggleDrawer} />
+      <Drawer
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        toggleDrawer={toggleDrawer}
+      />
       <NavBar className="fixed">
         <SideNavTile onClick={() => setIsOpen(!isOpen)}>
           <Handshake weight="bold" size={20} className="mr-5" />

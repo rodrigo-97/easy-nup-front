@@ -3,13 +3,10 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel, Input
+  FormLabel,
+  Input,
 } from "@vechaiui/react";
-import {
-  Envelope,
-  Eye,
-  EyeClosed, Key
-} from "phosphor-react";
+import { Envelope, Eye, EyeClosed, Key } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";

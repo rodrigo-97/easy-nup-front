@@ -5,15 +5,15 @@ import { logout } from "../../services/Auth";
 import { SideNavTile } from "./Tailwind/SideNavTile";
 
 type Props = {
-  toggleDrawer?: Function
-}
+  toggleDrawer?: Function;
+};
 
 export function ClientSideOptions({ toggleDrawer }: Props) {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   function handleRedirectToAnotherRoute({ route }: { route: string }) {
-    toggleDrawer && toggleDrawer()
+    toggleDrawer && toggleDrawer();
     navigate(route);
   }
 

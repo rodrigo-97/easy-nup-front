@@ -545,7 +545,7 @@ export function CreateContractualization() {
                             placeholder="fi"
                             decimalSeparator=","
                             decimalScale={2}
-                            thousandSeparator={''}
+                            thousandSeparator={""}
                             allowNegative={false}
                             customInput={Input}
                             value={
