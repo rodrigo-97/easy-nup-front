@@ -16,7 +16,7 @@ export function GoBack({ text }: Props) {
         title="Voltar"
         onClick={() => navigate(-1)}
       />
-      <p className="text-4xl font-bold">{text}</p>
+      <p className="lg:text-4xl text-2xl font-bold">{text}</p>
     </div>
   );
 }
