@@ -1,5 +1,6 @@
 import { Button } from "@vechaiui/react";
 import { useNavigate } from "react-router-dom";
+import { ContractStatus } from "../../../../enums/ContractStatus";
 import { showErrorToast, showSuccessToast } from "../../../../helpers/Toast";
 import { subscribeContract } from "../../../../services/Client";
 import { Contract } from "../../../Models/Contract";
@@ -20,9 +21,8 @@ export function ClientContractOptions({ contract }: Props) {
     })
       .then(() => {
         showSuccessToast({
-          message: `Contratualização ${
-            type === "NOT_SUBSCRIBE" ? "recusada" : "aceita"
-          } com sucesso`,
+          message: `Contratualização ${type === "NOT_SUBSCRIBE" ? "recusada" : "aceita"
+            } com sucesso`,
         });
         navigate(-1);
       })
@@ -31,24 +31,43 @@ export function ClientContractOptions({ contract }: Props) {
       );
   }
 
-  console.log(contract.id);
+  function handleRedirectToDiffContracts() {
+    navigate(`/contracts/diff/${contract.id}`)
+  }
 
   return (
     <div className="flex justify-end space-x-3">
-      <Button
-        variant="solid"
-        color="red"
-        onClick={() => handleSubscribeContract("NOT_SUBSCRIBE")}
-      >
-        Recusar
-      </Button>
-      <Button
-        variant="solid"
-        color="blue"
-        onClick={() => handleSubscribeContract("SUBSCRIBE")}
-      >
-        Aceitar
-      </Button>
+      {
+        contract.hasChangeRequest && (
+          <Button
+            variant="outline"
+            color="blue"
+            onClick={handleRedirectToDiffContracts}
+          >
+            Ver solicitações de alteração
+          </Button>
+        )
+      }
+      {
+        contract.status === ContractStatus.PENDING && (
+          <>
+            <Button
+              variant="solid"
+              color="red"
+              onClick={() => handleSubscribeContract("NOT_SUBSCRIBE")}
+            >
+              Recusar
+            </Button>
+            <Button
+              variant="solid"
+              color="blue"
+              onClick={() => handleSubscribeContract("SUBSCRIBE")}
+            >
+              Aceitar
+            </Button>
+          </>
+        )
+      }
     </div>
   );
 }

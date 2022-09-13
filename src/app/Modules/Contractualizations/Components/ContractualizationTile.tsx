@@ -36,6 +36,12 @@ export function ContractualizationTile({ contract }: Props) {
     }
   }
 
+  function getUpdateSolicitation() {
+    if (contract.hasChangeRequest) {
+      return isCompany ? "Solicitado alteração" : "Solicitado alteração pela empresa";
+    }
+  }
+
   function handleNavigationToViewContractualization() {
     navigate(`/contracts/view/${contract.id}`);
   }
@@ -43,6 +49,7 @@ export function ContractualizationTile({ contract }: Props) {
   return (
     <TwTile
       $status={contract.status}
+      $hasUpdateSolicitation={!!contract.hasChangeRequest}
       onClick={handleNavigationToViewContractualization}
     >
       <div className="flex items-center justify-between w-full">
@@ -55,6 +62,7 @@ export function ContractualizationTile({ contract }: Props) {
             até {format(new Date(contract.finishDate), "dd/MM/yyyy hh:mm")}
           </p>
           <TwStatus $status={contract.status}>{getStatus()}</TwStatus>
+          <p className="text-sm text-red-400 font-bold">{getUpdateSolicitation()}</p>
         </div>
       </div>
     </TwTile>

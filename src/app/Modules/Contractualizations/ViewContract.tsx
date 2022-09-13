@@ -34,7 +34,7 @@ export function ViewContract() {
   const formatedDate = (date?: Date) => {
     if (!date) return "";
 
-    return format(new Date(date), "dd 'de' LLLL 'de' yyyy 'as' hh:mm");
+    return format(new Date(date), "dd 'de' LLLL 'de' yyyy 'às' hh:mm");
   };
 
   console.log(contract);

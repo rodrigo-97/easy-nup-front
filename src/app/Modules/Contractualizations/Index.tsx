@@ -79,8 +79,8 @@ export function Contracts() {
         </div>
       </div>
 
-      <div className="flex justify-end mb-3 space-x-3">
-        <Input.Group className="flex-grow">
+      <div className="grid md:grid-cols-5 lg:gris-cols-2 grid-cols-1 gap-2 mb-2">
+        <Input.Group className="col-span-1 md:col-span-2">
           <Input
             placeholder="Pesquise um contrato pelo nome"
             onChange={(e) => setSearch(e.target.value)}

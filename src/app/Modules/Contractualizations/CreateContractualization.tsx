@@ -8,6 +8,7 @@ import {
   Select,
 } from "@vechaiui/react";
 import { addDays, format } from "date-fns";
+import { Plus } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
@@ -120,6 +121,7 @@ export function CreateContractualization() {
       Yup.object().shape({
         name: Yup.string()
           .required("Campo obrigatório")
+          .typeError("Campo obrigatório")
           .min(3, "Precisa ter mais de 3 caracteres")
           .test(
             "each name differents",
@@ -130,6 +132,7 @@ export function CreateContractualization() {
           Yup.object().shape({
             name: Yup.string()
               .required("Campo obrigatório")
+              .typeError("Campo obrigatório")
               .min(3, "Precisa ter mais de 3 caracteres")
               .test(
                 "each name differents",
@@ -146,7 +149,7 @@ export function CreateContractualization() {
   });
 
   const {
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     setValue,
     register,
@@ -458,32 +461,28 @@ export function CreateContractualization() {
 
   function formStepThree() {
     return (
-      <div className="space-y-20">
+      <div className="space-y-5">
         {fields.map((e, index) => {
           return (
             <TwFormStepContainer key={e.id} class>
+              <small className="absolute bottom-0 -mt-5 left-2">
+                serviço {index + 1}
+              </small>
               <TwFloatContainer>
-                <p className="text-sm">Tipo de serviço {index + 1}</p>
-                <div className="space-x-3">
-                  <Button
-                    color="red"
-                    variant="light"
-                    className="shadow-lg border-red-200"
-                    onClick={() => removeServiceType(fields.indexOf(e))}
-                  >
-                    Excluir
-                  </Button>
-                  <Button
-                    variant="light"
-                    color="blue"
-                    className="shadow-lg border-blue-200"
-                    onClick={() => {
-                      addParamToServiceType(fields.indexOf(e));
-                    }}
-                  >
-                    Adicionar parâmetro
-                  </Button>
-                </div>
+                <Button variant="solid" color="red" size="xs" onClick={() => removeServiceType(fields.indexOf(e))}>
+                  Deletar
+                </Button>
+                <Button
+                  variant="solid"
+                  color="blue"
+                  size="xs"
+                  onClick={() => {
+                    addParamToServiceType(fields.indexOf(e));
+                  }}
+                >
+                  <Plus />
+                  Parâmetro
+                </Button>
               </TwFloatContainer>
               <div className="mb-3">
                 <FormControl
@@ -503,7 +502,7 @@ export function CreateContractualization() {
                   </FormErrorMessage>
                 </FormControl>
 
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                   {fields[index].params.map((_, pIndex) => {
                     console.log(_);
                     return (
@@ -584,51 +583,50 @@ export function CreateContractualization() {
 
   return (
     <TwContainer>
-      {formStep === MAX_STEPS && (
-        <div className="absolute bottom-0 left-0">
-          <Button
-            onClick={addServiceType}
-            className="shadow-lg border-blue-200"
-            color="blue"
-            variant="light"
-          >
-            Adicionar tipo de serviço
-          </Button>
-        </div>
-      )}
       <div className="mb-10">
         <GoBack text="Criar contratualização" />
       </div>
 
       {formStep === 1 && formStepOne()}
       {formStep === 2 && formStepTwo()}
-      {formStep === 3 && <div className="mt-20">{formStepThree()}</div>}
+      {formStep === 3 && formStepThree()}
 
-      <div className="flex justify-end space-x-3">
-        <Button color="blue" onClick={decreaseStep} className="mt-10">
-          Voltar
+      <div className="flex justify-between items-end space-x-3">
+        <Button
+          onClick={addServiceType}
+          className="shadow-lg border-blue-200"
+          color="blue"
+          variant="light"
+        >
+          <Plus /> Serviço
         </Button>
-        {formStep === MAX_STEPS ? (
-          <Button
-            variant="solid"
-            color="blue"
-            onClick={handleSubmit(onSubmit)}
-            className="mt-10"
-            loading={isLoading}
-            loadingText="Salvando"
-          >
-            Enviar
+        <div className="space-x-2">
+          <Button color="blue" onClick={decreaseStep} className="mt-10">
+            Voltar
           </Button>
-        ) : (
-          <Button
-            variant="solid"
-            color="blue"
-            onClick={increaseStep}
-            className="mt-10"
-          >
-            Próximo
-          </Button>
-        )}
+          {formStep === MAX_STEPS ? (
+            <Button
+              variant="solid"
+              color="blue"
+              onClick={handleSubmit(onSubmit)}
+              className="mt-10"
+              loading={isLoading}
+              loadingText="Salvando"
+              disabled={!isValid}
+            >
+              Enviar
+            </Button>
+          ) : (
+            <Button
+              variant="solid"
+              color="blue"
+              onClick={increaseStep}
+              className="mt-10"
+            >
+              Próximo
+            </Button>
+          )}
+        </div>
       </div>
     </TwContainer>
   );

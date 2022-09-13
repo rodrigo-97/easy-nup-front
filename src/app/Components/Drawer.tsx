@@ -22,11 +22,11 @@ export function Drawer({ setIsOpen, isOpen, toggleDrawer }: Props) {
     >
       <section
         className={
-          " w-2/3 max-w-lg right-0 absolute bg-white dark:bg-gray-900 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform  " +
-          (isOpen ? " translate-x-0 " : " translate-x-full ")
+          " w-4/5 left-0 absolute bg-white dark:bg-gray-900 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform  " +
+          (isOpen ? " -translate-x-0 " : " -translate-x-full ")
         }
       >
-        <article className="relative w-screen max-w-lg pb-10 flex flex-col space-y-6 overflow-y-scroll h-full">
+        <article className="relative  max-w-lg pb-10 flex flex-col space-y-6 overflow-y-scroll h-full">
           <header className="p-4 font-bold text-lg">EasyNup</header>
           {isCompany ? (
             <CompanySideOptions toggleDrawer={toggleDrawer} />

@@ -2,8 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { Analisys } from "../Modules/Analysis/Index";
 import { Analysts } from "../Modules/Analysts/Index";
+import { ClientContractualizations } from "../Modules/Clients/ClientContractualizations";
+import { ContractsDiff } from "../Modules/Clients/ContractsDiff";
 import { Clients } from "../Modules/Clients/Index";
-import { ClientContractualizations } from "../Modules/Contractualizations/ClientContractualizations";
 import { CreateContractualization } from "../Modules/Contractualizations/CreateContractualization";
 import { Contracts } from "../Modules/Contractualizations/Index";
 import { ViewContract } from "../Modules/Contractualizations/ViewContract";
@@ -47,7 +48,9 @@ export function RouteEncapsulator() {
         <Route path="contracts">
           <Route index element={<ClientContractualizations />} />
           <Route path="view/:id" element={<ViewContract />} />
+          <Route path="diff/:id" element={<ContractsDiff />} />
         </Route>
+        <Route path="*" element={<p>Ops</p>} />
       </>
     );
   }

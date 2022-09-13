@@ -3,6 +3,7 @@ import { ServiceType } from "./ServiceType";
 import { Price } from "./Price";
 import { Client } from "./Client";
 import { Company } from "./Company";
+import { ContractVersion } from "./ContractVersion";
 
 export type Contract = {
   id: number;
@@ -18,4 +19,6 @@ export type Contract = {
   company: Company;
   serviceTypes: Array<ServiceType>;
   prices: Array<Price>;
+  hasChangeRequest: boolean
+  versions: Array<ContractVersion>
 };

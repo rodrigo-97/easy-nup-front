@@ -14,8 +14,8 @@ import { getClientContracts } from "../../../services/Client";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
-import { ContractualizationTile } from "./Components/ContractualizationTile";
-import { ContractualizationsContent } from "./Components/Index";
+import { ContractualizationTile } from "../Contractualizations/Components/ContractualizationTile";
+import { ContractualizationsContent } from "../Contractualizations/Components/Index";
 
 export function ClientContractualizations() {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -43,16 +43,18 @@ export function ClientContractualizations() {
         setTotal(data.meta.total);
         setShowPagination(data.meta.total / data.meta.per_page > 1);
       })
-      .catch(() => {});
+      .catch(() => { });
   }
+
+  console.log(contracts)
 
   return (
     <div>
       <GoBack text="Contratos" />
 
       <TwContainer className="mt-10">
-        <div className="flex justify-end mb-3 space-x-3">
-          <Input.Group className="flex-grow">
+        <div className="grid md:grid-cols-5 lg:gris-cols-2 grid-cols-1 gap-2 mb-2">
+          <Input.Group className="col-span-1 md:col-span-2">
             <Input
               placeholder="Pesquise um contrato pelo nome"
               onChange={(e) => setSearch(e.target.value)}

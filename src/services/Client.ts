@@ -8,6 +8,13 @@ type SubscribeContractParams = {
   contractId: number;
 };
 
+
+type UpdateParam = {
+  clientId: number
+  companyId: number
+  contractId: number
+}
+
 export async function getClientContracts({
   order,
   page,
@@ -27,6 +34,22 @@ export async function getClientContracts({
 export async function subscribeContract(data: SubscribeContractParams) {
   try {
     return Api.post("/clients/subscribe", data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function rejectUpdate(data: UpdateParam) {
+  try {
+    return Api.put(`/clients/reject-update/${data.contractId}`, data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function acceptUpdate(data: UpdateParam) {
+  try {
+    return Api.put(`/clients/accept-update/${data.contractId}`, data);
   } catch (error) {
     return Promise.reject(error);
   }

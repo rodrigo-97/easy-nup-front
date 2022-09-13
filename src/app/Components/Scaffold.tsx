@@ -40,8 +40,9 @@ export function Scaffold({ children }: Props) {
         isOpen={isOpen}
         toggleDrawer={toggleDrawer}
       />
+
       <NavBar className="fixed">
-        <SideNavTile onClick={() => setIsOpen(!isOpen)}>
+        <SideNavTile>
           <Handshake weight="bold" size={20} className="mr-5" />
           EasyNup
         </SideNavTile>
