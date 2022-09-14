@@ -43,7 +43,7 @@ export function ClientContractualizations() {
         setTotal(data.meta.total);
         setShowPagination(data.meta.total / data.meta.per_page > 1);
       })
-      .catch(() => { });
+      .catch(() => {});
   }
 
   console.log(contracts);
@@ -90,8 +90,12 @@ export function ClientContractualizations() {
               }}
             >
               <option value="">status</option>
-              {Object.values(ContractStatus).map((e) => {
-                return <option value={e}>{parseContractStatus(e)}</option>;
+              {Object.values(ContractStatus).map((e, i) => {
+                return (
+                  <option value={e} key={i}>
+                    {parseContractStatus(e)}
+                  </option>
+                );
               })}
             </Select>
           </div>

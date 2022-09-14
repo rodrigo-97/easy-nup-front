@@ -5,6 +5,13 @@ type ShowToastProps = {
   title?: string;
 };
 
+type ConfirmActionProps = {
+  title: string;
+  text?: string;
+  btnConfirmText: string;
+  onConfirm: () => Promise<void>;
+};
+
 export function showErrorToast({ message, title }: ShowToastProps) {
   Swal.fire({
     title: title,
@@ -44,5 +51,27 @@ export function showInfoToast({ message, title }: ShowToastProps) {
     timer: 5000,
     timerProgressBar: true,
     showCloseButton: true,
+  });
+}
+
+export function showConfirmAction({
+  btnConfirmText,
+  onConfirm,
+  title,
+  text,
+}: ConfirmActionProps) {
+  Swal.fire({
+    showCancelButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonText: btnConfirmText,
+    cancelButtonColor: "#C81E1E",
+    confirmButtonColor: "#1A56DB",
+    title: title,
+    html: text,
+    reverseButtons: true,
+  }).then(({ isConfirmed }) => {
+    if (isConfirmed) {
+      onConfirm();
+    }
   });
 }

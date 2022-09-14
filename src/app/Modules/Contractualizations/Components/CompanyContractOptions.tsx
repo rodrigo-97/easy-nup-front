@@ -23,15 +23,15 @@ export function CompanyContractOptions({ contract }: Props) {
     <div className="flex justify-end space-x-3">
       {(contract.status === ContractStatus.IN_PROGRESS ||
         contract.status === ContractStatus.PENDING) && (
-          <>
-            <Button variant="solid" color="red">
-              {getDeleteText()}
-            </Button>
-            <Button variant="solid" color="blue">
-              {getUpdateText()}
-            </Button>
-          </>
-        )}
+        <>
+          <Button variant="solid" color="red">
+            {getDeleteText()}
+          </Button>
+          <Button variant="solid" color="blue">
+            {getUpdateText()}
+          </Button>
+        </>
+      )}
     </div>
   );
 }

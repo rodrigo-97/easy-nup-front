@@ -53,3 +53,19 @@ export async function acceptUpdate(data: UpdateParam) {
     return Promise.reject(error);
   }
 }
+
+export async function acceptDelete(id: number) {
+  try {
+    return Api.delete(`/clients/accept-delete/${id}`);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function rejectDelete(id: number) {
+  try {
+    return Api.delete(`/clients/reject-delete/${id}`);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

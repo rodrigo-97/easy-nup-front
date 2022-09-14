@@ -2,7 +2,6 @@ import { Api } from "../../config/Axios";
 import { LoginProps } from "../Modules/Auth/Login";
 import { ResetPasswordFormProps } from "../Modules/Auth/ResetPassword";
 
-
 export async function login({ email, password }: LoginProps) {
   try {
     return Api.post("/login", {

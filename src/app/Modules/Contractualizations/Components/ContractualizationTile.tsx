@@ -32,7 +32,7 @@ export function ContractualizationTile({ contract }: Props) {
     }
 
     if (contract.status === ContractStatus.NOT_SUBSCRIBED) {
-      return isCompany ? "Não aceito pelo cliente" : "Não aceito por mim";
+      return isCompany ? "Não aceito pelo cliente" : "Não aceito";
     }
   }
 
@@ -43,6 +43,15 @@ export function ContractualizationTile({ contract }: Props) {
         : "Solicitado alteração pela empresa";
     }
   }
+
+  function getDeleteSolicitation() {
+    if (contract.hasDeleteRequest) {
+      return isCompany
+        ? "Solicitado deleção"
+        : "Solicitado deleção pela empresa";
+    }
+  }
+
 
   function handleNavigationToViewContractualization() {
     navigate(`/contracts/view/${contract.id}`);
@@ -66,6 +75,9 @@ export function ContractualizationTile({ contract }: Props) {
           <TwStatus $status={contract.status}>{getStatus()}</TwStatus>
           <p className="text-sm text-red-400 font-bold">
             {getUpdateSolicitation()}
+          </p>
+          <p className="text-sm text-red-400 font-bold">
+            {getDeleteSolicitation()}
           </p>
         </div>
       </div>
