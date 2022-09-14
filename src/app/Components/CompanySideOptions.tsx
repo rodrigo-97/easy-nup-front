@@ -9,7 +9,7 @@ import {
 } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { logout } from "../../services/Auth";
+import { logout } from "../services/Auth";
 import { SideNavTile } from "./Tailwind/SideNavTile";
 
 type Props = {

@@ -11,9 +11,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { LoginMain } from "./components/LoginMain";
 import * as Yup from "yup";
-import { forgotPassword } from "../../../services/Auth";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { useState } from "react";
+import { forgotPassword } from "../../services/Auth";
 
 type FormProps = {
   email: string;

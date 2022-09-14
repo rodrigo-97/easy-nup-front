@@ -1,4 +1,4 @@
-import { Api } from "../config/Axios";
+import { Api } from "../../config/Axios";
 
 export async function getClients() {
   try {

@@ -1,4 +1,4 @@
-import { Api } from "../config/Axios";
+import { Api } from "../../config/Axios";
 import { GetContractualizationsParams } from "./Contractualizations";
 
 type SubscribeContractParams = {
@@ -8,12 +8,11 @@ type SubscribeContractParams = {
   contractId: number;
 };
 
-
 type UpdateParam = {
-  clientId: number
-  companyId: number
-  contractId: number
-}
+  clientId: number;
+  companyId: number;
+  contractId: number;
+};
 
 export async function getClientContracts({
   order,

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { IconButton, Switch } from "@vechaiui/react";
 import { Handshake, List } from "phosphor-react";
 import { useTheme } from "../../contexts/ThemeContext";
-import { me } from "../../services/Auth";
 import { ClientSideOptions } from "./ClientSideOptions";
 import { CompanySideOptions } from "./CompanySideOptions";
 import { Drawer } from "./Drawer";
@@ -11,6 +10,7 @@ import { Box } from "./Tailwind/Box";
 import { NavBar } from "./Tailwind/Nav";
 import { SideNav } from "./Tailwind/Sidenav";
 import { SideNavTile } from "./Tailwind/SideNavTile";
+import { me } from "../services/Auth";
 
 type Props = {
   children: React.ReactElement;

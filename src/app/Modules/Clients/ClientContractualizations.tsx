@@ -10,10 +10,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContractStatus } from "../../../enums/ContractStatus";
 import { parseContractStatus } from "../../../helpers/ContractStatus";
-import { getClientContracts } from "../../../services/Client";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
+import { getClientContracts } from "../../services/Client";
 import { ContractualizationTile } from "../Contractualizations/Components/ContractualizationTile";
 import { ContractualizationsContent } from "../Contractualizations/Components/Index";
 
@@ -46,7 +46,7 @@ export function ClientContractualizations() {
       .catch(() => { });
   }
 
-  console.log(contracts)
+  console.log(contracts);
 
   return (
     <div>

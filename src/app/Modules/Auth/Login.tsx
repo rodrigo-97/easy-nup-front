@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAuth } from "../../../contexts/AuthContext";
 import { showErrorToast } from "../../../helpers/Toast";
-import { login } from "../../../services/Auth";
+import { login } from "../../services/Auth";
 import { LoginMain } from "./components/LoginMain";
 
 export type LoginProps = {

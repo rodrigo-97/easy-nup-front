@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
 import { formatCurrency } from "../../../helpers/CurrencyFormater";
 import { showErrorToast } from "../../../helpers/Toast";
-import { getContractualizationById } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
 import { Loading } from "../../Components/Loading";
 import { TwContainer } from "../../Components/Tailwind/Container";
@@ -12,6 +11,8 @@ import { Contract } from "../../Models/Contract";
 import { ClientContractOptions } from "./Components/ClientContractOptions";
 import { HistoryBlock } from "./Components/HistoryBlock";
 import msk from "msk";
+import { CompanyContractOptions } from "./Components/CompanyContractOptions";
+import { getContractualizationById } from "../../services/Contractualizations";
 
 export function ViewContract() {
   const [contract, setContract] = useState<Contract>();
@@ -242,6 +243,12 @@ export function ViewContract() {
           {!isCompany && contract && (
             <div className="w-full lg:w-8/12 mt-5">
               <ClientContractOptions contract={contract} />
+            </div>
+          )}
+
+          {isCompany && contract && (
+            <div className="w-full lg:w-8/12 mt-5">
+              <CompanyContractOptions contract={contract} />
             </div>
           )}
         </>

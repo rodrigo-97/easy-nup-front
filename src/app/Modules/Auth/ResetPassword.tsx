@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
-import { resetPasword } from "../../../services/Auth";
+import { resetPasword } from "../../services/Auth";
 import { LoginMain } from "./components/LoginMain";
 
 export type ResetPasswordFormProps = {

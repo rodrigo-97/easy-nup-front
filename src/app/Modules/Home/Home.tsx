@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getContractualizationsCount } from "../../../services/Company";
 import { Tile } from "../../Components/Tailwind/Tile";
+import { getContractualizationsCount } from "../../services/Company";
 
 export function HomePage() {
   const [contractualizationsCount, setContractualizationsCount] = useState(0);

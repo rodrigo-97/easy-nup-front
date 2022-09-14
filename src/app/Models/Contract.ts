@@ -19,6 +19,6 @@ export type Contract = {
   company: Company;
   serviceTypes: Array<ServiceType>;
   prices: Array<Price>;
-  hasChangeRequest: boolean
-  versions: Array<ContractVersion>
+  hasChangeRequest: boolean;
+  versions: Array<ContractVersion>;
 };

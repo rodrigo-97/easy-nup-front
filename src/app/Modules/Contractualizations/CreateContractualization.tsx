@@ -15,11 +15,11 @@ import NumberFormat from "react-number-format";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
-import { getClients } from "../../../services/Company";
-import { createContractualization } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Client } from "../../Models/Client";
+import { getClients } from "../../services/Company";
+import { createContractualization } from "../../services/Contractualizations";
 import { TwFloatButton } from "./Components/FloatButton";
 import { TwFloatContainer } from "./Components/FloatContainer";
 import { TwFormStepContainer } from "./Components/FormStepContainer";
@@ -469,7 +469,12 @@ export function CreateContractualization() {
                 serviço {index + 1}
               </small>
               <TwFloatContainer>
-                <Button variant="solid" color="red" size="xs" onClick={() => removeServiceType(fields.indexOf(e))}>
+                <Button
+                  variant="solid"
+                  color="red"
+                  size="xs"
+                  onClick={() => removeServiceType(fields.indexOf(e))}
+                >
                   Deletar
                 </Button>
                 <Button

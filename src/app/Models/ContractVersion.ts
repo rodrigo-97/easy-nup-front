@@ -1,6 +1,6 @@
 export type ContractVersion = {
-  id: number
-  serializedContract: string
-  acceptedAt: Date
-  rejectedAt: Date
-}
+  id: number;
+  serializedContract: string;
+  acceptedAt: Date;
+  rejectedAt: Date;
+};

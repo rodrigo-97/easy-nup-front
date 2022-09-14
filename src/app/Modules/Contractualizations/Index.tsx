@@ -11,10 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { ContractStatus } from "../../../enums/ContractStatus";
 import { parseContractStatus } from "../../../helpers/ContractStatus";
 import { showErrorToast } from "../../../helpers/Toast";
-import { getContractualizations } from "../../../services/Contractualizations";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
+import { getContractualizations } from "../../services/Contractualizations";
 import { ContractualizationTile } from "./Components/ContractualizationTile";
 import { ContractualizationsContent } from "./Components/Index";
 

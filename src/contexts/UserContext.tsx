@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../app/Models/User";
-import { me } from "../services/Auth";
+import { me } from "../app/services/Auth";
 
 type ContextParam = {
   email?: string | null;
