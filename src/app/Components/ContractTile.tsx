@@ -1,19 +1,19 @@
 import { FiChevronRight } from "react-icons/fi";
 import { ContractStatus } from "../../enums/ContractStatus";
-import { Contractualization } from "../Models/Contractualization";
+import { Contract } from "../Models/Contract";
 
 type Props = {
-  contractualization: Contractualization;
+  contract: Contract;
   onClick: () => void;
 };
 
-export function ContractTile({ contractualization, onClick }: Props) {
+export function ContractTile({ contract, onClick }: Props) {
   const {
     status,
     name,
     effectiveDate: _effectiveDate,
     finishDate: _finishDate,
-  } = contractualization.contract;
+  } = contract;
 
   const effectiveDate = new Date(_effectiveDate).toLocaleDateString("pt-BR");
   const finishDate = new Date(_finishDate).toLocaleDateString("pt-BR");

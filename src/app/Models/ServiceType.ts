@@ -1,4 +1,3 @@
-import { Contractualization } from "./Contractualization";
 import { Param } from "./Params";
 
 export type ServiceType = {
@@ -7,6 +6,5 @@ export type ServiceType = {
   companyContractId: number;
   createdAt: Date;
   updatedAt: Date;
-  companyContract: Contractualization;
   params: Array<Param>;
 };
