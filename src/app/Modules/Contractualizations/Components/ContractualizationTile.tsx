@@ -52,7 +52,6 @@ export function ContractualizationTile({ contract }: Props) {
     }
   }
 
-
   function handleNavigationToViewContractualization() {
     navigate(`/contracts/view/${contract.id}`);
   }

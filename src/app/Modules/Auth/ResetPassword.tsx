@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { parseApiError } from "../../../helpers/ParseApiError";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { resetPasword } from "../../services/Auth";
 import { LoginMain } from "./components/LoginMain";
@@ -49,9 +50,9 @@ export function ResetPassword() {
           showSuccessToast({ message: "E-mail de recuperação enviado" });
           navigate(-1);
         })
-        .catch(() =>
+        .catch((error) =>
           showErrorToast({
-            message: "Não foi possível enviar e-mail de recuperação",
+            message: parseApiError(error),
           })
         )
         .finally(() => setLoading(false));

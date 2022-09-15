@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { useState } from "react";
 import { forgotPassword } from "../../services/Auth";
+import { parseApiError } from "../../../helpers/ParseApiError";
 
 type FormProps = {
   email: string;
@@ -44,9 +45,9 @@ export function ForgotPassword() {
         showSuccessToast({ message: "E-mail de recuperação enviado" });
         navigate(-1);
       })
-      .catch(() =>
+      .catch((error) =>
         showErrorToast({
-          message: "Não foi possível enviar e-mail de recuperação",
+          message: parseApiError(error),
         })
       )
       .finally(() => setLoading(false));

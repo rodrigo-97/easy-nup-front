@@ -1,4 +1,5 @@
 import { Api } from "../../config/Axios";
+import { CreateAccountFormProps } from "../Modules/Auth/CreateAccount";
 import { GetContractualizationsParams } from "./Contractualizations";
 
 type SubscribeContractParams = {
@@ -65,6 +66,14 @@ export async function acceptDelete(id: number) {
 export async function rejectDelete(id: number) {
   try {
     return Api.delete(`/clients/reject-delete/${id}`);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function createClientAccount(data: CreateAccountFormProps) {
+  try {
+    return Api.post(`/clients`, data);
   } catch (error) {
     return Promise.reject(error);
   }

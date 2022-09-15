@@ -31,8 +31,9 @@ export function ClientContractOptions({ contract }: Props) {
     })
       .then(() => {
         showSuccessToast({
-          message: `Contratualização ${type === "NOT_SUBSCRIBE" ? "recusada" : "aceita"
-            } com sucesso`,
+          message: `Contratualização ${
+            type === "NOT_SUBSCRIBE" ? "recusada" : "aceita"
+          } com sucesso`,
         });
         navigate(-1);
       })

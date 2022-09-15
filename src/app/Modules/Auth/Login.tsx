@@ -56,6 +56,10 @@ export function LoginPage() {
     navigate("forgot-password");
   }
 
+  function handleRedirectToCreateAccount() {
+    navigate("create-account");
+  }
+
   async function onSubmit({ email, password }: LoginProps) {
     login({ email, password })
       .then(({ data: { token } }) => {
@@ -64,8 +68,7 @@ export function LoginPage() {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
-        showErrorToast({ message: error });
+        showErrorToast({ message: error?.response?.data.error });
       });
   }
 
@@ -74,7 +77,7 @@ export function LoginPage() {
       <p className="text-2xl font-bold text-center mb-5">Login</p>
 
       <FormControl invalid={!!errors.email}>
-        <FormLabel>Nome</FormLabel>
+        <FormLabel>E-mail</FormLabel>
         <Input.Group>
           <Input {...register("email")} placeholder="Endereço de e-mail" />
           <Input.LeftElement children={<Envelope size={20} />} />
@@ -87,7 +90,7 @@ export function LoginPage() {
         <Input.Group>
           <Input
             {...register("password")}
-            placeholder="Endereço de e-mail"
+            placeholder="Senha"
             type={showPassword ? "text" : "password"}
           />
           <Input.LeftElement children={<Key size={20} />} />
@@ -106,6 +109,15 @@ export function LoginPage() {
         </Input.Group>
         <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
       </FormControl>
+      <div className="flex justify-end mb-5">
+        <Button
+          variant="link"
+          color="blue"
+          onClick={handleRedirectToForgotPassword}
+        >
+          Esqueci minha senha?
+        </Button>
+      </div>
 
       <Button
         variant="solid"
@@ -119,10 +131,10 @@ export function LoginPage() {
       <Button
         variant="link"
         color="blue"
-        className="mt-10 w-full text-center"
-        onClick={handleRedirectToForgotPassword}
+        className="mt-5 w-full text-center"
+        onClick={handleRedirectToCreateAccount}
       >
-        Esqueci minha senha?
+        Criar conta
       </Button>
     </LoginMain>
   );

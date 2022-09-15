@@ -56,7 +56,9 @@ export function CompanySideOptions({ toggleDrawer }: Props) {
         <UsersThree size={20} weight="bold" className="mr-5" />
         Analistas
       </SideNavTile>
-      <SideNavTile>
+      <SideNavTile
+        onClick={() => handleRedirectToAnotherRoute({ route: "clients" })}
+      >
         <Handshake weight="bold" size={20} className="mr-5" />
         Clientes
       </SideNavTile>
