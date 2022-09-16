@@ -40,3 +40,20 @@ export async function createContractualization(data: Contractualization) {
     return Promise.reject(error);
   }
 }
+
+export async function updateContractualization(data: Contractualization, id: number) {
+  try {
+    return Api.put(`/contractualizations/${id}`, data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+
+export async function deleteContrac(id: number) {
+  try {
+    return Api.delete(`/contractualizations/${id}`);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

@@ -23,8 +23,6 @@ export function AuthProvider({ children }: Props) {
   const [token, setToken] = useState(localStorage.getItem("APP_TOKEN") ?? "");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const localStorageToken = localStorage.getItem("APP_TOKEN");
     setToken(localStorageToken ?? "");

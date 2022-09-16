@@ -117,7 +117,7 @@ export function Contracts() {
           >
             <option value="">status</option>
             {Object.values(ContractStatus).map((e) => {
-              return <option value={e}>{parseContractStatus(e)}</option>;
+              return <option value={e} key={e}>{parseContractStatus(e)}</option>;
             })}
           </Select>
         </div>

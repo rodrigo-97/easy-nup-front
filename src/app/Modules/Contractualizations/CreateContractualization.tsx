@@ -12,14 +12,17 @@ import { Plus } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import NumberFormat from "react-number-format";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { ContractStatus } from "../../../enums/ContractStatus";
+import { parseApiError } from "../../../helpers/ParseApiError";
 import { showErrorToast, showSuccessToast } from "../../../helpers/Toast";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Client } from "../../Models/Client";
+import { Contract } from "../../Models/Contract";
 import { getClients } from "../../services/Company";
-import { createContractualization } from "../../services/Contractualizations";
+import { createContractualization, getContractualizationById, updateContractualization } from "../../services/Contractualizations";
 import { TwFloatButton } from "./Components/FloatButton";
 import { TwFloatContainer } from "./Components/FloatContainer";
 import { TwFormStepContainer } from "./Components/FormStepContainer";
@@ -55,6 +58,30 @@ export function CreateContractualization() {
   const [formStep, setFormStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [contract, setContract] = useState<Contract | null>()
+
+
+  const { id } = useParams()
+
+  useEffect(() => {
+    if (id) setIsUpdate(true)
+  }, [])
+
+  useEffect(() => {
+    id && getContractualizationById(+id)
+      .then(({ data }) => {
+        setContract(data)
+      })
+      .catch((error) => {
+        showErrorToast({ message: parseApiError(error) })
+      })
+
+  }, [])
+
+  useEffect(() => {
+    fillForm()
+  }, [contract])
 
   useEffect(() => {
     getClients()
@@ -200,10 +227,29 @@ export function CreateContractualization() {
     return !!!hasMoreThanOneSameName as boolean;
   }
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, } = useFieldArray({
     control,
     name: "serviceTypes",
   });
+
+  function fillForm() {
+    if (contract) {
+      setValue("name", contract.name)
+      setValue("clientId", contract.client.id)
+      setValue("effectiveDate", format(new Date(contract.effectiveDate), 'yyyy-MM-dd'))
+      setValue("finishDate", format(new Date(contract.finishDate), 'yyyy-MM-dd'))
+      setValue("predictedVolumeFunctionPoint", +contract.predictedVolumeFunctionPoint)
+      setValue("prices.pf", +contract.prices[0].pf)
+      setValue("prices.ust", +contract.prices[0].ust)
+      setValue("prices.hh", +contract.prices[0].hh)
+
+      setValue("serviceTypes", []) // para remover os pré definidos do cadastro
+
+      contract.serviceTypes.map((sType) => {
+        append(sType)
+      })
+    }
+  }
 
   function getParamMessageError(
     i: number,
@@ -224,17 +270,35 @@ export function CreateContractualization() {
 
   function onSubmit(data: FormProps) {
     setIsLoading(true);
-    createContractualization(data)
-      .then(() => {
-        showSuccessToast({ message: "Contratualização criada com sucesso" });
-        navigate(-1);
-      })
-      .catch(() => {
-        showErrorToast({ message: "Não foi possível criar contratualização" });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+
+    if (!isUpdate) {
+      console.log("create")
+      createContractualization(data)
+        .then(() => {
+          showSuccessToast({ message: "Contratualização criada com sucesso" });
+          navigate(-1);
+        })
+        .catch(() => {
+          showErrorToast({ message: "Não foi possível criar contratualização" });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      console.log("update")
+      contract && updateContractualization(data, +contract.id)
+        .then(() => {
+          const msg = contract.status === ContractStatus.PENDING ? "Contratualização alterada com sucesso" : "Solicitação de alteração enviada para o cliente"
+          showSuccessToast({ message: msg });
+          navigate(-1);
+        })
+        .catch(() => {
+          showErrorToast({ message: "Não foi possível alterar contratualização" });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }
 
   function addServiceType() {
@@ -309,7 +373,7 @@ export function CreateContractualization() {
 
         <FormControl className="mt-3" invalid={!!errors.clientId}>
           <FormLabel>Cliente</FormLabel>
-          <Select {...register("clientId")}>
+          <Select {...register("clientId")} disabled={isUpdate}>
             <option value="">Selecione um cliente</option>
             {clients.map((e) => {
               return (
@@ -464,7 +528,7 @@ export function CreateContractualization() {
       <div className="space-y-5">
         {fields.map((e, index) => {
           return (
-            <TwFormStepContainer key={e.id} class>
+            <TwFormStepContainer key={e.id}>
               <small className="absolute bottom-0 -mt-5 left-2">
                 serviço {index + 1}
               </small>
@@ -509,7 +573,6 @@ export function CreateContractualization() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                   {fields[index].params.map((_, pIndex) => {
-                    console.log(_);
                     return (
                       <TwParamBlock key={pIndex}>
                         <TwFloatButton
@@ -617,7 +680,6 @@ export function CreateContractualization() {
               className="mt-10"
               loading={isLoading}
               loadingText="Salvando"
-              disabled={!isValid}
             >
               Enviar
             </Button>

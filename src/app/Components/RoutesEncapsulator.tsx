@@ -23,6 +23,7 @@ export function RouteEncapsulator() {
           <Route index element={<Contracts />} />
           <Route path="view/:id" element={<ViewContract />} />
           <Route path="new" element={<CreateContractualization />} />
+          <Route path="update/:id" element={<CreateContractualization />} />
         </Route>
         <Route path="analysis">
           <Route index element={<Analisys />} />
