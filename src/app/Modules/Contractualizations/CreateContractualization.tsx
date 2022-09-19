@@ -529,7 +529,7 @@ export function CreateContractualization() {
         {fields.map((e, index) => {
           return (
             <TwFormStepContainer key={e.id}>
-              <small className="absolute bottom-0 -mt-5 left-2">
+              <small className="absolute bottom-0 -mt-5 right-2">
                 serviço {index + 1}
               </small>
               <TwFloatContainer>
@@ -659,15 +659,19 @@ export function CreateContractualization() {
       {formStep === 2 && formStepTwo()}
       {formStep === 3 && formStepThree()}
 
-      <div className="flex justify-between items-end space-x-3">
-        <Button
-          onClick={addServiceType}
-          className="shadow-lg border-blue-200"
-          color="blue"
-          variant="light"
-        >
-          <Plus /> Serviço
-        </Button>
+      <div className={`flex ${formStep !== MAX_STEPS ? 'justify-end' : 'justify-between'} items-end space-x-3`}>
+        {
+          formStep === MAX_STEPS && (
+            <Button
+              onClick={addServiceType}
+              className="shadow-lg border-blue-200"
+              color="blue"
+              variant="light"
+            >
+              <Plus /> Serviço
+            </Button>
+          )
+        }
         <div className="space-x-2">
           <Button color="blue" onClick={decreaseStep} className="mt-10">
             Voltar
