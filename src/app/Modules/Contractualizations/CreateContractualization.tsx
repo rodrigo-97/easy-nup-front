@@ -381,9 +381,9 @@ export function CreateContractualization() {
           <FormLabel>Cliente</FormLabel>
           <Select {...register("clientId")} disabled={isUpdate}>
             <option value="">Selecione um cliente</option>
-            {clients.map((e) => {
+            {clients.map((e, index) => {
               return (
-                <option value={e.id} key={e.id}>
+                <option value={e.id} key={index}>
                   {e.user.name}
                 </option>
               );
@@ -546,7 +546,7 @@ export function CreateContractualization() {
       <div className="space-y-5">
         {fields.map((e, index) => {
           return (
-            <TwFormStepContainer key={e.id}>
+            <TwFormStepContainer key={index}>
               <small className="absolute bottom-0 -mt-5 right-2">
                 serviço {index + 1}
               </small>
@@ -667,6 +667,8 @@ export function CreateContractualization() {
     );
   }
 
+  console.log(isValid)
+
   return (
     <TwContainer>
       <div className="mb-10">
@@ -702,6 +704,7 @@ export function CreateContractualization() {
               className="mt-10"
               loading={isLoading}
               loadingText="Salvando"
+              disabled={!isValid}
             >
               Enviar
             </Button>
