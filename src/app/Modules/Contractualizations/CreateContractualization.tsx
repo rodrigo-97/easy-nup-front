@@ -102,6 +102,10 @@ export function CreateContractualization() {
   }
 
   function decreaseStep() {
+    if (formStep === 1) {
+      return navigate(-1)
+    }
+
     if (formStep > 1) {
       setFormStep((p) => p - 1);
     }

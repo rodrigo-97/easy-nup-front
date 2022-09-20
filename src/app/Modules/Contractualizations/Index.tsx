@@ -12,6 +12,7 @@ import { ContractStatus } from "../../../enums/ContractStatus";
 import { parseContractStatus } from "../../../helpers/ContractStatus";
 import { showErrorToast } from "../../../helpers/Toast";
 import { GoBack } from "../../Components/GoBackIcon";
+import { Loading } from "../../Components/Loading";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
 import { getContractualizations } from "../../services/Contractualizations";
@@ -22,7 +23,7 @@ export function Contracts() {
   const [contracts, setContracts] = useState<Array<Contract>>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
@@ -35,7 +36,7 @@ export function Contracts() {
   }, [perPage, page, search, page, order, status]);
 
   async function findContracts() {
-    setIsLoading(true);
+    setLoading(true);
     getContractualizations({ search, order, perPage, page, status })
       .then(({ data }) => {
         const { data: res } = data;
@@ -52,7 +53,7 @@ export function Contracts() {
         });
       })
       .finally(() => {
-        setIsLoading(false);
+        setLoading(false);
       });
   }
 
@@ -139,6 +140,12 @@ export function Contracts() {
           )}
         </Button>
       </div>
+
+      {
+        loading && (
+          <Loading />
+        )
+      }
 
       {contracts.length > 0 ? (
         <ContractualizationsContent>

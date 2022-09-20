@@ -25,6 +25,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const schema = Yup.object().shape({
     email: Yup.string().required("Campo obrigatório").email("E-mail inválido"),
@@ -60,7 +61,9 @@ export function LoginPage() {
     navigate("create-account");
   }
 
-  async function onSubmit({ email, password }: LoginProps) {
+  async function onSubmit(
+    { email, password }: LoginProps) {
+    setLoading(true)
     login({ email, password })
       .then(({ data: { token } }) => {
         localStorage.setItem("APP_TOKEN", token);
@@ -69,7 +72,8 @@ export function LoginPage() {
       })
       .catch((error) => {
         showErrorToast({ message: error?.response?.data.error });
-      });
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -124,6 +128,8 @@ export function LoginPage() {
         color="blue"
         className="w-full mt-3"
         onClick={handleSubmit(onSubmit)}
+        loading={loading}
+        loadingText="Entrando"
       >
         Entrar
       </Button>
