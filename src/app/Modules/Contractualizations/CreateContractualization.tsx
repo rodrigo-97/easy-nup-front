@@ -44,6 +44,8 @@ export type FormProps = {
   finishDate: string;
   predictedVolumeFunctionPoint: number;
   clientId: number | string;
+  contractNumber?: string;
+  biddingNumber?: string;
   prices: {
     pf: number | undefined;
     ust: number | undefined;
@@ -144,6 +146,8 @@ export function CreateContractualization() {
         "Pelo menos um dos valores deve ser informado (pf, ust, hh)",
         validatePrices
       ),
+    biddingNumber: Yup.string().nullable().typeError("Campo obrigatório"),
+    contractNumber: Yup.string().nullable().typeError("Campo obrigatório"),
     serviceTypes: Yup.array(
       Yup.object().shape({
         name: Yup.string()
@@ -236,6 +240,8 @@ export function CreateContractualization() {
     if (contract) {
       setValue("name", contract.name)
       setValue("clientId", contract.client.id)
+      setValue("biddingNumber", contract.biddingNumber)
+      setValue("contractNumber", contract.contractNumber)
       setValue("effectiveDate", format(new Date(contract.effectiveDate), 'yyyy-MM-dd'))
       setValue("finishDate", format(new Date(contract.finishDate), 'yyyy-MM-dd'))
       setValue("predictedVolumeFunctionPoint", +contract.predictedVolumeFunctionPoint)
@@ -384,6 +390,18 @@ export function CreateContractualization() {
             })}
           </Select>
           <FormErrorMessage>{errors.clientId?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl className="mt-3" invalid={!!errors.contractNumber}>
+          <FormLabel>Nº do contrato</FormLabel>
+          <Input {...register("contractNumber")} placeholder="Número do contrato" />
+          <FormErrorMessage>{errors.contractNumber?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl className="mt-3" invalid={!!errors.biddingNumber}>
+          <FormLabel>Nº de licitação</FormLabel>
+          <Input {...register("biddingNumber")} placeholder="Número da licitação" />
+          <FormErrorMessage>{errors.biddingNumber?.message}</FormErrorMessage>
         </FormControl>
 
         <div className="grid grid-cols-2 gap-5 mt-3">
