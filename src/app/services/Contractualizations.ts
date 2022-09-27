@@ -1,5 +1,5 @@
 import { Api } from "../../config/Axios";
-import { FormProps as Contractualization } from "../Modules/Contractualizations/CreateContractualization";
+import { FormProps as Contractualization } from "../Modules/Contracts/CreateContractualization";
 
 export type GetContractualizationsParams = {
   page?: number;
@@ -41,14 +41,16 @@ export async function createContractualization(data: Contractualization) {
   }
 }
 
-export async function updateContractualization(data: Contractualization, id: number) {
+export async function updateContractualization(
+  data: Contractualization,
+  id: number
+) {
   try {
     return Api.put(`/contractualizations/${id}`, data);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-
 
 export async function deleteContrac(id: number) {
   try {

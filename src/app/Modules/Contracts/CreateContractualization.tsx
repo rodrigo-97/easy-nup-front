@@ -5,7 +5,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Select,
+  Select
 } from "@vechaiui/react";
 import { addDays, format } from "date-fns";
 import { Plus } from "phosphor-react";
@@ -22,7 +22,11 @@ import { TwContainer } from "../../Components/Tailwind/Container";
 import { Client } from "../../Models/Client";
 import { Contract } from "../../Models/Contract";
 import { getClients } from "../../services/Company";
-import { createContractualization, getContractualizationById, updateContractualization } from "../../services/Contractualizations";
+import {
+  createContractualization,
+  getContractualizationById,
+  updateContractualization
+} from "../../services/Contractualizations";
 import { TwFloatButton } from "./Components/FloatButton";
 import { TwFloatContainer } from "./Components/FloatContainer";
 import { TwFormStepContainer } from "./Components/FormStepContainer";
@@ -60,30 +64,29 @@ export function CreateContractualization() {
   const [formStep, setFormStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [clients, setClients] = useState<Array<Client>>([]);
-  const [isUpdate, setIsUpdate] = useState(false)
-  const [contract, setContract] = useState<Contract | null>()
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [contract, setContract] = useState<Contract | null>();
 
-
-  const { id } = useParams()
-
-  useEffect(() => {
-    if (id) setIsUpdate(true)
-  }, [])
+  const { id } = useParams();
 
   useEffect(() => {
-    id && getContractualizationById(+id)
-      .then(({ data }) => {
-        setContract(data)
-      })
-      .catch((error) => {
-        showErrorToast({ message: parseApiError(error) })
-      })
-
-  }, [])
+    if (id) setIsUpdate(true);
+  }, []);
 
   useEffect(() => {
-    fillForm()
-  }, [contract])
+    id &&
+      getContractualizationById(+id)
+        .then(({ data }) => {
+          setContract(data);
+        })
+        .catch((error) => {
+          showErrorToast({ message: parseApiError(error) });
+        });
+  }, []);
+
+  useEffect(() => {
+    fillForm();
+  }, [contract]);
 
   useEffect(() => {
     getClients()
@@ -103,7 +106,7 @@ export function CreateContractualization() {
 
   function decreaseStep() {
     if (formStep === 1) {
-      return navigate(-1)
+      return navigate(-1);
     }
 
     if (formStep > 1) {
@@ -119,6 +122,10 @@ export function CreateContractualization() {
     }
 
     return true;
+  }
+
+  function handleInvalidForm() {
+    showErrorToast({ message: "O formulário possui erros. Revise o formulário e tente novamente" })
   }
 
   const schema = Yup.object().shape({
@@ -235,29 +242,38 @@ export function CreateContractualization() {
     return !!!hasMoreThanOneSameName as boolean;
   }
 
-  const { fields, append, remove, update, } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: "serviceTypes",
   });
 
   function fillForm() {
     if (contract) {
-      setValue("name", contract.name)
-      setValue("clientId", contract.client.id)
-      setValue("biddingNumber", contract.biddingNumber)
-      setValue("contractNumber", contract.contractNumber)
-      setValue("effectiveDate", format(new Date(contract.effectiveDate), 'yyyy-MM-dd'))
-      setValue("finishDate", format(new Date(contract.finishDate), 'yyyy-MM-dd'))
-      setValue("predictedVolumeFunctionPoint", +contract.predictedVolumeFunctionPoint)
-      setValue("prices.pf", +contract.prices[0].pf)
-      setValue("prices.ust", +contract.prices[0].ust)
-      setValue("prices.hh", +contract.prices[0].hh)
+      setValue("name", contract.name);
+      setValue("clientId", contract.client.id);
+      setValue("biddingNumber", contract.biddingNumber);
+      setValue("contractNumber", contract.contractNumber);
+      setValue(
+        "effectiveDate",
+        format(new Date(contract.effectiveDate), "yyyy-MM-dd")
+      );
+      setValue(
+        "finishDate",
+        format(new Date(contract.finishDate), "yyyy-MM-dd")
+      );
+      setValue(
+        "predictedVolumeFunctionPoint",
+        +contract.predictedVolumeFunctionPoint
+      );
+      setValue("prices.pf", +contract.prices[0].pf);
+      setValue("prices.ust", +contract.prices[0].ust);
+      setValue("prices.hh", +contract.prices[0].hh);
 
-      setValue("serviceTypes", []) // para remover os pré definidos do cadastro
+      setValue("serviceTypes", []); // para remover os pré definidos do cadastro
 
       contract.serviceTypes.map((sType) => {
-        append(sType)
-      })
+        append(sType);
+      });
     }
   }
 
@@ -282,32 +298,38 @@ export function CreateContractualization() {
     setIsLoading(true);
 
     if (!isUpdate) {
-      console.log("create")
       createContractualization(data)
         .then(() => {
           showSuccessToast({ message: "Contratualização criada com sucesso" });
           navigate(-1);
         })
         .catch(() => {
-          showErrorToast({ message: "Não foi possível criar contratualização" });
+          showErrorToast({
+            message: "Não foi possível criar contratualização",
+          });
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
-      console.log("update")
-      contract && updateContractualization(data, +contract.id)
-        .then(() => {
-          const msg = contract.status === ContractStatus.PENDING ? "Contratualização alterada com sucesso" : "Solicitação de alteração enviada para o cliente"
-          showSuccessToast({ message: msg });
-          navigate(-1);
-        })
-        .catch(() => {
-          showErrorToast({ message: "Não foi possível alterar contratualização" });
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      contract &&
+        updateContractualization(data, +contract.id)
+          .then(() => {
+            const msg =
+              contract.status === ContractStatus.PENDING
+                ? "Contratualização alterada com sucesso"
+                : "Solicitação de alteração enviada para o cliente";
+            showSuccessToast({ message: msg });
+            navigate(-1);
+          })
+          .catch(() => {
+            showErrorToast({
+              message: "Não foi possível alterar contratualização",
+            });
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
     }
   }
 
@@ -398,13 +420,19 @@ export function CreateContractualization() {
 
         <FormControl className="mt-3" invalid={!!errors.contractNumber}>
           <FormLabel>Nº do contrato</FormLabel>
-          <Input {...register("contractNumber")} placeholder="Número do contrato" />
+          <Input
+            {...register("contractNumber")}
+            placeholder="Número do contrato"
+          />
           <FormErrorMessage>{errors.contractNumber?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl className="mt-3" invalid={!!errors.biddingNumber}>
           <FormLabel>Nº de licitação</FormLabel>
-          <Input {...register("biddingNumber")} placeholder="Número da licitação" />
+          <Input
+            {...register("biddingNumber")}
+            placeholder="Número da licitação"
+          />
           <FormErrorMessage>{errors.biddingNumber?.message}</FormErrorMessage>
         </FormControl>
 
@@ -671,8 +699,6 @@ export function CreateContractualization() {
     );
   }
 
-  console.log(isValid)
-
   return (
     <TwContainer>
       <div className="mb-10">
@@ -683,19 +709,20 @@ export function CreateContractualization() {
       {formStep === 2 && formStepTwo()}
       {formStep === 3 && formStepThree()}
 
-      <div className={`flex ${formStep !== MAX_STEPS ? 'justify-end' : 'justify-between'} items-end space-x-3`}>
-        {
-          formStep === MAX_STEPS && (
-            <Button
-              onClick={addServiceType}
-              className="shadow-lg border-blue-200"
-              color="blue"
-              variant="light"
-            >
-              <Plus /> Serviço
-            </Button>
-          )
-        }
+      <div
+        className={`flex ${formStep !== MAX_STEPS ? "justify-end" : "justify-between"
+          } items-end space-x-3`}
+      >
+        {formStep === MAX_STEPS && (
+          <Button
+            onClick={addServiceType}
+            className="shadow-lg border-blue-200"
+            color="blue"
+            variant="light"
+          >
+            <Plus /> Serviço
+          </Button>
+        )}
         <div className="space-x-2">
           <Button color="blue" onClick={decreaseStep} className="mt-10">
             Voltar
@@ -704,11 +731,10 @@ export function CreateContractualization() {
             <Button
               variant="solid"
               color="blue"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(onSubmit, handleInvalidForm)}
               className="mt-10"
               loading={isLoading}
               loadingText="Salvando"
-              disabled={!isValid}
             >
               Enviar
             </Button>
@@ -724,6 +750,6 @@ export function CreateContractualization() {
           )}
         </div>
       </div>
-    </TwContainer>
+    </TwContainer >
   );
 }

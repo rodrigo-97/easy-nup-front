@@ -24,7 +24,7 @@ export function Contracts() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -118,7 +118,11 @@ export function Contracts() {
           >
             <option value="">status</option>
             {Object.values(ContractStatus).map((e) => {
-              return <option value={e} key={e}>{parseContractStatus(e)}</option>;
+              return (
+                <option value={e} key={e}>
+                  {parseContractStatus(e)}
+                </option>
+              );
             })}
           </Select>
         </div>
@@ -130,22 +134,18 @@ export function Contracts() {
           {order === "asc" ? (
             <>
               <SortAscending size={20} />
-              Mais recentes
+              Mais antigos
             </>
           ) : (
             <>
               <SortDescending size={20} />
-              Mais antigos
+              Mais recentes
             </>
           )}
         </Button>
       </div>
 
-      {
-        loading && (
-          <Loading />
-        )
-      }
+      {loading && <Loading />}
 
       {contracts.length > 0 ? (
         <ContractualizationsContent>

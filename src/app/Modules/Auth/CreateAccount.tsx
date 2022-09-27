@@ -5,7 +5,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Select
+  Select,
 } from "@vechaiui/react";
 import {
   Buildings,
@@ -14,7 +14,7 @@ import {
   EyeClosed,
   IdentificationCard,
   Key,
-  TextAa
+  TextAa,
 } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -70,11 +70,11 @@ export function CreateAccount() {
   }
 
   async function onSubmit(data: CreateAccountFormProps) {
-    data.socialCode = data.socialCode.replace(/[^\w ]/g, '');
+    data.socialCode = data.socialCode.replace(/[^\w ]/g, "");
     if (formType === "client") {
-      createClientAccount(data)
+      createClientAccount(data);
     } else {
-      createCompanyAccount(data)
+      createCompanyAccount(data);
     }
   }
 

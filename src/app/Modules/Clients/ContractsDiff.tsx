@@ -2,7 +2,11 @@ import { Button } from "@vechaiui/react";
 import { format } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { showConfirmAction, showErrorToast, showSuccessToast } from "../../../helpers/Toast";
+import {
+  showConfirmAction,
+  showErrorToast,
+  showSuccessToast,
+} from "../../../helpers/Toast";
 import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
@@ -30,8 +34,7 @@ export function ContractsDiff() {
     (JSON.parse(contract.versions[0].serializedContract) as Contract);
 
   const requestVersion =
-    contract &&
-    (JSON.parse(contract.versions[0].requestedContractSerialized));
+    contract && JSON.parse(contract.versions[0].requestedContractSerialized);
 
   function getFormatedDate(date: Date) {
     return format(new Date(date), "dd 'de' LLLL 'de' yyyy");
@@ -58,9 +61,11 @@ export function ContractsDiff() {
               showSuccessToast({ message: "Solicitação rejeitada" });
             })
             .catch(() =>
-              showErrorToast({ message: "Não foi possível rejeitar alterações" })
+              showErrorToast({
+                message: "Não foi possível rejeitar alterações",
+              })
             ),
-      })
+      });
   }
 
   function handleAcceptUpdate() {
@@ -69,19 +74,20 @@ export function ContractsDiff() {
         title: "Confirmar ação",
         text: "Você realmente deseja aceitar a alteração no contrato?",
         btnConfirmText: "Sim, eu desejo aceitar as alterações",
-        onConfirm: () => acceptUpdate({
-          clientId: String(contract?.client.id),
-          companyId: String(contract?.company.id),
-          contractId: contract?.id,
-        })
-          .then(() => {
-            handleGoBack();
-            showSuccessToast({ message: "Solicitação aceita" });
+        onConfirm: () =>
+          acceptUpdate({
+            clientId: String(contract?.client.id),
+            companyId: String(contract?.company.id),
+            contractId: contract?.id,
           })
-          .catch(() =>
-            showErrorToast({ message: "Não foi possível aceitar alterações" })
-          )
-      })
+            .then(() => {
+              handleGoBack();
+              showSuccessToast({ message: "Solicitação aceita" });
+            })
+            .catch(() =>
+              showErrorToast({ message: "Não foi possível aceitar alterações" })
+            ),
+      });
   }
 
   return (
@@ -140,26 +146,24 @@ export function ContractsDiff() {
 
                       <div className="mt-3">
                         <small>Parâmetros</small>
-                        {
-                          s.params.map((p) => {
-                            return (
-                              <div key={id}>
-                                <div>
-                                  <small>Nome</small>
-                                  <p>{p.name}</p>
-                                </div>
-
-                                <div>
-                                  <small>fi</small>
-                                  <p>{p.fi}</p>
-                                </div>
+                        {s.params.map((p) => {
+                          return (
+                            <div key={id}>
+                              <div>
+                                <small>Nome</small>
+                                <p>{p.name}</p>
                               </div>
-                            )
-                          })
-                        }
+
+                              <div>
+                                <small>fi</small>
+                                <p>{p.fi}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </Fragment>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -214,26 +218,24 @@ export function ContractsDiff() {
 
                       <div className="mt-3">
                         <small>Parâmetros</small>
-                        {
-                          s.params.map((p: any) => {
-                            return (
-                              <div key={id}>
-                                <div>
-                                  <small>Nome</small>
-                                  <p>{p.name}</p>
-                                </div>
-
-                                <div>
-                                  <small>fi</small>
-                                  <p>{p.fi}</p>
-                                </div>
+                        {s.params.map((p: any) => {
+                          return (
+                            <div key={id}>
+                              <div>
+                                <small>Nome</small>
+                                <p>{p.name}</p>
                               </div>
-                            )
-                          })
-                        }
+
+                              <div>
+                                <small>fi</small>
+                                <p>{p.fi}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </Fragment>
-                  )
+                  );
                 })}
               </div>
             </div>

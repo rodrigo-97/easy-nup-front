@@ -8,7 +8,7 @@ import { CompanySideOptions } from "./CompanySideOptions";
 import { Drawer } from "./Drawer";
 import { Box } from "./Tailwind/Box";
 import { NavBar } from "./Tailwind/Nav";
-import { SideNav } from "./Tailwind/Sidenav";
+import { MobileSidenav, MobileSidenavBackdrop, SideNav } from "./Tailwind/Sidenav";
 import { SideNavTile } from "./Tailwind/SideNavTile";
 import { me } from "../services/Auth";
 
@@ -35,11 +35,11 @@ export function Scaffold({ children }: Props) {
 
   return (
     <Box className="min-h-screen text-[#344767] flex flex-col">
-      <Drawer
+      {/* <Drawer
         setIsOpen={setIsOpen}
         isOpen={isOpen}
         toggleDrawer={toggleDrawer}
-      />
+      /> */}
 
       <NavBar className="fixed">
         <SideNavTile>
@@ -66,6 +66,10 @@ export function Scaffold({ children }: Props) {
           {isCompany ? <CompanySideOptions /> : <ClientSideOptions />}
         </div>
       </SideNav>
+      <MobileSidenavBackdrop $isOpen={isOpen} onClick={toggleDrawer} />
+      <MobileSidenav $isOpen={isOpen}>
+        {isCompany ? <CompanySideOptions toggleDrawer={toggleDrawer} /> : <ClientSideOptions toggleDrawer={toggleDrawer} />}
+      </MobileSidenav>
       <div className="lg:ml-64 lg:p-10 p-5 mt-20">{children}</div>
     </Box>
   );

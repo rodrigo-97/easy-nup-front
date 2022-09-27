@@ -38,8 +38,6 @@ export function ViewContract() {
     return format(new Date(date), "dd 'de' LLLL 'de' yyyy 'às' hh:mm");
   };
 
-  console.log(contract);
-
   useEffect(() => {
     if (id) {
       setIsLoading(true);

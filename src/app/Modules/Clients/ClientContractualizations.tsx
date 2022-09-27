@@ -14,8 +14,8 @@ import { GoBack } from "../../Components/GoBackIcon";
 import { TwContainer } from "../../Components/Tailwind/Container";
 import { Contract } from "../../Models/Contract";
 import { getClientContracts } from "../../services/Client";
-import { ContractualizationTile } from "../Contractualizations/Components/ContractualizationTile";
-import { ContractualizationsContent } from "../Contractualizations/Components/Index";
+import { ContractualizationTile } from "../Contracts/Components/ContractualizationTile";
+import { ContractualizationsContent } from "../Contracts/Components/Index";
 
 export function ClientContractualizations() {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -43,10 +43,8 @@ export function ClientContractualizations() {
         setTotal(data.meta.total);
         setShowPagination(data.meta.total / data.meta.per_page > 1);
       })
-      .catch(() => {});
+      .catch(() => { });
   }
-
-  console.log(contracts);
 
   return (
     <div>
